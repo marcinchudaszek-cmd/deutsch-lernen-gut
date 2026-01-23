@@ -24,7 +24,8 @@ let state = {
     listeningWord: null,
     speakingWord: null,
     chatScenario: 'free',
-    currentLanguageLevel: 'A1'
+    currentLanguageLevel: 'A1',
+    autoSpeak: true // NOWE: automatyczna wymowa
 };
 
 const levelSystem = [
@@ -68,9 +69,9 @@ function playCorrectSound() {
         const gainNode = audioContext.createGain();
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
         gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
         oscillator.start(audioContext.currentTime);
@@ -112,7 +113,7 @@ function playClickSound() {
 function playLevelUpSound() {
     if (!soundEnabled) return;
     try {
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        const notes = [523.25, 659.25, 783.99, 1046.50];
         notes.forEach((freq, i) => {
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
@@ -134,6 +135,86 @@ function toggleSound() {
     showToast(soundEnabled ? '🔊 Dźwięki włączone' : '🔇 Dźwięki wyłączone');
 }
 
+// ==================== ULEPSZONA WYMOWA NATIVE SPEAKER ====================
+let speechVoices = [];
+let germanVoice = null;
+
+// Załaduj głosy
+function loadVoices() {
+    speechVoices = speechSynthesis.getVoices();
+    
+    // Szukaj najlepszego niemieckiego głosu
+    const germanVoices = speechVoices.filter(v => v.lang.startsWith('de'));
+    
+    // Preferuj głosy Google/Microsoft które brzmią najlepiej
+    germanVoice = germanVoices.find(v => v.name.includes('Google')) ||
+                  germanVoices.find(v => v.name.includes('Microsoft')) ||
+                  germanVoices.find(v => v.name.includes('Anna')) ||
+                  germanVoices.find(v => v.name.includes('Hans')) ||
+                  germanVoices[0] || null;
+    
+    console.log('🔊 Załadowano głos:', germanVoice?.name || 'domyślny');
+}
+
+// Załaduj głosy gdy będą gotowe
+if ('speechSynthesis' in window) {
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+}
+
+// ULEPSZONA funkcja wymowy
+function speak(text, rate = 0.85) {
+    if (!('speechSynthesis' in window)) {
+        showToast('❌ Twoja przeglądarka nie wspiera wymowy');
+        return;
+    }
+    
+    // Anuluj poprzednią wymowę
+    speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'de-DE';
+    utterance.rate = rate;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    
+    // Użyj najlepszego głosu jeśli dostępny
+    if (germanVoice) {
+        utterance.voice = germanVoice;
+    }
+    
+    // Wizualne potwierdzenie
+    utterance.onstart = function() {
+        document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+    };
+    
+    speechSynthesis.speak(utterance);
+}
+
+// Wymowa wolna (do nauki)
+function speakSlow(text) {
+    speak(text, 0.6);
+    showToast('🐢 Wolna wymowa');
+}
+
+// Wymowa normalna
+function speakNormal(text) {
+    speak(text, 0.85);
+}
+
+// Wymowa szybka (native speed)
+function speakFast(text) {
+    speak(text, 1.1);
+    showToast('🚀 Szybka wymowa');
+}
+
+// Toggle automatycznej wymowy
+function toggleAutoSpeak() {
+    state.autoSpeak = !state.autoSpeak;
+    saveState();
+    showToast(state.autoSpeak ? '🔊 Auto-wymowa ON' : '🔇 Auto-wymowa OFF');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     loadState();
     updateUI();
@@ -141,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme();
     displayCustomWords();
     countTotalWords();
+    loadVoices();
 });
 
 function loadState() {
@@ -268,6 +350,7 @@ function showScreen(screenId) {
     state.currentScreen = screenId;
 }
 
+// ==================== FISZKI Z ULEPSZONĄ WYMOWĄ ====================
 function startFlashcards() {
     showScreen('flashcards');
     loadCategory();
@@ -306,17 +389,34 @@ function showCurrentCard() {
     }
     
     const card = state.currentCards[state.currentCardIndex];
-    document.getElementById('germanWord').textContent = card.german || card.de || '?';
-    document.getElementById('polishWord').textContent = card.polish || card.pl || '?';
+    const germanWord = card.german || card.de || '?';
+    const polishWord = card.polish || card.pl || '?';
+    
+    document.getElementById('germanWord').textContent = germanWord;
+    document.getElementById('polishWord').textContent = polishWord;
     document.getElementById('exampleSentence').textContent = card.example || '';
     document.getElementById('cardCounter').textContent = 
         (state.currentCardIndex + 1) + ' / ' + state.currentCards.length;
     
     document.getElementById('flashcardInner').classList.remove('flipped');
+    
+    // NOWE: Automatyczna wymowa jeśli włączona
+    if (state.autoSpeak) {
+        setTimeout(() => speak(germanWord), 300);
+    }
 }
 
 function flipCard() {
     document.getElementById('flashcardInner').classList.toggle('flipped');
+    
+    // NOWE: Wymów polskie słowo po odwróceniu (opcjonalnie)
+    const card = state.currentCards[state.currentCardIndex];
+    const germanWord = card.german || card.de;
+    
+    // Po odwróceniu wymów jeszcze raz niemieckie słowo
+    if (document.getElementById('flashcardInner').classList.contains('flipped')) {
+        setTimeout(() => speak(germanWord), 200);
+    }
 }
 
 function markWord(known) {
@@ -340,6 +440,9 @@ function markWord(known) {
         }
         state.wordsMastered.push(wordKey);
         addTodayWord(wordKey);
+        playCorrectSound();
+    } else {
+        playWrongSound();
     }
     
     state.currentCardIndex++;
@@ -347,20 +450,37 @@ function markWord(known) {
     showCurrentCard();
 }
 
+// ULEPSZONE: Przyciski wymowy dla fiszek
 function playSound() {
     const card = state.currentCards[state.currentCardIndex];
-    speak(card.german || card.de);
+    const word = card.german || card.de;
+    speak(word);
 }
 
-function speak(text) {
-    if ('speechSynthesis' in window) {
-        speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'de-DE';
-        utterance.rate = 0.85;
-        speechSynthesis.speak(utterance);
+function playSoundSlow() {
+    const card = state.currentCards[state.currentCardIndex];
+    const word = card.german || card.de;
+    speakSlow(word);
+}
+
+function playSoundFast() {
+    const card = state.currentCards[state.currentCardIndex];
+    const word = card.german || card.de;
+    speakFast(word);
+}
+
+// Wymów przykładowe zdanie
+function playExample() {
+    const card = state.currentCards[state.currentCardIndex];
+    if (card.example) {
+        speak(card.example, 0.8);
+        showToast('📝 Przykład');
+    } else {
+        showToast('Brak przykładu');
     }
 }
+
+// ==================== MEMORY Z WYMOWĄ ====================
 function startMemory() {
     showScreen('memory');
     initMemory();
@@ -443,6 +563,11 @@ function flipMemoryCard(index) {
     cardElements[index].classList.add('flipped');
     cardElements[index].innerHTML = '<span>' + card.text + '</span>';
     
+    // NOWE: Wymów słowo po odkryciu karty (tylko niemieckie)
+    if (card.type === 'de') {
+        speak(card.text);
+    }
+    
     memoryFlipped.push(index);
     
     if (memoryFlipped.length === 2) {
@@ -459,6 +584,10 @@ function flipMemoryCard(index) {
             
             cardElements[memoryFlipped[0]].classList.add('matched');
             cardElements[memoryFlipped[1]].classList.add('matched');
+            
+            // NOWE: Wymów parę po dopasowaniu
+            const germanCard = card1.type === 'de' ? card1 : card2;
+            setTimeout(() => speak(germanCard.text), 300);
             
             memoryFlipped = [];
             
@@ -513,6 +642,7 @@ function restartMemory() {
     initMemory();
 }
 
+// ==================== QUIZ Z WYMOWĄ ====================
 function startQuiz() {
     showScreen('quiz');
     
@@ -545,7 +675,17 @@ function showQuizQuestion() {
     document.getElementById('quizProgress').textContent = 
         'Pytanie ' + (state.quizIndex + 1) + '/' + state.quizWords.length;
     document.getElementById('quizScore').textContent = 'Wynik: ' + state.quizScore;
-    document.getElementById('quizWord').textContent = correctGerman;
+    
+    // NOWE: Dodaj przycisk wymowy przy słówku
+    document.getElementById('quizWord').innerHTML = 
+        '<span class="quiz-word-text">' + correctGerman + '</span>' +
+        '<button class="quiz-speak-btn" onclick="speakQuizWord()" title="Posłuchaj wymowy">' +
+        '🔊</button>';
+    
+    // NOWE: Automatyczna wymowa
+    if (state.autoSpeak) {
+        setTimeout(() => speak(correctGerman), 300);
+    }
     
     let allTranslations = [];
     Object.keys(wordDatabase).forEach(function(key) {
@@ -574,33 +714,49 @@ function showQuizQuestion() {
     document.getElementById('quizFeedback').classList.add('hidden');
 }
 
+// NOWE: Funkcja wymowy dla quizu
+function speakQuizWord() {
+    const word = state.quizWords[state.quizIndex];
+    const germanWord = word.german || word.de;
+    speak(germanWord);
+}
+
 function checkQuizAnswer(selected, correct, btn) {
     const options = document.querySelectorAll('.quiz-option');
     options.forEach(function(opt) { opt.onclick = null; });
     
     state.totalAnswers++;
     
+    const word = state.quizWords[state.quizIndex];
+    const germanWord = word.german || word.de;
+    
     if (selected === correct) {
         btn.classList.add('correct');
         state.quizScore++;
         state.correctAnswers++;
         addXP(10);
-        showQuizFeedback('✅ Dobrze!', 'success');
+        showQuizFeedback('✅ Dobrze! ' + germanWord + ' = ' + correct, 'success');
         playCorrectSound();
+        
+        // NOWE: Wymów poprawną odpowiedź
+        speak(germanWord);
     } else {
         btn.classList.add('wrong');
         options.forEach(function(opt) {
             if (opt.textContent === correct) opt.classList.add('correct');
         });
-        showQuizFeedback('❌ Poprawna: ' + correct, 'error');
+        showQuizFeedback('❌ ' + germanWord + ' = ' + correct, 'error');
         playWrongSound();
+        
+        // NOWE: Wymów słowo żeby zapamiętać
+        setTimeout(() => speak(germanWord), 500);
     }
     
     saveState();
     setTimeout(function() {
         state.quizIndex++;
         showQuizQuestion();
-    }, 1200);
+    }, 1500);
 }
 
 function showQuizFeedback(message, type) {
@@ -622,6 +778,7 @@ function endQuiz() {
     setTimeout(goToMenu, 1500);
 }
 
+// ==================== GRAMATYKA ====================
 function startGrammar() {
     showScreen('grammar');
     document.getElementById('grammarContent').classList.add('hidden');
@@ -686,6 +843,7 @@ function checkGrammarAnswer(selected, correct, btn) {
     saveState();
 }
 
+// ==================== SŁUCHANIE Z ULEPSZONĄ WYMOWĄ ====================
 function startListening() {
     showScreen('listening');
     loadListeningWord();
@@ -708,6 +866,14 @@ function playListeningWord() {
     }
 }
 
+// NOWE: Wolna wymowa dla słuchania
+function playListeningWordSlow() {
+    if (state.listeningWord) {
+        const word = state.listeningWord.german || state.listeningWord.de;
+        speakSlow(word);
+    }
+}
+
 function checkListening() {
     const input = document.getElementById('listeningInput').value.trim().toLowerCase();
     const correct = (state.listeningWord.german || state.listeningWord.de).toLowerCase();
@@ -719,9 +885,13 @@ function checkListening() {
         feedback.className = 'feedback success';
         addXP(15);
         showToast('🎉 +15 XP!');
+        playCorrectSound();
+        speak(correct); // Wymów poprawne słowo
     } else {
         feedback.textContent = '❌ Poprawna: "' + correct + '"';
         feedback.className = 'feedback error';
+        playWrongSound();
+        setTimeout(() => speak(correct), 500); // Wymów żeby zapamiętać
     }
     
     feedback.classList.remove('hidden');
@@ -729,6 +899,7 @@ function checkListening() {
     setTimeout(loadListeningWord, 2000);
 }
 
+// ==================== MÓWIENIE ====================
 let recognition = null;
 
 function startSpeaking() {
@@ -753,6 +924,14 @@ function playSpeakingWord() {
     if (state.speakingWord) {
         const word = state.speakingWord.german || state.speakingWord.de;
         speak(word);
+    }
+}
+
+// NOWE: Wolna wymowa dla mówienia
+function playSpeakingWordSlow() {
+    if (state.speakingWord) {
+        const word = state.speakingWord.german || state.speakingWord.de;
+        speakSlow(word);
     }
 }
 
@@ -803,6 +982,7 @@ function checkSpeech(userSpeech) {
         feedback.textContent = '✅ Doskonale!';
         feedback.className = 'feedback success';
         addXP(20);
+        playCorrectSound();
     } else if (similarity > 0.5) {
         feedback.textContent = '👍 Nieźle! Spróbuj jeszcze raz.';
         feedback.className = 'feedback success';
@@ -810,6 +990,8 @@ function checkSpeech(userSpeech) {
     } else {
         feedback.textContent = '🔄 Posłuchaj i spróbuj ponownie';
         feedback.className = 'feedback error';
+        // NOWE: Wymów poprawne słowo po błędzie
+        setTimeout(() => speak(state.speakingWord.german || state.speakingWord.de), 500);
     }
     
     feedback.classList.remove('hidden');
@@ -919,7 +1101,6 @@ const chatScenarios = {
     }
 };
 
-// Wzorce odpowiedzi AI - rozbudowane
 const aiResponses = {
     greetings: {
         patterns: ["hallo", "hi", "guten tag", "guten morgen", "guten abend", "servus", "moin"],
@@ -1003,7 +1184,6 @@ const aiResponses = {
     }
 };
 
-// Typowe błędy gramatyczne do wykrycia
 const grammarPatterns = [
     { wrong: /\bich bin ([a-zäöüß]+)e\b/gi, correct: "ich bin $1", tip: "Po 'ich bin' używamy formy podstawowej przymiotnika" },
     { wrong: /\bich habe ([a-zäöüß]+)st\b/gi, correct: "ich habe $1", tip: "Po 'ich' czasownik kończy się na '-e', nie '-st'" },
@@ -1034,12 +1214,10 @@ function startScenario(scenario) {
     container.innerHTML = '';
     addChatMessage(chatScenarios[scenario].greeting, 'bot');
     
-    // Ustaw misję
     currentMission = chatScenarios[scenario].mission;
     missionProgress = 0;
     updateMissionDisplay();
     
-    // Aktualizuj sugestie
     const suggestionsDiv = document.getElementById('chatSuggestions');
     suggestionsDiv.innerHTML = '';
     chatScenarios[scenario].suggestions.forEach(function(s) {
@@ -1049,9 +1227,7 @@ function startScenario(scenario) {
         suggestionsDiv.appendChild(btn);
     });
     
-    // Aktualizuj panel pomocy
     updateHelpPhrases(scenario);
-    
     playClickSound();
 }
 
@@ -1088,17 +1264,12 @@ function sendMessage() {
     const message = input.value.trim();
     if (!message) return;
     
-    // Analizuj wiadomość użytkownika
     const analysis = analyzeMessage(message);
-    
-    // Dodaj wiadomość użytkownika z oceną
     addUserMessage(message, analysis);
     input.value = '';
     
-    // Sprawdź postęp misji
     checkMissionProgress(message);
     
-    // Generuj odpowiedź AI
     setTimeout(function() {
         const response = generateSmartResponse(message);
         addChatMessage(response, 'bot');
@@ -1118,7 +1289,6 @@ function analyzeMessage(message) {
     let corrections = [];
     let tips = [];
     
-    // Sprawdź typowe błędy
     grammarPatterns.forEach(function(pattern) {
         if (pattern.wrong.test(message)) {
             score -= 15;
@@ -1131,11 +1301,9 @@ function analyzeMessage(message) {
         }
     });
     
-    // Sprawdź wielkie litery rzeczowników
     const words = message.split(' ');
     words.forEach(function(word, index) {
         if (index > 0 && /^[a-zäöüß]{4,}$/.test(word)) {
-            // Może być rzeczownik - daj wskazówkę
             const commonNouns = ['kaffee', 'tee', 'wasser', 'haus', 'mann', 'frau', 'kind', 'auto', 'buch', 'tisch', 'stuhl'];
             if (commonNouns.includes(word.toLowerCase())) {
                 score -= 10;
@@ -1144,11 +1312,9 @@ function analyzeMessage(message) {
         }
     });
     
-    // Bonus za dłuższe zdania
     if (words.length >= 5) score = Math.min(100, score + 5);
     if (words.length >= 8) score = Math.min(100, score + 5);
     
-    // Nie pozwól zejść poniżej 30
     score = Math.max(30, score);
     
     return { score, corrections, tips };
@@ -1161,7 +1327,6 @@ function addUserMessage(message, analysis) {
     
     let html = '<span>' + escapeHtml(message) + '</span>';
     
-    // Dodaj ocenę
     let scoreClass = 'excellent';
     let scoreEmoji = '⭐';
     if (analysis.score < 90) { scoreClass = 'good'; scoreEmoji = '👍'; }
@@ -1170,7 +1335,6 @@ function addUserMessage(message, analysis) {
     
     html += '<div class="grammar-score ' + scoreClass + '">' + scoreEmoji + ' ' + analysis.score + '%</div>';
     
-    // Dodaj korekty
     if (analysis.corrections.length > 0) {
         analysis.corrections.forEach(function(c) {
             html += '<div class="correction">';
@@ -1184,14 +1348,12 @@ function addUserMessage(message, analysis) {
         playCorrectSound();
     }
     
-    // Dodaj wskazówki
     if (analysis.tips.length > 0) {
         analysis.tips.forEach(function(tip) {
             html += '<div class="grammar-tip">' + tip + '</div>';
         });
     }
     
-    // Przyciski akcji
     html += '<div class="message-actions">';
     html += '<button onclick="translateMessage(\'' + escapeHtml(message).replace(/'/g, "\\'") + '\')">🔄 Tłumacz</button>';
     html += '<button onclick="speakText(\'' + escapeHtml(message).replace(/'/g, "\\'") + '\')">🔊 Słuchaj</button>';
@@ -1210,11 +1372,16 @@ function addChatMessage(text, type) {
     let html = '<span>' + text + '</span>';
     
     if (type === 'bot') {
-        // Wyciągnij niemiecki tekst do tłumaczenia
         const germanText = text.replace(/<br>.*$/s, '').replace(/<[^>]*>/g, '');
         html += '<div class="message-actions">';
-        html += '<button onclick="speakText(\'' + germanText.replace(/'/g, "\\'") + '\')">🔊</button>';
+        html += '<button onclick="speakText(\'' + germanText.replace(/'/g, "\\'") + '\')" title="Posłuchaj">🔊</button>';
+        html += '<button onclick="speakSlow(\'' + germanText.replace(/'/g, "\\'") + '\')" title="Wolniej">🐢</button>';
         html += '</div>';
+        
+        // NOWE: Auto-wymowa odpowiedzi bota
+        if (state.autoSpeak) {
+            setTimeout(() => speak(germanText), 300);
+        }
     }
     
     msg.innerHTML = html;
@@ -1225,7 +1392,6 @@ function addChatMessage(text, type) {
 function generateSmartResponse(message) {
     const msg = message.toLowerCase();
     
-    // Sprawdź wzorce odpowiedzi
     for (let category in aiResponses) {
         const patterns = aiResponses[category].patterns;
         for (let i = 0; i < patterns.length; i++) {
@@ -1236,7 +1402,6 @@ function generateSmartResponse(message) {
         }
     }
     
-    // Domyślne odpowiedzi kontekstowe
     const scenario = state.chatScenario;
     const contextResponses = {
         cafe: ["Möchten Sie noch etwas bestellen?<br><small>(Chce Pan/Pani jeszcze coś zamówić?)</small>", "Der Kaffee hier ist sehr gut!<br><small>(Kawa tutaj jest bardzo dobra!)</small>"],
@@ -1253,7 +1418,6 @@ function generateSmartResponse(message) {
         return responses[Math.floor(Math.random() * responses.length)];
     }
     
-    // Ogólne odpowiedzi
     const defaults = [
         "Interessant! Erzähl mir mehr! 🤔<br><small>(Ciekawe! Opowiedz mi więcej!)</small>",
         "Verstehe! Und was noch?<br><small>(Rozumiem! A co jeszcze?)</small>",
@@ -1270,7 +1434,6 @@ function checkMissionProgress(message) {
     const msg = message.toLowerCase();
     const keywords = currentMission.keywords[missionProgress];
     
-    // Sprawdź czy użytkownik użył odpowiednich słów kluczowych
     const found = keywords.some(function(keyword) {
         return msg.includes(keyword);
     });
@@ -1280,7 +1443,6 @@ function checkMissionProgress(message) {
         updateMissionDisplay();
         
         if (missionProgress >= currentMission.steps.length) {
-            // Misja ukończona!
             setTimeout(showMissionComplete, 1000);
         } else {
             showToast('✅ Krok ' + missionProgress + '/' + currentMission.steps.length + ': ' + currentMission.steps[missionProgress - 1]);
@@ -1306,7 +1468,6 @@ function showMissionComplete() {
 }
 
 function translateMessage(text) {
-    // Prosty słownik tłumaczeń dla popularnych zwrotów
     const translations = {
         "hallo": "Cześć",
         "wie geht es dir": "Jak się masz",
@@ -1327,7 +1488,6 @@ function translateMessage(text) {
     const lowerText = text.toLowerCase();
     let translation = translations[lowerText];
     
-    // Jeśli nie znaleziono dokładnego tłumaczenia, szukaj częściowego
     if (!translation) {
         for (let key in translations) {
             if (lowerText.includes(key)) {
@@ -1341,12 +1501,10 @@ function translateMessage(text) {
         translation = "Użyj słownika lub wyszukaj tłumaczenie";
     }
     
-    // Pokaż popup z tłumaczeniem
     showTranslationPopup(text, translation);
 }
 
 function showTranslationPopup(original, translated) {
-    // Usuń stary popup
     const old = document.querySelector('.translation-popup');
     if (old) old.remove();
     
@@ -1409,6 +1567,8 @@ function startChatSpeech() {
     recognition.start();
     showToast('🎤 Mów po niemiecku...');
 }
+
+// ==================== MOJE SŁÓWKA ====================
 function openMyWords() {
     showScreen('mywords');
     displayCustomWords();
@@ -1452,6 +1612,9 @@ function addCustomWord() {
     countTotalWords();
     showToast('✅ Dodano: ' + de);
     addXP(5);
+    
+    // NOWE: Wymów nowe słówko
+    speak(de);
 }
 
 function displayCustomWords() {
@@ -1472,7 +1635,13 @@ function displayCustomWords() {
         const wordPolish = word.polish || word.pl;
         const div = document.createElement('div');
         div.className = 'custom-word-item';
-        div.innerHTML = '<div><span class="custom-word-de">' + wordGerman + '</span><span class="custom-word-pl">' + wordPolish + '</span></div><button class="delete-word-btn" onclick="deleteCustomWord(' + i + ')">🗑️</button>';
+        // NOWE: Dodano przycisk wymowy
+        div.innerHTML = '<div class="custom-word-content">' +
+            '<button class="custom-word-speak" onclick="speak(\'' + wordGerman.replace(/'/g, "\\'") + '\')" title="Posłuchaj">🔊</button>' +
+            '<span class="custom-word-de">' + wordGerman + '</span>' +
+            '<span class="custom-word-pl">' + wordPolish + '</span>' +
+            '</div>' +
+            '<button class="delete-word-btn" onclick="deleteCustomWord(' + i + ')">🗑️</button>';
         container.appendChild(div);
     });
 }
@@ -1487,6 +1656,7 @@ function deleteCustomWord(i) {
     showToast('🗑️ Usunięto: ' + wordGerman);
 }
 
+// ==================== STATYSTYKI ====================
 function showProgress() {
     showScreen('progress');
     
@@ -1522,6 +1692,8 @@ function showProgress() {
         const unlocked = state.achievements.indexOf(a.id) !== -1;
         achievementsList.innerHTML += '<div class="achievement ' + (unlocked ? '' : 'locked') + '">' + a.icon + ' ' + a.name + '</div>';
     });
+    
+    setTimeout(initCharts, 100);
 }
 
 function showLevels() {
@@ -1565,6 +1737,7 @@ function showLevels() {
     });
 }
 
+// ==================== SŁOWNIK Z WYMOWĄ ====================
 let currentDictCategory = 'all';
 
 function showAllWords() {
@@ -1595,15 +1768,15 @@ function displayWords() {
     if (currentDictCategory === 'all') {
         Object.keys(wordDatabase).forEach(function(key) {
             wordDatabase[key].forEach(function(w) {
-                allWords.push({ de: w.german || w.de, pl: w.polish || w.pl });
+                allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
             });
         });
         state.customWords.forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl });
+            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
         });
     } else if (wordDatabase[currentDictCategory]) {
         wordDatabase[currentDictCategory].forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl });
+            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
         });
     }
     
@@ -1623,7 +1796,16 @@ function displayWords() {
     allWords.slice(0, 100).forEach(function(w) {
         const div = document.createElement('div');
         div.className = 'dict-word';
-        div.innerHTML = '<div class="dict-word-main"><div class="dict-word-de">' + w.de + '</div><div class="dict-word-pl">' + w.pl + '</div></div><button class="dict-word-btn" onclick="speak(\'' + w.de.replace(/'/g, "\\'") + '\')">🔊</button>';
+        // ULEPSZONE: Dodano dodatkowe przyciski wymowy
+        div.innerHTML = 
+            '<div class="dict-word-main">' +
+                '<div class="dict-word-de">' + w.de + '</div>' +
+                '<div class="dict-word-pl">' + w.pl + '</div>' +
+            '</div>' +
+            '<div class="dict-word-buttons">' +
+                '<button class="dict-word-btn" onclick="speak(\'' + w.de.replace(/'/g, "\\'") + '\')" title="Wymowa normalna">🔊</button>' +
+                '<button class="dict-word-btn slow" onclick="speakSlow(\'' + w.de.replace(/'/g, "\\'") + '\')" title="Wymowa wolna">🐢</button>' +
+            '</div>';
         container.appendChild(div);
     });
     
@@ -1632,6 +1814,7 @@ function displayWords() {
     }
 }
 
+// ==================== PRZYPOMNIENIA ====================
 function openReminders() {
     showScreen('reminders');
     loadReminderSettings();
@@ -1642,6 +1825,12 @@ function loadReminderSettings() {
     document.getElementById('reminderToggle').checked = localStorage.getItem('reminderEnabled') === 'true';
     document.getElementById('reminderTime').value = localStorage.getItem('reminderTime') || '18:00';
     document.getElementById('dailyGoal').value = localStorage.getItem('dailyGoal') || '10';
+    
+    // NOWE: Toggle auto-wymowy
+    const autoSpeakToggle = document.getElementById('autoSpeakToggle');
+    if (autoSpeakToggle) {
+        autoSpeakToggle.checked = state.autoSpeak !== false;
+    }
 }
 
 function toggleReminders() {
@@ -1665,6 +1854,16 @@ function saveDefaultLevel() {
     state.currentLanguageLevel = level;
     saveState();
     showToast('Domyślny poziom: ' + level);
+}
+
+// NOWE: Ustawienie auto-wymowy
+function setAutoSpeak() {
+    const autoSpeakToggle = document.getElementById('autoSpeakToggle');
+    if (autoSpeakToggle) {
+        state.autoSpeak = autoSpeakToggle.checked;
+        saveState();
+        showToast(state.autoSpeak ? '🔊 Auto-wymowa włączona' : '🔇 Auto-wymowa wyłączona');
+    }
 }
 
 function updateDailyProgress() {
@@ -1744,6 +1943,7 @@ function resetProgress() {
     }
 }
 
+// ==================== XP I OSIĄGNIĘCIA ====================
 function addXP(amount) {
     const oldLevel = state.level;
     state.xp += amount;
@@ -1764,6 +1964,7 @@ function addXP(amount) {
     
     updateUI();
     saveState();
+    trackDailyActivity();
 }
 
 function checkAchievement(id, condition) {
@@ -1801,7 +2002,7 @@ function shuffleArray(array) {
     return arr;
 }
 
-// ==================== GRA PISANIE ====================
+// ==================== GRA PISANIE Z WYMOWĄ ====================
 let typingWords = [];
 let typingIndex = 0;
 let typingScore = 0;
@@ -1812,7 +2013,6 @@ let typingHintUsed = false;
 function startTyping() {
     showScreen('typing');
     
-    // Pobierz słówka z aktualnego poziomu
     let allWords = [];
     Object.keys(wordDatabase).forEach(function(key) {
         wordDatabase[key].forEach(function(word) {
@@ -1839,15 +2039,29 @@ function loadTypingWord() {
     currentTypingWord = typingWords[typingIndex];
     typingHintUsed = false;
     
-    document.getElementById('typingPolish').textContent = currentTypingWord.polish || currentTypingWord.pl;
+    const polishWord = currentTypingWord.polish || currentTypingWord.pl;
+    const germanWord = currentTypingWord.german || currentTypingWord.de;
+    
+    // ULEPSZONE: Dodano przyciski wymowy
+    document.getElementById('typingPolish').innerHTML = 
+        '<span class="typing-polish-text">' + polishWord + '</span>' +
+        '<div class="typing-speak-buttons">' +
+            '<button onclick="speakTypingWord()" title="Posłuchaj">🔊</button>' +
+            '<button onclick="speakTypingWordSlow()" title="Wolniej">🐢</button>' +
+        '</div>';
+    
     document.getElementById('typingInput').value = '';
     document.getElementById('typingInput').className = 'typing-input';
+    document.getElementById('typingInput').placeholder = 'Wpisz po niemiecku...';
     document.getElementById('typingFeedback').classList.add('hidden');
     document.getElementById('typingScore').textContent = typingScore;
     document.getElementById('typingStreak').textContent = typingStreak;
     document.getElementById('typingProgress').textContent = (typingIndex + 1) + '/' + typingWords.length;
     
     document.getElementById('typingInput').focus();
+    
+    // NOWE: Auto-wymowa (opcjonalna - można włączyć/wyłączyć)
+    // Nie włączamy auto-wymowy w pisaniu, bo to podpowiedź
 }
 
 function checkTypingAnswer() {
@@ -1871,6 +2085,9 @@ function checkTypingAnswer() {
         state.correctAnswers++;
         addXP(typingHintUsed ? 5 : 10);
         playCorrectSound();
+        
+        // NOWE: Wymów poprawne słowo
+        speak(currentTypingWord.german || currentTypingWord.de);
     } else {
         inputEl.className = 'typing-input wrong';
         feedback.textContent = '❌ Poprawna: ' + (currentTypingWord.german || currentTypingWord.de);
@@ -1878,6 +2095,9 @@ function checkTypingAnswer() {
         
         typingStreak = 0;
         playWrongSound();
+        
+        // NOWE: Wymów poprawne słowo żeby zapamiętać
+        setTimeout(() => speak(currentTypingWord.german || currentTypingWord.de), 500);
     }
     
     state.totalAnswers++;
@@ -1911,9 +2131,13 @@ function skipTypingWord() {
     document.getElementById('typingStreak').textContent = typingStreak;
     
     const feedback = document.getElementById('typingFeedback');
-    feedback.textContent = '⏭️ Pominięto: ' + (currentTypingWord.german || currentTypingWord.de);
+    const word = currentTypingWord.german || currentTypingWord.de;
+    feedback.textContent = '⏭️ Pominięto: ' + word;
     feedback.className = 'typing-feedback error';
     feedback.classList.remove('hidden');
+    
+    // NOWE: Wymów pominięte słowo
+    speak(word);
     
     setTimeout(function() {
         typingIndex++;
@@ -1924,6 +2148,13 @@ function skipTypingWord() {
 function speakTypingWord() {
     if (currentTypingWord) {
         speak(currentTypingWord.german || currentTypingWord.de);
+    }
+}
+
+// NOWE: Wolna wymowa dla pisania
+function speakTypingWordSlow() {
+    if (currentTypingWord) {
+        speakSlow(currentTypingWord.german || currentTypingWord.de);
     }
 }
 
@@ -1956,7 +2187,6 @@ let weeklyChart = null;
 let categoryChart = null;
 
 function initCharts() {
-    // Wykres tygodniowej aktywności
     const weeklyCtx = document.getElementById('weeklyChart');
     if (!weeklyCtx) return;
     
@@ -2002,7 +2232,6 @@ function initCharts() {
         }
     });
     
-    // Wykres kategorii
     const categoryCtx = document.getElementById('categoryChart');
     if (!categoryCtx) return;
     
@@ -2088,31 +2317,13 @@ function trackDailyActivity() {
     localStorage.setItem('weeklyStats', JSON.stringify(weeklyStats));
 }
 
-// Modyfikuj showProgress żeby inicjować wykresy
-const originalShowProgress = typeof showProgress === 'function' ? showProgress : null;
-
-function showProgress() {
-    showScreen('progress');
+function displayAchievements() {
+    const achievementsList = document.getElementById('achievementsList');
+    if (!achievementsList) return;
     
-    const currentLevelData = levelSystem.find(function(l) { return l.level === state.level; }) || levelSystem[0];
-    const nextLevelData = levelSystem.find(function(l) { return l.level === state.level + 1; }) || currentLevelData;
-    
-    document.getElementById('levelIcon').textContent = currentLevelData.title.split(' ')[0];
-    document.getElementById('levelTitleBig').textContent = currentLevelData.title.split(' ').slice(1).join(' ');
-    document.getElementById('currentLevel').textContent = state.level;
-    document.getElementById('currentXP').textContent = state.xp;
-    document.getElementById('nextLevelXP').textContent = nextLevelData.xpRequired;
-    
-    const progress = ((state.xp - currentLevelData.xpRequired) / (nextLevelData.xpRequired - currentLevelData.xpRequired)) * 100;
-    document.getElementById('levelProgressBig').style.width = Math.min(progress, 100) + '%';
-    
-    document.getElementById('wordsLearned').textContent = state.wordsLearned.length;
-    document.getElementById('quizzesDone').textContent = state.quizzesDone;
-    document.getElementById('accuracy').textContent = state.totalAnswers > 0 ? Math.round((state.correctAnswers / state.totalAnswers) * 100) + '%' : '0%';
-    document.getElementById('streakDays').textContent = state.streak;
-    
-    displayAchievements();
-    
-    // Inicjuj wykresy
-    setTimeout(initCharts, 100);
+    achievementsList.innerHTML = '';
+    achievements.forEach(function(a) {
+        const unlocked = state.achievements.indexOf(a.id) !== -1;
+        achievementsList.innerHTML += '<div class="achievement ' + (unlocked ? '' : 'locked') + '">' + a.icon + ' ' + a.name + '</div>';
+    });
 }
