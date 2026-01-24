@@ -1,14 +1,12 @@
 {
     "name": "Deutsch Lernen - Nauka Niemieckiego",
-    "short_name": "Deutsch",
-    "description": "Aplikacja do nauki języka niemieckiego z fiszkami, quizami i czatem AI",
+    "short_name": "Deutsch Lernen",
+    "description": "Aplikacja do nauki języka niemieckiego z AI, fiszkami, quizami i grami",
     "start_url": "./index.html",
     "display": "standalone",
-    "orientation": "portrait",
     "background_color": "#1a1a2e",
     "theme_color": "#667eea",
-    "lang": "pl",
-    "categories": ["education", "language"],
+    "orientation": "portrait",
     "icons": [
         {
             "src": "icon-72.png",
@@ -47,6 +45,12 @@
             "purpose": "any"
         },
         {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
             "src": "icon-384.png",
             "sizes": "384x384",
             "type": "image/png",
@@ -59,41 +63,20 @@
             "purpose": "any"
         },
         {
-            "src": "icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
             "src": "icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
         }
     ],
+    "categories": ["education", "productivity"],
+    "lang": "pl",
     "screenshots": [
         {
             "src": "screenshot1.png",
             "sizes": "540x720",
             "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Ekran główny aplikacji"
-        }
-    ],
-    "shortcuts": [
-        {
-            "name": "Fiszki",
-            "short_name": "Fiszki",
-            "description": "Rozpocznij naukę z fiszkami",
-            "url": "./index.html?mode=flashcards",
-            "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
-        },
-        {
-            "name": "Quiz",
-            "short_name": "Quiz",
-            "description": "Sprawdź swoją wiedzę",
-            "url": "./index.html?mode=quiz",
-            "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
+            "form_factor": "narrow"
         }
     ]
 }
