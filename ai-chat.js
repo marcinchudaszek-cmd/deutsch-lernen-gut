@@ -70,7 +70,7 @@ Poziomy:
 - B2: zaawansowane, idiomy`;
 }
 
-// Wywołanie API - POPRAWIONA WERSJA
+// Wywołanie API - AKTUALNE MODELE GEMINI 2025
 async function callGeminiAI(userMessage) {
     const apiKey = getGeminiApiKey();
     
@@ -80,11 +80,11 @@ async function callGeminiAI(userMessage) {
     
     const prompt = getAISystemPrompt() + "\n\nHistoria:\n" + getAIChatHistory() + "\n\nUczeń: " + userMessage;
     
-    // Próbuj różne modele
+    // AKTUALNE modele Gemini (styczeń 2025)
     const models = [
-        'gemini-1.5-flash-latest',
+        'gemini-2.0-flash-exp',
         'gemini-1.5-flash',
-        'gemini-pro'
+        'gemini-1.5-flash-latest'
     ];
     
     let lastError = '';
@@ -121,6 +121,7 @@ async function callGeminiAI(userMessage) {
             }
             
             if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                console.log('Sukces z modelem:', model);
                 return { success: true, response: data.candidates[0].content.parts[0].text };
             }
             
