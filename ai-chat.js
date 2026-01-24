@@ -2,9 +2,6 @@ function getGeminiApiKey() { return localStorage.getItem('geminiApiKey') || ''; 
 function setGeminiApiKey(key) { localStorage.setItem('geminiApiKey', key); }
 function hasApiKey() { return getGeminiApiKey().length > 10; }
 
-let aiConversationHistory = [];
-function clearAIHistory() { aiConversationHistory = []; }
-
 async function callGeminiAI(userMessage) {
     const apiKey = getGeminiApiKey();
     if (!apiKey) return { success: false, error: 'Brak klucza API' };
@@ -17,12 +14,10 @@ async function callGeminiAI(userMessage) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
-        
         const data = await response.json();
         console.log('API:', data);
-        
         if (data.error) return { success: false, error: data.error.message };
-        if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
             return { success: true, response: data.candidates[0].content.parts[0].text };
         }
         return { success: false, error: 'Brak odpowiedzi' };
@@ -36,14 +31,11 @@ async function sendAIMessage() {
     const message = input.value.trim();
     if (!message) return;
     if (!hasApiKey()) { showApiKeyPopup(); return; }
-    
     input.value = '';
     addAIChatBubble(message, 'user');
     showAITyping();
-    
     const result = await callGeminiAI(message);
     hideAITyping();
-    
     if (result.success) {
         addAIChatBubble(result.response, 'bot');
         if (typeof addXP === 'function') addXP(5);
@@ -57,7 +49,6 @@ function addAIChatBubble(text, type) {
     if (!container) return;
     const div = document.createElement('div');
     div.className = 'chat-message ' + type;
-    
     if (type === 'user') {
         div.innerHTML = '<span>' + text + '</span>';
     } else {
@@ -87,8 +78,8 @@ function showApiKeyPopup() {
     if (document.querySelector('.api-popup')) return;
     const popup = document.createElement('div');
     popup.className = 'api-popup';
-    popup.innerHTML = '<div style="background:#1a1a2e;padding:25px;border-radius:15px;max-width:350px;margin:20px;"><h3 style="margin:0 0 15px">🔑 Klucz API</h3><p>Wejdź na <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">aistudio.google.com</a> i utwórz klucz.</p><input id="apiKeyField" placeholder="AIzaSy..." style="width:100%;padding:12px;margin:15px 0;border-radius:8px;border:1px solid #444;background:#2a2a4a;color:white;"><div style="display:flex;gap:10px"><button onclick="saveApiKey()" style="flex:1;padding:12px;background:#667eea;border:none;border-radius:8px;color:white;cursor:pointer">Zapisz</button><button onclick="closeApiPopup()" style="flex:1;padding:12px;background:#444;border:none;border-radius:8px;color:white;cursor:pointer">Anuluj</button></div></div>';
     popup.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999';
+    popup.innerHTML = '<div style="background:#1a1a2e;padding:25px;border-radius:15px;max-width:350px;margin:20px;"><h3 style="margin:0 0 15px;color:white">🔑 Klucz API</h3><p style="color:#ccc">Wejdź na <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">aistudio.google.com</a> i utwórz klucz.</p><input id="apiKeyField" placeholder="AIzaSy..." value="' + getGeminiApiKey() + '" style="width:100%;padding:12px;margin:15px 0;border-radius:8px;border:1px solid #444;background:#2a2a4a;color:white;box-sizing:border-box;"><div style="display:flex;gap:10px"><button onclick="saveApiKey()" style="flex:1;padding:12px;background:#667eea;border:none;border-radius:8px;color:white;cursor:pointer">Zapisz</button><button onclick="closeApiPopup()" style="flex:1;padding:12px;background:#444;border:none;border-radius:8px;color:white;cursor:pointer">Anuluj</button></div></div>';
     document.body.appendChild(popup);
 }
 
@@ -98,6 +89,8 @@ function saveApiKey() {
         setGeminiApiKey(key);
         closeApiPopup();
         if (typeof showToast === 'function') showToast('✅ Zapisano!');
+    } else {
+        alert('Klucz musi zaczynać się od AIza');
     }
 }
 
@@ -109,10 +102,10 @@ function closeApiPopup() {
 function startAIScenario(scenario) {
     const container = document.getElementById('chatContainer');
     if (container) {
-        container.innerHTML = '<div class="chat-message bot"><span>Hallo! Wie kann ich dir helfen?<br><small style="color:#888">(🇵🇱 Cześć! Jak mogę ci pomóc?)</small></span></div>';
+        container.innerHTML = '<div class="chat-message bot"><span>Hallo! Wie kann ich dir helfen?<br><small style="color:#888">(🇵🇱 Cześć! Jak mogę pomóc?)</small></span></div>';
     }
 }
 
 function startChatSpeech() {
-    if (typeof showToast === 'function') showToast('🎤 Użyj klawiatury');
+    if (typeof showToast === 'function') showToast('🎤 Wpisz tekst');
 }
