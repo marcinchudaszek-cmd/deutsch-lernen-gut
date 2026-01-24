@@ -1,13 +1,11 @@
 // Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v2';
+const CACHE_NAME = 'deutsch-lernen-v3';
 const urlsToCache = [
     './',
     './index.html',
     './style.css',
     './app.js',
     './words.js',
-    './grammar.js',
-    './achievements.js',
     './ai-chat.js',
     './manifest.json',
     './icon-192.png',
@@ -44,8 +42,13 @@ self.addEventListener('activate', event => {
     self.clients.claim();
 });
 
-// Fetch - strategia Network First dla API, Cache First dla statycznych
+// Fetch
 self.addEventListener('fetch', event => {
+    // Ignoruj rozszerzenia Chrome
+    if (event.request.url.startsWith('chrome-extension://')) {
+        return;
+    }
+    
     const url = new URL(event.request.url);
     
     // Dla API Gemini - zawsze sieć
@@ -75,7 +78,6 @@ self.addEventListener('fetch', event => {
                     });
             })
             .catch(() => {
-                // Offline fallback
                 if (event.request.destination === 'document') {
                     return caches.match('./index.html');
                 }
