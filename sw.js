@@ -1,114 +1,84 @@
 // Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v1';
+const CACHE_NAME = 'deutsch-lernen-v2';
 const urlsToCache = [
     './',
     './index.html',
-    './app.js',
     './style.css',
+    './app.js',
     './words.js',
+    './grammar.js',
+    './achievements.js',
+    './ai-chat.js',
     './manifest.json',
-    './icons/icon-192.png',
-    './icons/icon-512.png'
+    './icon-192.png',
+    './icon-512.png'
 ];
 
-// Instalacja Service Worker
-self.addEventListener('install', function(event) {
-    console.log('Service Worker: Instalacja...');
+// Instalacja
+self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(function(cache) {
-                console.log('Service Worker: Cachowanie plików');
+            .then(cache => {
+                console.log('Cache opened');
                 return cache.addAll(urlsToCache);
             })
-            .then(function() {
-                return self.skipWaiting();
-            })
+            .catch(err => console.log('Cache error:', err))
     );
+    self.skipWaiting();
 });
 
-// Aktywacja Service Worker
-self.addEventListener('activate', function(event) {
-    console.log('Service Worker: Aktywacja...');
+// Aktywacja
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(function(cacheNames) {
+        caches.keys().then(cacheNames => {
             return Promise.all(
-                cacheNames.map(function(cacheName) {
+                cacheNames.map(cacheName => {
                     if (cacheName !== CACHE_NAME) {
-                        console.log('Service Worker: Usuwanie starego cache:', cacheName);
+                        console.log('Deleting old cache:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
             );
-        }).then(function() {
-            return self.clients.claim();
         })
     );
+    self.clients.claim();
 });
 
-// Przechwytywanie żądań sieciowych
-self.addEventListener('fetch', function(event) {
+// Fetch - strategia Network First dla API, Cache First dla statycznych
+self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    
+    // Dla API Gemini - zawsze sieć
+    if (url.hostname.includes('googleapis.com')) {
+        event.respondWith(fetch(event.request));
+        return;
+    }
+    
+    // Dla reszty - Cache First z fallback na sieć
     event.respondWith(
         caches.match(event.request)
-            .then(function(response) {
-                // Zwróć z cache jeśli dostępne
+            .then(response => {
                 if (response) {
                     return response;
                 }
-                
-                // Jeśli nie ma w cache, pobierz z sieci
-                return fetch(event.request).then(function(response) {
-                    // Sprawdź czy odpowiedź jest prawidłowa
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                return fetch(event.request)
+                    .then(response => {
+                        if (!response || response.status !== 200 || response.type !== 'basic') {
+                            return response;
+                        }
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+                                cache.put(event.request, responseToCache);
+                            });
                         return response;
-                    }
-                    
-                    // Sklonuj odpowiedź (bo można ją użyć tylko raz)
-                    var responseToCache = response.clone();
-                    
-                    // Dodaj do cache
-                    caches.open(CACHE_NAME).then(function(cache) {
-                        cache.put(event.request, responseToCache);
                     });
-                    
-                    return response;
-                });
             })
-            .catch(function() {
-                // Jeśli offline i nie ma w cache, zwróć stronę offline
-                return caches.match('./index.html');
+            .catch(() => {
+                // Offline fallback
+                if (event.request.destination === 'document') {
+                    return caches.match('./index.html');
+                }
             })
     );
-});
-
-// Obsługa powiadomień push (na przyszłość)
-self.addEventListener('push', function(event) {
-    const options = {
-        body: event.data ? event.data.text() : 'Czas na naukę niemieckiego! 🇩🇪',
-        icon: './icons/icon-192.png',
-        badge: './icons/icon-72.png',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1
-        },
-        actions: [
-            { action: 'learn', title: '📚 Ucz się', icon: './icons/icon-72.png' },
-            { action: 'close', title: '❌ Zamknij', icon: './icons/icon-72.png' }
-        ]
-    };
-    
-    event.waitUntil(
-        self.registration.showNotification('Deutsch Lernen', options)
-    );
-});
-
-// Obsługa kliknięcia w powiadomienie
-self.addEventListener('notificationclick', function(event) {
-    event.notification.close();
-    
-    if (event.action === 'learn') {
-        event.waitUntil(
-            clients.openWindow('./index.html')
-        );
-    }
 });
