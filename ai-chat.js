@@ -8,22 +8,32 @@ async function callGeminiAI(userMessage) {
     
     const prompt = "Jesteś nauczycielem niemieckiego. Odpowiadaj po niemiecku, dodaj tłumaczenie (pol: ...). Max 2 zdania.\n\nUczeń: " + userMessage;
     
-    try {
-        const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        const data = await response.json();
-        console.log('API:', data);
-        if (data.error) return { success: false, error: data.error.message };
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            return { success: true, response: data.candidates[0].content.parts[0].text };
+    // Próbuj różne modele
+    const endpoints = [
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' + apiKey,
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey,
+        'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=' + apiKey
+    ];
+    
+    for (const url of endpoints) {
+        try {
+            console.log('Próbuję:', url.split('models/')[1].split(':')[0]);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await response.json();
+            console.log('Odpowiedź:', data);
+            
+            if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                return { success: true, response: data.candidates[0].content.parts[0].text };
+            }
+        } catch (e) {
+            console.log('Błąd:', e);
         }
-        return { success: false, error: 'Brak odpowiedzi' };
-    } catch (e) {
-        return { success: false, error: e.message };
     }
+    return { success: false, error: 'Żaden model nie odpowiedział. Sprawdź klucz API na aistudio.google.com' };
 }
 
 async function sendAIMessage() {
@@ -79,7 +89,7 @@ function showApiKeyPopup() {
     const popup = document.createElement('div');
     popup.className = 'api-popup';
     popup.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999';
-    popup.innerHTML = '<div style="background:#1a1a2e;padding:25px;border-radius:15px;max-width:350px;margin:20px;"><h3 style="margin:0 0 15px;color:white">🔑 Klucz API</h3><p style="color:#ccc">Wejdź na <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">aistudio.google.com</a> i utwórz klucz.</p><input id="apiKeyField" placeholder="AIzaSy..." value="' + getGeminiApiKey() + '" style="width:100%;padding:12px;margin:15px 0;border-radius:8px;border:1px solid #444;background:#2a2a4a;color:white;box-sizing:border-box;"><div style="display:flex;gap:10px"><button onclick="saveApiKey()" style="flex:1;padding:12px;background:#667eea;border:none;border-radius:8px;color:white;cursor:pointer">Zapisz</button><button onclick="closeApiPopup()" style="flex:1;padding:12px;background:#444;border:none;border-radius:8px;color:white;cursor:pointer">Anuluj</button></div></div>';
+    popup.innerHTML = '<div style="background:#1a1a2e;padding:25px;border-radius:15px;max-width:350px;margin:20px;"><h3 style="margin:0 0 15px;color:white">🔑 Klucz API</h3><p style="color:#ccc">Wejdź na <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">aistudio.google.com</a> i utwórz NOWY klucz.</p><input id="apiKeyField" placeholder="AIzaSy..." value="' + getGeminiApiKey() + '" style="width:100%;padding:12px;margin:15px 0;border-radius:8px;border:1px solid #444;background:#2a2a4a;color:white;box-sizing:border-box;"><div style="display:flex;gap:10px"><button onclick="saveApiKey()" style="flex:1;padding:12px;background:#667eea;border:none;border-radius:8px;color:white;cursor:pointer">Zapisz</button><button onclick="closeApiPopup()" style="flex:1;padding:12px;background:#444;border:none;border-radius:8px;color:white;cursor:pointer">Anuluj</button></div></div>';
     document.body.appendChild(popup);
 }
 
@@ -104,6 +114,26 @@ function startAIScenario(scenario) {
     if (container) {
         container.innerHTML = '<div class="chat-message bot"><span>Hallo! Wie kann ich dir helfen?<br><small style="color:#888">(🇵🇱 Cześć! Jak mogę pomóc?)</small></span></div>';
     }
+    updateAISuggestions(scenario);
+}
+
+function updateAISuggestions(scenario) {
+    const div = document.getElementById('chatSuggestions');
+    if (!div) return;
+    const suggestions = {
+        cafe: ["Einen Kaffee, bitte", "Was kostet das?", "Die Rechnung, bitte"],
+        shop: ["Ich suche...", "Wie viel kostet das?"],
+        doctor: ["Ich habe Kopfschmerzen", "Seit gestern"],
+        hotel: ["Ich habe reserviert", "Ein Zimmer bitte"],
+        free: ["Wie geht es dir?", "Ich lerne Deutsch", "Was machst du gern?"]
+    };
+    div.innerHTML = '';
+    (suggestions[scenario] || suggestions.free).forEach(function(s) {
+        const btn = document.createElement('button');
+        btn.textContent = s;
+        btn.onclick = function() { document.getElementById('chatInput').value = s; };
+        div.appendChild(btn);
+    });
 }
 
 function startChatSpeech() {
