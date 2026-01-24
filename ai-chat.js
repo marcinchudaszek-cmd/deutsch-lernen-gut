@@ -70,7 +70,7 @@ Poziomy:
 - B2: zaawansowane, idiomy`;
 }
 
-// Wywołanie API
+// Wywołanie API - POPRAWIONA WERSJA
 async function callGeminiAI(userMessage) {
     const apiKey = getGeminiApiKey();
     
@@ -80,40 +80,64 @@ async function callGeminiAI(userMessage) {
     
     const prompt = getAISystemPrompt() + "\n\nHistoria:\n" + getAIChatHistory() + "\n\nUczeń: " + userMessage;
     
-    try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ role: "user", parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        temperature: 0.8,
-                        maxOutputTokens: 300
-                    }
-                })
+    // Próbuj różne modele
+    const models = [
+        'gemini-1.5-flash-latest',
+        'gemini-1.5-flash',
+        'gemini-pro'
+    ];
+    
+    let lastError = '';
+    
+    for (const model of models) {
+        try {
+            console.log('Próbuję model:', model);
+            
+            const response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ 
+                            parts: [{ text: prompt }] 
+                        }],
+                        generationConfig: {
+                            temperature: 0.8,
+                            maxOutputTokens: 300
+                        }
+                    })
+                }
+            );
+            
+            const data = await response.json();
+            
+            console.log('Odpowiedź API:', data);
+            
+            if (!response.ok) {
+                lastError = data.error?.message || 'Błąd API';
+                console.log('Błąd dla modelu', model, ':', lastError);
+                continue; // Spróbuj następny model
             }
-        );
-        
-        if (!response.ok) {
-            if (response.status === 400) return { success: false, error: 'Nieprawidłowy klucz API' };
-            if (response.status === 429) return { success: false, error: 'Zbyt wiele zapytań, poczekaj' };
-            return { success: false, error: 'Błąd API' };
+            
+            if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                return { success: true, response: data.candidates[0].content.parts[0].text };
+            }
+            
+            // Jeśli odpowiedź jest zablokowana
+            if (data.candidates?.[0]?.finishReason === 'SAFETY') {
+                return { success: true, response: 'Entschuldigung, ich kann darauf nicht antworten.\n(pol: Przepraszam, nie mogę na to odpowiedzieć.)' };
+            }
+            
+            lastError = 'Pusta odpowiedź';
+            
+        } catch (error) {
+            console.error('Błąd fetch:', error);
+            lastError = 'Błąd połączenia: ' + error.message;
         }
-        
-        const data = await response.json();
-        
-        if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-            return { success: true, response: data.candidates[0].content.parts[0].text };
-        }
-        
-        return { success: false, error: 'Pusta odpowiedź' };
-        
-    } catch (error) {
-        console.error('AI Error:', error);
-        return { success: false, error: 'Błąd połączenia' };
     }
+    
+    return { success: false, error: lastError };
 }
 
 // Wyślij wiadomość do AI
@@ -152,7 +176,7 @@ async function sendAIMessage() {
             setTimeout(() => speak(german), 300);
         }
     } else {
-        addAIChatBubble('❌ ' + result.error, 'bot');
+        addAIChatBubble('❌ ' + result.error + '\n\nSprawdź klucz API w ustawieniach.', 'bot');
     }
 }
 
@@ -161,7 +185,7 @@ function extractGerman(text) {
     const lines = text.split('\n');
     let german = '';
     for (const line of lines) {
-        if (line.startsWith('(pol:') || line.startsWith('💡') || line.startsWith('(PL')) continue;
+        if (line.toLowerCase().startsWith('(pol:') || line.startsWith('💡') || line.toLowerCase().startsWith('(pl')) continue;
         if (line.match(/^\([^)]+\)$/)) continue;
         if (line.trim()) german += line + ' ';
     }
@@ -233,9 +257,9 @@ function showApiKeyPopup() {
             <h3>🔑 Klucz API Gemini</h3>
             <p>Potrzebujesz darmowego klucza Google:</p>
             <ol>
-                <li><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">👉 aistudio.google.com</a></li>
-                <li>Zaloguj się Google</li>
-                <li>"Create API Key"</li>
+                <li><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#667eea">👉 aistudio.google.com/app/apikey</a></li>
+                <li>Zaloguj się kontem Google</li>
+                <li>Kliknij "Create API Key"</li>
                 <li>Skopiuj i wklej poniżej:</li>
             </ol>
             <input type="text" id="apiKeyField" placeholder="AIzaSy..." value="${currentKey}" style="width:100%;padding:12px;border-radius:8px;border:1px solid #444;background:#2a2a4a;color:white;font-size:14px;">
@@ -278,21 +302,33 @@ function startAIScenario(scenario) {
     
     // Powitanie
     const greetings = {
-        cafe: "Willkommen im Café! Was darf es sein?<br><small>(🇵🇱 Witamy w kawiarni! Co podać?)</small>",
-        shop: "Guten Tag! Kann ich Ihnen helfen?<br><small>(🇵🇱 Dzień dobry! Mogę pomóc?)</small>",
-        travel: "Wohin möchten Sie reisen?<br><small>(🇵🇱 Dokąd chce Pan/Pani jechać?)</small>",
-        work: "Guten Morgen, Kollege! Wie geht's?<br><small>(🇵🇱 Dzień dobry, kolego! Jak leci?)</small>",
-        doctor: "Guten Tag! Was fehlt Ihnen?<br><small>(🇵🇱 Dzień dobry! Co Panu/Pani dolega?)</small>",
-        hotel: "Willkommen! Haben Sie reserviert?<br><small>(🇵🇱 Witamy! Ma Pan/Pani rezerwację?)</small>",
-        date: "Hey! Schön dich zu sehen!<br><small>(🇵🇱 Hej! Miło cię widzieć!)</small>",
-        restaurant: "Guten Abend! Hier ist die Speisekarte.<br><small>(🇵🇱 Dobry wieczór! Oto menu.)</small>",
-        free: "Hallo! Worüber möchtest du sprechen?<br><small>(🇵🇱 Cześć! O czym chcesz porozmawiać?)</small>"
+        cafe: "Guten Tag! Willkommen im Café. Was darf ich Ihnen bringen?<br><small class='ai-pl'>(🇵🇱 Dzień dobry! Witamy w kawiarni. Co mogę podać?)</small>",
+        shop: "Hallo! Kann ich Ihnen helfen?<br><small class='ai-pl'>(🇵🇱 Cześć! Mogę pomóc?)</small>",
+        travel: "Wohin möchten Sie reisen?<br><small class='ai-pl'>(🇵🇱 Dokąd chce Pan/Pani jechać?)</small>",
+        work: "Guten Morgen, Kollege! Wie geht's?<br><small class='ai-pl'>(🇵🇱 Dzień dobry, kolego! Jak leci?)</small>",
+        doctor: "Guten Tag! Was führt Sie zu mir?<br><small class='ai-pl'>(🇵🇱 Dzień dobry! Co Pana/Panią sprowadza?)</small>",
+        hotel: "Guten Abend! Willkommen. Haben Sie reserviert?<br><small class='ai-pl'>(🇵🇱 Dobry wieczór! Witamy. Ma Pan/Pani rezerwację?)</small>",
+        date: "Hey! Schön dich zu sehen! Du siehst toll aus!<br><small class='ai-pl'>(🇵🇱 Hej! Miło cię widzieć! Świetnie wyglądasz!)</small>",
+        restaurant: "Guten Abend! Hier ist die Speisekarte.<br><small class='ai-pl'>(🇵🇱 Dobry wieczór! Oto menu.)</small>",
+        free: "Hallo! Worüber möchtest du sprechen?<br><small class='ai-pl'>(🇵🇱 Cześć! O czym chcesz porozmawiać?)</small>"
     };
     
-    addChatMessage(greetings[scenario] || greetings.free, 'bot');
+    const greeting = greetings[scenario] || greetings.free;
+    
+    // Dodaj powitanie
+    const div = document.createElement('div');
+    div.className = 'chat-message bot';
+    div.innerHTML = `<span>${greeting}</span>`;
+    container.appendChild(div);
     
     // Aktualizuj sugestie
     updateAISuggestions(scenario);
+    
+    // Auto-wymowa
+    const germanGreeting = extractGerman(greeting.replace(/<[^>]*>/g, ''));
+    if (state.autoSpeak && germanGreeting) {
+        setTimeout(() => speak(germanGreeting), 300);
+    }
     
     playClickSound();
 }
@@ -303,11 +339,13 @@ function updateAISuggestions(scenario) {
     
     const suggestions = {
         cafe: ["Einen Kaffee, bitte", "Was kostet das?", "Die Rechnung, bitte"],
-        shop: ["Ich suche eine Jacke", "Haben Sie das in M?", "Wie viel kostet das?"],
-        doctor: ["Ich habe Kopfschmerzen", "Seit gestern", "Brauche ich ein Rezept?"],
+        shop: ["Ich suche...", "Haben Sie das in Größe M?", "Wie viel kostet das?"],
+        doctor: ["Ich habe Kopfschmerzen", "Seit gestern", "Ich brauche ein Rezept"],
         hotel: ["Ich habe reserviert", "Ein Zimmer für 2 Nächte", "Mit Frühstück?"],
-        date: ["Du siehst toll aus!", "Was machst du gern?", "Möchtest du etwas trinken?"],
-        free: ["Wie geht es dir?", "Was hast du heute gemacht?", "Ich lerne Deutsch"]
+        date: ["Du siehst gut aus!", "Was machst du gern?", "Möchtest du etwas trinken?"],
+        restaurant: ["Die Speisekarte, bitte", "Ich nehme...", "Die Rechnung, bitte"],
+        work: ["Wann ist das Meeting?", "Ich habe eine Frage", "Bis später!"],
+        free: ["Wie geht es dir?", "Ich lerne Deutsch", "Was machst du gern?"]
     };
     
     div.innerHTML = '';
@@ -316,8 +354,60 @@ function updateAISuggestions(scenario) {
         btn.textContent = s;
         btn.onclick = () => {
             document.getElementById('chatInput').value = s;
-            sendAIMessage();
+            document.getElementById('chatInput').focus();
         };
         div.appendChild(btn);
     });
+}
+
+// Rozpoznawanie mowy
+function startChatSpeech() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        showToast('❌ Użyj Chrome dla rozpoznawania mowy');
+        return;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'de-DE';
+    
+    const micBtn = document.querySelector('.mic-btn-small');
+    if (micBtn) {
+        micBtn.classList.add('listening');
+        micBtn.textContent = '🎙️';
+    }
+    
+    showToast('🎤 Mów po niemiecku...');
+    
+    recognition.onresult = function(event) {
+        document.getElementById('chatInput').value = event.results[0][0].transcript;
+        if (micBtn) {
+            micBtn.classList.remove('listening');
+            micBtn.textContent = '🎤';
+        }
+    };
+    
+    recognition.onend = function() {
+        if (micBtn) {
+            micBtn.classList.remove('listening');
+            micBtn.textContent = '🎤';
+        }
+    };
+    
+    recognition.onerror = function() {
+        if (micBtn) {
+            micBtn.classList.remove('listening');
+            micBtn.textContent = '🎤';
+        }
+        showToast('❌ Spróbuj ponownie');
+    };
+    
+    recognition.start();
+}
+
+// Inicjalizacja czatu przy starcie
+function initAIChat() {
+    if (hasApiKey()) {
+        startAIScenario('free');
+    }
 }
