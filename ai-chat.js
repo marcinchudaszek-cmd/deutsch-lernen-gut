@@ -125,5 +125,47 @@ function updateAISuggestions(scenario) {
 }
 
 function startChatSpeech() {
-    if (typeof showToast === 'function') showToast('🎤 Wpisz tekst');
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        if (typeof showToast === 'function') showToast('❌ Twoja przeglądarka nie obsługuje mikrofonu');
+        return;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'de-DE';
+    recognition.continuous = false;
+    
+    const micBtn = document.querySelector('.mic-btn-small');
+    if (micBtn) {
+        micBtn.style.background = '#48bb78';
+        micBtn.textContent = '🎙️';
+    }
+    
+    if (typeof showToast === 'function') showToast('🎤 Mów po niemiecku...');
+    
+    recognition.onresult = function(event) {
+        const text = event.results[0][0].transcript;
+        document.getElementById('chatInput').value = text;
+        if (micBtn) {
+            micBtn.style.background = '';
+            micBtn.textContent = '🎤';
+        }
+    };
+    
+    recognition.onend = function() {
+        if (micBtn) {
+            micBtn.style.background = '';
+            micBtn.textContent = '🎤';
+        }
+    };
+    
+    recognition.onerror = function(e) {
+        if (micBtn) {
+            micBtn.style.background = '';
+            micBtn.textContent = '🎤';
+        }
+        if (typeof showToast === 'function') showToast('❌ Błąd: ' + e.error);
+    };
+    
+    recognition.start();
 }
