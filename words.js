@@ -974,6 +974,251 @@ const germanWords = {
         { german: "die Mannschaft", polish: "drużyna", example: "Die Mannschaft hat gewonnen.", level: "A2" },
         { german: "fit", polish: "w formie", example: "Ich fühle mich fit.", level: "A2" },
         { german: "erschöpft", polish: "wyczerpany", example: "Ich bin erschöpft.", level: "B1" }
+    ],
+
+    // 🏗️ BUDOWNICTWO (A2-B2)
+    construction: [
+        // Narzędzia
+        { german: "der Hammer", polish: "młotek", example: "Gib mir bitte den Hammer.", level: "A2" },
+        { german: "die Säge", polish: "piła", example: "Ich brauche eine Säge.", level: "A2" },
+        { german: "der Schraubenzieher", polish: "śrubokręt", example: "Der Schraubenzieher ist im Werkzeugkasten.", level: "A2" },
+        { german: "die Bohrmaschine", polish: "wiertarka", example: "Die Bohrmaschine ist kaputt.", level: "A2" },
+        { german: "der Akkuschrauber", polish: "wkrętarka akumulatorowa", example: "Der Akkuschrauber muss aufgeladen werden.", level: "B1" },
+        { german: "die Wasserwaage", polish: "poziomica", example: "Prüf das mit der Wasserwaage.", level: "B1" },
+        { german: "das Maßband", polish: "miara/taśma miernicza", example: "Wo ist das Maßband?", level: "A2" },
+        { german: "der Zollstock", polish: "miarka składana", example: "Ich messe mit dem Zollstock.", level: "B1" },
+        { german: "die Schaufel", polish: "łopata", example: "Hol die Schaufel aus dem Auto.", level: "A2" },
+        { german: "die Kelle", polish: "kielnia", example: "Der Maurer braucht eine Kelle.", level: "B1" },
+        { german: "der Spachtel", polish: "szpachelka", example: "Glätte die Wand mit dem Spachtel.", level: "B1" },
+        { german: "der Winkelschleifer", polish: "szlifierka kątowa", example: "Pass auf mit dem Winkelschleifer!", level: "B1" },
+        { german: "die Flex", polish: "szlifierka (potocznie)", example: "Schneide das Rohr mit der Flex.", level: "B1" },
+        { german: "der Meißel", polish: "dłuto", example: "Nimm den Meißel für die Wand.", level: "B1" },
+        { german: "die Zange", polish: "szczypce/obcęgi", example: "Gib mir die Zange.", level: "A2" },
+        { german: "der Schraubenschlüssel", polish: "klucz płaski", example: "Ich brauche einen Schraubenschlüssel.", level: "A2" },
+        { german: "die Ratsche", polish: "grzechotka/klucz zapadkowy", example: "Mit der Ratsche geht es schneller.", level: "B1" },
+        { german: "der Werkzeugkasten", polish: "skrzynka narzędziowa", example: "Alles ist im Werkzeugkasten.", level: "A2" },
+
+        // Materiały budowlane
+        { german: "der Beton", polish: "beton", example: "Der Beton muss noch trocknen.", level: "A2" },
+        { german: "der Zement", polish: "cement", example: "Misch den Zement mit Wasser.", level: "A2" },
+        { german: "der Mörtel", polish: "zaprawa", example: "Der Mörtel ist zu dünn.", level: "B1" },
+        { german: "der Sand", polish: "piasek", example: "Wir brauchen mehr Sand.", level: "A1" },
+        { german: "der Kies", polish: "żwir", example: "Kies für das Fundament.", level: "B1" },
+        { german: "der Ziegel", polish: "cegła", example: "Die Wand ist aus Ziegeln.", level: "A2" },
+        { german: "der Stein", polish: "kamień", example: "Wir bauen mit Steinen.", level: "A1" },
+        { german: "das Holz", polish: "drewno", example: "Das Holz ist feucht.", level: "A1" },
+        { german: "das Brett", polish: "deska", example: "Ich brauche ein langes Brett.", level: "A2" },
+        { german: "der Balken", polish: "belka", example: "Die Balken tragen das Dach.", level: "B1" },
+        { german: "die Platte", polish: "płyta", example: "Leg die Platte auf den Boden.", level: "A2" },
+        { german: "die Fliese", polish: "płytka/kafelek", example: "Die Fliesen im Bad sind neu.", level: "A2" },
+        { german: "der Putz", polish: "tynk", example: "Der Putz ist abgeblättert.", level: "B1" },
+        { german: "die Farbe", polish: "farba", example: "Welche Farbe für die Wand?", level: "A1" },
+        { german: "der Lack", polish: "lakier", example: "Der Lack muss trocknen.", level: "A2" },
+        { german: "die Dämmung", polish: "izolacja/ocieplenie", example: "Die Dämmung spart Energie.", level: "B1" },
+        { german: "das Styropor", polish: "styropian", example: "Wir kleben Styropor an die Wand.", level: "B1" },
+        { german: "die Folie", polish: "folia", example: "Die Folie schützt vor Feuchtigkeit.", level: "A2" },
+        { german: "der Gips", polish: "gips", example: "Die Wand ist aus Gips.", level: "A2" },
+        { german: "die Schraube", polish: "śruba", example: "Ich brauche längere Schrauben.", level: "A2" },
+        { german: "der Nagel", polish: "gwóźdź", example: "Schlag den Nagel in die Wand.", level: "A2" },
+        { german: "der Dübel", polish: "kołek rozporowy", example: "Nimm einen größeren Dübel.", level: "B1" },
+        { german: "das Silikon", polish: "silikon", example: "Dichte es mit Silikon ab.", level: "B1" },
+        { german: "das Rohr", polish: "rura", example: "Das Rohr ist verstopft.", level: "A2" },
+        { german: "das Kabel", polish: "kabel", example: "Verleg das Kabel unter Putz.", level: "A2" },
+
+        // Elementy budynku
+        { german: "das Fundament", polish: "fundament", example: "Das Fundament muss stark sein.", level: "B1" },
+        { german: "die Mauer", polish: "mur/ściana", example: "Die Mauer ist einen Meter dick.", level: "A2" },
+        { german: "die Wand", polish: "ściana", example: "Streich die Wand weiß.", level: "A1" },
+        { german: "die Decke", polish: "sufit", example: "Die Decke ist drei Meter hoch.", level: "A2" },
+        { german: "der Boden", polish: "podłoga", example: "Der Boden ist aus Holz.", level: "A1" },
+        { german: "das Dach", polish: "dach", example: "Das Dach ist undicht.", level: "A2" },
+        { german: "der Dachboden", polish: "poddasze/strych", example: "Das Zeug ist auf dem Dachboden.", level: "B1" },
+        { german: "der Keller", polish: "piwnica", example: "Im Keller ist es kühl.", level: "A2" },
+        { german: "die Treppe", polish: "schody", example: "Die Treppe ist steil.", level: "A2" },
+        { german: "das Geländer", polish: "poręcz/balustrada", example: "Halt dich am Geländer fest.", level: "B1" },
+        { german: "der Balkon", polish: "balkon", example: "Ich sitze auf dem Balkon.", level: "A2" },
+        { german: "die Terrasse", polish: "taras", example: "Wir bauen eine Terrasse.", level: "A2" },
+        { german: "die Garage", polish: "garaż", example: "Das Auto ist in der Garage.", level: "A2" },
+        { german: "der Zaun", polish: "płot", example: "Der Zaun muss repariert werden.", level: "A2" },
+
+        // Czynności budowlane
+        { german: "bauen", polish: "budować", example: "Wir bauen ein Haus.", level: "A1" },
+        { german: "renovieren", polish: "remontować", example: "Wir renovieren die Wohnung.", level: "A2" },
+        { german: "streichen", polish: "malować (ścianę)", example: "Ich streiche das Zimmer.", level: "A2" },
+        { german: "bohren", polish: "wiercić", example: "Bohr ein Loch in die Wand.", level: "A2" },
+        { german: "schrauben", polish: "wkręcać", example: "Schraub das Regal an die Wand.", level: "A2" },
+        { german: "nageln", polish: "przybijać gwoździe", example: "Nagel das Brett fest.", level: "A2" },
+        { german: "sägen", polish: "piłować", example: "Säg das Holz in zwei Teile.", level: "A2" },
+        { german: "schleifen", polish: "szlifować", example: "Schleif die Oberfläche glatt.", level: "B1" },
+        { german: "kleben", polish: "kleić", example: "Kleb die Fliesen an die Wand.", level: "A2" },
+        { german: "verlegen", polish: "kłaść (podłogę, kable)", example: "Wir verlegen Laminat.", level: "B1" },
+        { german: "verputzen", polish: "tynkować", example: "Die Wand muss verputzt werden.", level: "B1" },
+        { german: "isolieren", polish: "izolować", example: "Das Haus muss isoliert werden.", level: "B1" },
+        { german: "abdichten", polish: "uszczelniać", example: "Dichte das Fenster ab.", level: "B1" },
+        { german: "messen", polish: "mierzyć", example: "Miss die Länge der Wand.", level: "A2" },
+        { german: "abreißen", polish: "burzyć/zrywać", example: "Wir reißen die alte Wand ab.", level: "B1" },
+        { german: "montieren", polish: "montować", example: "Montier das Regal an die Wand.", level: "B1" },
+        { german: "reparieren", polish: "naprawiać", example: "Ich muss das Dach reparieren.", level: "A2" },
+        { german: "installieren", polish: "instalować", example: "Wir installieren eine neue Heizung.", level: "B1" },
+
+        // Zawody budowlane
+        { german: "der Bauarbeiter", polish: "pracownik budowlany", example: "Die Bauarbeiter kommen um sieben.", level: "A2" },
+        { german: "der Maurer", polish: "murarz", example: "Der Maurer baut die Wand.", level: "A2" },
+        { german: "der Elektriker", polish: "elektryk", example: "Der Elektriker verlegt die Kabel.", level: "A2" },
+        { german: "der Klempner", polish: "hydraulik", example: "Ruf den Klempner, das Rohr tropft.", level: "A2" },
+        { german: "der Installateur", polish: "instalator", example: "Der Installateur kommt morgen.", level: "B1" },
+        { german: "der Tischler", polish: "stolarz", example: "Der Tischler baut Möbel.", level: "A2" },
+        { german: "der Zimmermann", polish: "cieśla", example: "Der Zimmermann arbeitet mit Holz.", level: "B1" },
+        { german: "der Maler", polish: "malarz", example: "Der Maler streicht die Wände.", level: "A2" },
+        { german: "der Dachdecker", polish: "dekarz", example: "Der Dachdecker repariert das Dach.", level: "B1" },
+        { german: "der Fliesenleger", polish: "glazurnik/kafelkarz", example: "Der Fliesenleger legt die Fliesen.", level: "B1" },
+        { german: "der Architekt", polish: "architekt", example: "Der Architekt plant das Haus.", level: "A2" },
+        { german: "der Bauleiter", polish: "kierownik budowy", example: "Der Bauleiter koordiniert alles.", level: "B1" },
+        { german: "die Baustelle", polish: "plac budowy", example: "Betreten der Baustelle verboten!", level: "A2" },
+
+        // Instalacje
+        { german: "die Heizung", polish: "ogrzewanie", example: "Die Heizung funktioniert nicht.", level: "A2" },
+        { german: "die Klimaanlage", polish: "klimatyzacja", example: "Die Klimaanlage ist zu kalt.", level: "A2" },
+        { german: "die Steckdose", polish: "gniazdko", example: "Wo ist die nächste Steckdose?", level: "A2" },
+        { german: "der Schalter", polish: "włącznik", example: "Der Schalter ist an der Wand.", level: "A2" },
+        { german: "die Leitung", polish: "przewód/instalacja", example: "Die Leitung ist alt.", level: "B1" },
+        { german: "der Wasserhahn", polish: "kran", example: "Der Wasserhahn tropft.", level: "A2" },
+        { german: "das Abflussrohr", polish: "rura odpływowa", example: "Das Abflussrohr ist verstopft.", level: "B1" },
+
+        // Przydatne zwroty budowlane
+        { german: "Das muss trocknen.", polish: "To musi wyschnąć.", example: "Warte, das muss trocknen.", level: "A2" },
+        { german: "Vorsicht, frisch gestrichen!", polish: "Uwaga, świeżo malowane!", example: "Vorsicht, frisch gestrichen!", level: "A2" },
+        { german: "Betreten verboten!", polish: "Wstęp wzbroniony!", example: "Betreten der Baustelle verboten!", level: "A2" },
+        { german: "Helm tragen!", polish: "Nosić kask!", example: "Auf der Baustelle: Helm tragen!", level: "A2" },
+        { german: "im Lot", polish: "w pionie", example: "Die Wand ist im Lot.", level: "B1" },
+        { german: "in Waage", polish: "w poziomie", example: "Die Fläche ist in Waage.", level: "B1" }
+    ],
+
+    // 💬 PRAKTYCZNE ZDANIA NA CO DZIEŃ (A1-B1)
+    dailyPhrases: [
+        // Powitania i pożegnania
+        { german: "Wie geht es Ihnen?", polish: "Jak się Pan/Pani ma?", example: "Guten Tag! Wie geht es Ihnen?", level: "A1" },
+        { german: "Es geht mir gut, danke.", polish: "Dobrze, dziękuję.", example: "Es geht mir gut, danke. Und Ihnen?", level: "A1" },
+        { german: "Schönes Wochenende!", polish: "Miłego weekendu!", example: "Tschüss! Schönes Wochenende!", level: "A1" },
+        { german: "Schönen Feierabend!", polish: "Miłego wieczoru (po pracy)!", example: "Bis morgen! Schönen Feierabend!", level: "A2" },
+        { german: "Mach's gut!", polish: "Trzymaj się!", example: "Tschüss! Mach's gut!", level: "A1" },
+        { german: "Pass auf dich auf!", polish: "Uważaj na siebie!", example: "Pass auf dich auf! Bis bald!", level: "A2" },
+
+        // W sklepie
+        { german: "Kann ich Ihnen helfen?", polish: "Czy mogę Panu/Pani pomóc?", example: "Guten Tag! Kann ich Ihnen helfen?", level: "A1" },
+        { german: "Ich suche...", polish: "Szukam...", example: "Ich suche eine warme Jacke.", level: "A1" },
+        { german: "Haben Sie das in meiner Größe?", polish: "Czy macie to w moim rozmiarze?", example: "Das Hemd gefällt mir. Haben Sie das in meiner Größe?", level: "A2" },
+        { german: "Kann ich das anprobieren?", polish: "Czy mogę to przymierzyć?", example: "Kann ich das anprobieren? Wo ist die Kabine?", level: "A2" },
+        { german: "Das ist mir zu teuer.", polish: "To jest dla mnie za drogie.", example: "Das ist mir zu teuer. Haben Sie etwas Billigeres?", level: "A2" },
+        { german: "Ich nehme das.", polish: "Wezmę to.", example: "Es passt perfekt. Ich nehme das.", level: "A1" },
+        { german: "Kann ich mit Karte zahlen?", polish: "Czy mogę zapłacić kartą?", example: "Kann ich mit Karte zahlen oder nur bar?", level: "A1" },
+        { german: "Haben Sie es kleiner?", polish: "Macie mniejsze?", example: "Haben Sie das Gleiche eine Nummer kleiner?", level: "A2" },
+        { german: "Wo finde ich...?", polish: "Gdzie znajdę...?", example: "Entschuldigung, wo finde ich die Milch?", level: "A1" },
+        { german: "Das ist alles.", polish: "To wszystko.", example: "Das ist alles. Ich möchte zahlen.", level: "A1" },
+
+        // W restauracji
+        { german: "Einen Tisch für zwei, bitte.", polish: "Stolik dla dwóch osób, proszę.", example: "Guten Abend! Einen Tisch für zwei, bitte.", level: "A1" },
+        { german: "Die Speisekarte, bitte.", polish: "Menu, proszę.", example: "Könnten Sie uns die Speisekarte bringen?", level: "A1" },
+        { german: "Was empfehlen Sie?", polish: "Co Pan/Pani poleca?", example: "Was empfehlen Sie heute?", level: "A2" },
+        { german: "Ich hätte gern...", polish: "Chciałbym/Chciałabym...", example: "Ich hätte gern die Suppe und einen Salat.", level: "A1" },
+        { german: "Für mich bitte...", polish: "Dla mnie proszę...", example: "Für mich bitte das Schnitzel.", level: "A1" },
+        { german: "Könnte ich noch etwas Brot haben?", polish: "Czy mógłbym prosić jeszcze trochę chleba?", example: "Könnte ich noch etwas Brot haben?", level: "A2" },
+        { german: "Es hat sehr gut geschmeckt.", polish: "Było bardzo smaczne.", example: "Danke, es hat sehr gut geschmeckt.", level: "A2" },
+        { german: "Die Rechnung, bitte.", polish: "Rachunek, proszę.", example: "Wir möchten zahlen. Die Rechnung, bitte.", level: "A1" },
+        { german: "Stimmt so.", polish: "Reszty nie trzeba.", example: "Hier sind 20 Euro. Stimmt so.", level: "A2" },
+        { german: "Getrennt oder zusammen?", polish: "Osobno czy razem?", example: "Möchten Sie getrennt oder zusammen zahlen?", level: "A2" },
+
+        // U lekarza
+        { german: "Ich möchte einen Termin machen.", polish: "Chciałbym/Chciałabym umówić się na wizytę.", example: "Guten Tag, ich möchte einen Termin machen.", level: "A2" },
+        { german: "Mir geht es nicht gut.", polish: "Nie czuję się dobrze.", example: "Mir geht es nicht gut. Ich habe Fieber.", level: "A1" },
+        { german: "Ich habe Kopfschmerzen.", polish: "Boli mnie głowa.", example: "Ich habe seit gestern Kopfschmerzen.", level: "A1" },
+        { german: "Mir tut der Bauch weh.", polish: "Boli mnie brzuch.", example: "Mir tut seit zwei Tagen der Bauch weh.", level: "A2" },
+        { german: "Ich bin erkältet.", polish: "Jestem przeziębiony/a.", example: "Ich bin erkältet und habe Husten.", level: "A2" },
+        { german: "Ich habe Allergien.", polish: "Mam alergie.", example: "Ich habe Allergien gegen Pollen.", level: "A2" },
+        { german: "Brauche ich ein Rezept?", polish: "Czy potrzebuję recepty?", example: "Brauche ich dafür ein Rezept?", level: "A2" },
+        { german: "Wie oft soll ich das nehmen?", polish: "Jak często mam to brać?", example: "Wie oft soll ich das Medikament nehmen?", level: "A2" },
+
+        // Na poczcie/w banku
+        { german: "Ich möchte ein Paket schicken.", polish: "Chciałbym/Chciałabym wysłać paczkę.", example: "Ich möchte ein Paket nach Polen schicken.", level: "A2" },
+        { german: "Wie viel kostet das Porto?", polish: "Ile kosztuje przesyłka?", example: "Wie viel kostet das Porto nach Deutschland?", level: "A2" },
+        { german: "Ich möchte ein Konto eröffnen.", polish: "Chciałbym/Chciałabym otworzyć konto.", example: "Ich möchte ein Girokonto eröffnen.", level: "B1" },
+        { german: "Ich möchte Geld abheben.", polish: "Chciałbym/Chciałabym wypłacić pieniądze.", example: "Ich möchte 200 Euro abheben.", level: "A2" },
+        { german: "Ich möchte Geld überweisen.", polish: "Chciałbym/Chciałabym przelać pieniądze.", example: "Ich möchte Geld auf ein anderes Konto überweisen.", level: "B1" },
+
+        // W pracy
+        { german: "Ich bin heute krank.", polish: "Jestem dziś chory/a.", example: "Guten Morgen, ich bin heute krank.", level: "A1" },
+        { german: "Ich komme heute später.", polish: "Przyjdę dziś później.", example: "Ich komme heute 30 Minuten später.", level: "A1" },
+        { german: "Können Sie mir helfen?", polish: "Czy może mi Pan/Pani pomóc?", example: "Entschuldigung, können Sie mir helfen?", level: "A1" },
+        { german: "Ich verstehe das nicht.", polish: "Nie rozumiem tego.", example: "Tut mir leid, ich verstehe das nicht.", level: "A1" },
+        { german: "Können Sie das wiederholen?", polish: "Czy może Pan/Pani powtórzyć?", example: "Können Sie das bitte wiederholen?", level: "A1" },
+        { german: "Können Sie langsamer sprechen?", polish: "Czy może Pan/Pani mówić wolniej?", example: "Können Sie bitte langsamer sprechen?", level: "A1" },
+        { german: "Wann ist die Besprechung?", polish: "Kiedy jest spotkanie?", example: "Wann ist die Besprechung heute?", level: "A2" },
+        { german: "Ich mache Pause.", polish: "Robię przerwę.", example: "Ich mache jetzt Pause. Bis gleich!", level: "A1" },
+        { german: "Ich bin gleich zurück.", polish: "Zaraz wracam.", example: "Warte kurz, ich bin gleich zurück.", level: "A1" },
+        { german: "Das schaffe ich bis morgen.", polish: "Dam radę do jutra.", example: "Kein Problem, das schaffe ich bis morgen.", level: "A2" },
+
+        // Transport
+        { german: "Wann fährt der nächste Zug?", polish: "Kiedy odjeżdża następny pociąg?", example: "Wann fährt der nächste Zug nach Berlin?", level: "A1" },
+        { german: "Eine Fahrkarte nach..., bitte.", polish: "Proszę bilet do...", example: "Eine Fahrkarte nach München, bitte.", level: "A1" },
+        { german: "Hin und zurück?", polish: "W obie strony?", example: "Möchten Sie hin und zurück?", level: "A1" },
+        { german: "Nur einfach, bitte.", polish: "Tylko w jedną stronę, proszę.", example: "Nur einfach, bitte. Ich bleibe dort.", level: "A2" },
+        { german: "Wo muss ich umsteigen?", polish: "Gdzie muszę się przesiadać?", example: "Wo muss ich umsteigen nach Frankfurt?", level: "A2" },
+        { german: "Ist dieser Platz frei?", polish: "Czy to miejsce jest wolne?", example: "Entschuldigung, ist dieser Platz frei?", level: "A1" },
+        { german: "Hält der Zug in...?", polish: "Czy pociąg zatrzymuje się w...?", example: "Hält der Zug in Nürnberg?", level: "A2" },
+        { german: "Wo ist die Haltestelle?", polish: "Gdzie jest przystanek?", example: "Wo ist die nächste Bushaltestelle?", level: "A1" },
+
+        // Mieszkanie
+        { german: "Ich suche eine Wohnung.", polish: "Szukam mieszkania.", example: "Ich suche eine Zwei-Zimmer-Wohnung.", level: "A2" },
+        { german: "Wie hoch ist die Miete?", polish: "Ile wynosi czynsz?", example: "Wie hoch ist die Miete warm?", level: "A2" },
+        { german: "Sind Nebenkosten inklusive?", polish: "Czy opłaty dodatkowe są wliczone?", example: "Sind die Nebenkosten in der Miete inklusive?", level: "B1" },
+        { german: "Kann ich die Wohnung besichtigen?", polish: "Czy mogę obejrzeć mieszkanie?", example: "Kann ich die Wohnung morgen besichtigen?", level: "A2" },
+        { german: "Ab wann ist die Wohnung frei?", polish: "Od kiedy mieszkanie jest wolne?", example: "Ab wann ist die Wohnung frei?", level: "A2" },
+        { german: "Sind Haustiere erlaubt?", polish: "Czy zwierzęta są dozwolone?", example: "Sind Haustiere in der Wohnung erlaubt?", level: "A2" },
+
+        // Pytanie o drogę
+        { german: "Wie komme ich zum/zur...?", polish: "Jak dojść do...?", example: "Wie komme ich zum Bahnhof?", level: "A1" },
+        { german: "Ist es weit von hier?", polish: "Czy to daleko stąd?", example: "Ist es weit von hier zu Fuß?", level: "A1" },
+        { german: "Gehen Sie geradeaus.", polish: "Proszę iść prosto.", example: "Gehen Sie geradeaus und dann links.", level: "A1" },
+        { german: "Biegen Sie links/rechts ab.", polish: "Proszę skręcić w lewo/prawo.", example: "Biegen Sie an der Ampel rechts ab.", level: "A1" },
+        { german: "Es ist um die Ecke.", polish: "To jest za rogiem.", example: "Die Apotheke ist um die Ecke.", level: "A1" },
+        { german: "Es ist gegenüber von...", polish: "To jest naprzeciwko...", example: "Das Café ist gegenüber vom Kino.", level: "A2" },
+
+        // Codzienne sytuacje
+        { german: "Kann ich bitte...?", polish: "Czy mogę prosić...?", example: "Kann ich bitte ein Glas Wasser haben?", level: "A1" },
+        { german: "Könnten Sie bitte...?", polish: "Czy mógłby/mogłaby Pan/Pani...?", example: "Könnten Sie bitte das Fenster öffnen?", level: "A2" },
+        { german: "Es tut mir leid.", polish: "Przepraszam (wyrażenie żalu).", example: "Es tut mir leid, dass ich zu spät bin.", level: "A1" },
+        { german: "Macht nichts.", polish: "Nic nie szkodzi.", example: "Macht nichts. Das kann passieren.", level: "A1" },
+        { german: "Das ist kein Problem.", polish: "To nie problem.", example: "Das ist kein Problem. Ich warte.", level: "A1" },
+        { german: "Moment mal, bitte.", polish: "Chwileczkę, proszę.", example: "Moment mal, bitte. Ich muss nachdenken.", level: "A1" },
+        { german: "Wie bitte?", polish: "Słucham? (nie dosłyszałem)", example: "Wie bitte? Ich habe Sie nicht verstanden.", level: "A1" },
+        { german: "Was bedeutet das?", polish: "Co to znaczy?", example: "Entschuldigung, was bedeutet dieses Wort?", level: "A1" },
+        { german: "Wie sagt man... auf Deutsch?", polish: "Jak się mówi... po niemiecku?", example: "Wie sagt man 'thank you' auf Deutsch?", level: "A1" },
+        { german: "Ich lerne Deutsch.", polish: "Uczę się niemieckiego.", example: "Ich lerne seit einem Jahr Deutsch.", level: "A1" },
+
+        // Telefon
+        { german: "Hier spricht...", polish: "Mówi...", example: "Guten Tag, hier spricht Kowalski.", level: "A2" },
+        { german: "Kann ich bitte mit... sprechen?", polish: "Czy mogę rozmawiać z...?", example: "Kann ich bitte mit Herrn Müller sprechen?", level: "A2" },
+        { german: "Einen Moment, ich verbinde.", polish: "Chwileczkę, łączę.", example: "Einen Moment bitte, ich verbinde Sie.", level: "A2" },
+        { german: "Er/Sie ist gerade nicht da.", polish: "Jego/jej teraz nie ma.", example: "Tut mir leid, er ist gerade nicht da.", level: "A2" },
+        { german: "Kann er/sie mich zurückrufen?", polish: "Czy może do mnie oddzwonić?", example: "Kann sie mich bitte zurückrufen?", level: "A2" },
+        { german: "Ich rufe später noch mal an.", polish: "Zadzwonię jeszcze raz później.", example: "Ich rufe in einer Stunde noch mal an.", level: "A2" },
+
+        // Pogoda i small talk
+        { german: "Schönes Wetter heute!", polish: "Ładna pogoda dzisiaj!", example: "Schönes Wetter heute! Endlich Sonne!", level: "A1" },
+        { german: "Es regnet schon wieder.", polish: "Znowu pada.", example: "Es regnet schon wieder. Hast du einen Schirm?", level: "A1" },
+        { german: "Wie war dein Wochenende?", polish: "Jak minął ci weekend?", example: "Hallo! Wie war dein Wochenende?", level: "A1" },
+        { german: "Was machst du heute Abend?", polish: "Co robisz dziś wieczorem?", example: "Was machst du heute Abend? Hast du Zeit?", level: "A1" },
+        { german: "Hast du Lust auf...?", polish: "Masz ochotę na...?", example: "Hast du Lust auf einen Kaffee?", level: "A2" },
+        { german: "Lass uns... gehen!", polish: "Chodźmy...!", example: "Lass uns ins Kino gehen!", level: "A2" },
+
+        // Wyrażanie opinii
+        { german: "Das finde ich gut.", polish: "Uważam, że to dobre.", example: "Das finde ich gut. Gute Idee!", level: "A2" },
+        { german: "Das gefällt mir.", polish: "To mi się podoba.", example: "Das neue Café gefällt mir.", level: "A1" },
+        { german: "Das gefällt mir nicht.", polish: "To mi się nie podoba.", example: "Das gefällt mir nicht. Hast du was anderes?", level: "A1" },
+        { german: "Ich bin dafür.", polish: "Jestem za.", example: "Das ist eine gute Idee. Ich bin dafür.", level: "A2" },
+        { german: "Ich bin dagegen.", polish: "Jestem przeciw.", example: "Das finde ich nicht gut. Ich bin dagegen.", level: "A2" },
+        { german: "Ich stimme zu.", polish: "Zgadzam się.", example: "Du hast recht. Ich stimme zu.", level: "A2" },
+        { german: "Da bin ich anderer Meinung.", polish: "Mam inną opinię.", example: "Da bin ich anderer Meinung.", level: "B1" }
     ]
 };
 
