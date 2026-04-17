@@ -17,17 +17,17 @@
     <meta name="apple-mobile-web-app-title" content="Deutsch">
     
     <!-- iOS Icons -->
-    <link rel="apple-touch-icon" href="icons/icon-152.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icon-72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icon-96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icon-128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icon-144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-72.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon-72.png">
     
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -35,8 +35,6 @@
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- Splash Screen iOS -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
     <div class="app">
@@ -219,7 +217,6 @@
                         <option value="technology">💻 Technologia</option>
                         <option value="socialmedia">📱 Social Media</option>
                         <option value="vacation">🏖️ Wakacje</option>
-                        <option value="business">💼 Biznes</option>
                         <option value="relationships">❤️ Relacje</option>
                         <option value="entertainment">🎬 Rozrywka</option>
                         <option value="fitness">🏃 Fitness</option>
@@ -493,21 +490,21 @@
             <!-- Scenariusze - rozszerzone -->
             <div class="chat-scenario-tabs">
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('cafe')">☕ Kawiarnia</button>
-                    <button class="scenario-btn" onclick="startScenario('shop')">🛒 Sklep</button>
-                    <button class="scenario-btn" onclick="startScenario('travel')">✈️ Podróż</button>
-                    <button class="scenario-btn" onclick="startScenario('work')">💼 Praca</button>
+                    <button class="scenario-btn" onclick="startScenario('cafe', this)">☕ Kawiarnia</button>
+                    <button class="scenario-btn" onclick="startScenario('shop', this)">🛒 Sklep</button>
+                    <button class="scenario-btn" onclick="startScenario('travel', this)">✈️ Podróż</button>
+                    <button class="scenario-btn" onclick="startScenario('work', this)">💼 Praca</button>
                 </div>
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('doctor')">🏥 Lekarz</button>
-                    <button class="scenario-btn" onclick="startScenario('hotel')">🏨 Hotel</button>
-                    <button class="scenario-btn" onclick="startScenario('airport')">✈️ Lotnisko</button>
-                    <button class="scenario-btn" onclick="startScenario('date')">❤️ Randka</button>
+                    <button class="scenario-btn" onclick="startScenario('doctor', this)">🏥 Lekarz</button>
+                    <button class="scenario-btn" onclick="startScenario('hotel', this)">🏨 Hotel</button>
+                    <button class="scenario-btn" onclick="startScenario('airport', this)">✈️ Lotnisko</button>
+                    <button class="scenario-btn" onclick="startScenario('date', this)">❤️ Randka</button>
                 </div>
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('interview')">👔 Rozmowa o pracę</button>
-                    <button class="scenario-btn" onclick="startScenario('restaurant')">🍽️ Restauracja</button>
-                    <button class="scenario-btn" onclick="startScenario('free')">💬 Wolna</button>
+                    <button class="scenario-btn" onclick="startScenario('interview', this)">👔 Rozmowa o pracę</button>
+                    <button class="scenario-btn" onclick="startScenario('restaurant', this)">🍽️ Restauracja</button>
+                    <button class="scenario-btn" onclick="startScenario('free', this)">💬 Wolna</button>
                 </div>
             </div>
             
@@ -726,6 +723,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="words.js"></script>
     <script src="app.js"></script>
+    <script src="ai-chat.js"></script>
     
     <!-- Rejestracja Service Worker -->
     <script>

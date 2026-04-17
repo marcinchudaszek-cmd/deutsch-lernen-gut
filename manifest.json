@@ -3,6 +3,7 @@
     "short_name": "Deutsch Lernen",
     "description": "Aplikacja do nauki języka niemieckiego z AI, fiszkami, quizami i grami",
     "start_url": "./index.html",
+    "scope": "./",
     "display": "standalone",
     "background_color": "#1a1a2e",
     "theme_color": "#667eea",

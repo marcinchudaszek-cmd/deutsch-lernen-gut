@@ -334,9 +334,6 @@ function startAIScenario(scenario) {
     buttons.forEach(function(btn) {
         btn.classList.remove('active');
     });
-    if (event && event.target) {
-        event.target.classList.add('active');
-    }
     
     // Wyczyść czat
     var container = document.getElementById('chatContainer');

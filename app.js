@@ -310,10 +310,12 @@ function setLanguageLevel(level, btn) {
 }
 
 function filterDictByLevel(level, btn) {
+    currentDictLevel = level;
     document.querySelectorAll('.dict-level-btn').forEach(function(b) { 
         b.classList.remove('active'); 
     });
     btn.classList.add('active');
+    displayWords();
     showToast('Filtr: ' + (level === 'all' ? 'Wszystkie' : level));
 }
 
@@ -1185,13 +1187,13 @@ const aiResponses = {
 };
 
 const grammarPatterns = [
-    { wrong: /\bich bin ([a-zäöüß]+)e\b/gi, correct: "ich bin $1", tip: "Po 'ich bin' używamy formy podstawowej przymiotnika" },
-    { wrong: /\bich habe ([a-zäöüß]+)st\b/gi, correct: "ich habe $1", tip: "Po 'ich' czasownik kończy się na '-e', nie '-st'" },
-    { wrong: /\bdu ([a-zäöüß]+)e\b/gi, correct: "du $1st", tip: "Po 'du' czasownik kończy się na '-st'" },
-    { wrong: /\bein ([a-zäöüß]+) frau\b/gi, correct: "eine $1 Frau", tip: "'Frau' jest rodzaju żeńskiego - używamy 'eine'" },
-    { wrong: /\bein mann\b/gi, correct: "ein Mann", tip: "Rzeczowniki piszemy wielką literą!" },
-    { wrong: /\bich gehe nach hause\b/gi, correct: "ich gehe nach Hause", tip: "'Hause' piszemy wielką literą" },
-    { wrong: /\bich mag nicht\b/gi, correct: "ich mag das nicht", tip: "W niemieckim potrzebujemy dopełnienia" }
+    { wrong: /\bich bin ([a-zäöüß]+)e\b/i, correct: "ich bin $1", tip: "Po 'ich bin' używamy formy podstawowej przymiotnika" },
+    { wrong: /\bich habe ([a-zäöüß]+)st\b/i, correct: "ich habe $1", tip: "Po 'ich' czasownik kończy się na '-e', nie '-st'" },
+    { wrong: /\bdu ([a-zäöüß]+)e\b/i, correct: "du $1st", tip: "Po 'du' czasownik kończy się na '-st'" },
+    { wrong: /\bein ([a-zäöüß]+) frau\b/i, correct: "eine $1 Frau", tip: "'Frau' jest rodzaju żeńskiego - używamy 'eine'" },
+    { wrong: /\bein mann\b/i, correct: "ein Mann", tip: "Rzeczowniki piszemy wielką literą!" },
+    { wrong: /\bich gehe nach hause\b/i, correct: "ich gehe nach Hause", tip: "'Hause' piszemy wielką literą" },
+    { wrong: /\bich mag nicht\b/i, correct: "ich mag das nicht", tip: "W niemieckim potrzebujemy dopełnienia" }
 ];
 
 function startChat() {
@@ -1205,10 +1207,10 @@ function updateChatStats() {
     document.getElementById('chatAccuracy').textContent = accuracy + '%';
 }
 
-function startScenario(scenario) {
+function startScenario(scenario, btn) {
     state.chatScenario = scenario;
     document.querySelectorAll('.scenario-btn').forEach(function(b) { b.classList.remove('active'); });
-    if (event && event.target) event.target.classList.add('active');
+    if (btn) btn.classList.add('active');
     
     const container = document.getElementById('chatContainer');
     container.innerHTML = '';
@@ -1260,6 +1262,12 @@ function toggleChatHelp() {
 }
 
 function sendMessage() {
+    // Jeśli mamy klucz API Gemini, użyj AI
+    if (typeof hasApiKey === 'function' && hasApiKey() && typeof sendAIMessage === 'function') {
+        sendAIMessage();
+        return;
+    }
+    
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
     if (!message) return;
@@ -1534,39 +1542,7 @@ function useSuggestion(text) {
     playClickSound();
 }
 
-function startChatSpeech() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        showToast('❌ Użyj Chrome dla rozpoznawania mowy');
-        return;
-    }
-    
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.lang = 'de-DE';
-    
-    const micBtn = document.querySelector('.mic-btn-small');
-    micBtn.classList.add('listening');
-    micBtn.textContent = '🎙️';
-    
-    recognition.onresult = function(event) {
-        document.getElementById('chatInput').value = event.results[0][0].transcript;
-        micBtn.classList.remove('listening');
-        micBtn.textContent = '🎤';
-    };
-    
-    recognition.onend = function() { 
-        micBtn.classList.remove('listening'); 
-        micBtn.textContent = '🎤';
-    };
-    recognition.onerror = function() { 
-        micBtn.classList.remove('listening'); 
-        micBtn.textContent = '🎤';
-        showToast('❌ Błąd rozpoznawania mowy');
-    };
-    
-    recognition.start();
-    showToast('🎤 Mów po niemiecku...');
-}
+// startChatSpeech() - funkcja przeniesiona do ai-chat.js
 
 // ==================== MOJE SŁÓWKA ====================
 function openMyWords() {
@@ -1739,10 +1715,12 @@ function showLevels() {
 
 // ==================== SŁOWNIK Z WYMOWĄ ====================
 let currentDictCategory = 'all';
+let currentDictLevel = 'all';
 
 function showAllWords() {
     showScreen('dictionary');
     currentDictCategory = 'all';
+    currentDictLevel = 'all';
     displayWords();
     countTotalWords();
 }
@@ -1768,15 +1746,22 @@ function displayWords() {
     if (currentDictCategory === 'all') {
         Object.keys(wordDatabase).forEach(function(key) {
             wordDatabase[key].forEach(function(w) {
-                allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
+                allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
             });
         });
         state.customWords.forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
+            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
         });
     } else if (wordDatabase[currentDictCategory]) {
         wordDatabase[currentDictCategory].forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example });
+            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
+        });
+    }
+    
+    // Filtruj po poziomie językowym
+    if (currentDictLevel !== 'all') {
+        allWords = allWords.filter(function(w) {
+            return w.level === currentDictLevel;
         });
     }
     
@@ -2014,9 +1999,12 @@ function startTyping() {
     showScreen('typing');
     
     let allWords = [];
+    const levelOrder = ['A1', 'A2', 'B1', 'B2'];
+    const currentLevelIndex = levelOrder.indexOf(state.currentLanguageLevel);
     Object.keys(wordDatabase).forEach(function(key) {
         wordDatabase[key].forEach(function(word) {
-            if (!state.currentLanguageLevel || word.level === state.currentLanguageLevel || word.level < state.currentLanguageLevel) {
+            const wordLevelIndex = levelOrder.indexOf(word.level);
+            if (!state.currentLanguageLevel || wordLevelIndex <= currentLevelIndex) {
                 allWords.push(word);
             }
         });
@@ -2194,6 +2182,11 @@ function initCharts() {
     
     if (weeklyChart) weeklyChart.destroy();
     
+    const isDark = !document.body.classList.contains('light-mode');
+    const textColor = isDark ? '#e2e8f0' : '#333';
+    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    const tickColor = isDark ? '#888' : '#555';
+    
     weeklyChart = new Chart(weeklyCtx, {
         type: 'bar',
         data: {
@@ -2215,17 +2208,17 @@ function initCharts() {
                 title: {
                     display: true,
                     text: '📅 Aktywność w tym tygodniu',
-                    color: '#e2e8f0'
+                    color: textColor
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: { color: '#888' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
+                    ticks: { color: tickColor },
+                    grid: { color: gridColor }
                 },
                 x: {
-                    ticks: { color: '#888' },
+                    ticks: { color: tickColor },
                     grid: { display: false }
                 }
             }
@@ -2258,12 +2251,12 @@ function initCharts() {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#e2e8f0', padding: 10, font: { size: 11 } }
+                    labels: { color: textColor, padding: 10, font: { size: 11 } }
                 },
                 title: {
                     display: true,
                     text: '📚 Słówka według kategorii',
-                    color: '#e2e8f0'
+                    color: textColor
                 }
             }
         }
