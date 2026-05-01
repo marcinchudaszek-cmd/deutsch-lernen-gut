@@ -1,1 +1,11 @@
-[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"com.beagleappsstudio.deutschlernen","sha256_cert_fingerprints":["73:D4:2A:C2:BA:0B:BE:D8:EA:27:08:C2:5F:67:EF:B9:68:B4:AE:E4:51:F5:F1:FF:4A:FA:9B:60:F2:8D:A1:6C","59:2A:F3:D3:93:C7:C3:FB:C3:0C:D0:5F:7C:65:92:EC:08:50:F5:C6:20:C7:24:FA:0D:38:5C:80:8D:14:46:70"]}}]
+﻿[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.beagleappsstudio.deutschlernen",
+    "sha256_cert_fingerprints": [
+      "DF:DB:FF:CE:78:B1:A3:E6:4E:09:1A:FC:42:DA:8D:8B:92:40:8E:7C:49:8A:B9:A5:1C:BE:73:E5:B8:E4:57:BB",
+      "92:CC:3A:31:2D:23:99:5D:CA:7D:D9:9A:09:4B:88:96:40:8E:D4:1A:35:FA:92:63:81:32:63:14:B4:D1:FF:7E"
+    ]
+  }
+}]
