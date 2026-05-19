@@ -505,14 +505,24 @@ function showScreen(screenId) {
 // ==================== FISZKI Z ULEPSZONĄ WYMOWĄ ====================
 function startFlashcards() {
     showScreen('flashcards');
+    const sel = document.getElementById('categorySelect');
+    if (sel && sel.value !== 'custom') sel.value = 'all';
     loadCategory();
 }
 
 function loadCategory() {
     const category = document.getElementById('categorySelect').value;
     state.currentCategory = category;
-    
-    if (category === 'custom') {
+
+    if (category === 'all') {
+        const words = getWordsForCurrentLevel();
+        state.currentCards = shuffleArray(words.slice());
+        if (state.currentCards.length === 0) {
+            showToast('❌ Brak słówek na tym poziomie!');
+            goToMenu();
+            return;
+        }
+    } else if (category === 'custom') {
         if (state.customWords.length === 0) {
             showToast('❌ Dodaj najpierw własne słówka!');
             goToMenu();
@@ -532,7 +542,7 @@ function loadCategory() {
         });
         state.currentCards = (filtered.length > 0 ? filtered : wordDatabase[category]).slice();
     }
-    
+
     state.currentCardIndex = 0;
     showCurrentCard();
 }
