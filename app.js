@@ -285,7 +285,12 @@ function updateUI() {
     
     document.getElementById('levelProgress').style.width = progress + '%';
     document.getElementById('xpToNext').textContent = Math.max(0, nextLevelData.xpRequired - state.xp);
-    
+
+    // Przywróć aktywny przycisk poziomu językowego
+    document.querySelectorAll('.lang-level-btn').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim() === state.currentLanguageLevel);
+    });
+
     saveState();
 }
 
@@ -320,6 +325,11 @@ function setLanguageLevel(level, btn) {
     if (el) el.textContent = level;
     saveState();
     showToast('Poziom: ' + level);
+
+    // Jeśli fiszki są aktualnie otwarte — przeładuj karty z nowym poziomem
+    if (state.currentScreen === 'flashcards' && !reviewMode) {
+        loadCategory();
+    }
 }
 
 const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
@@ -2228,12 +2238,11 @@ function startTyping() {
     showScreen('typing');
     
     let allWords = [];
-    const levelOrder = ['A1', 'A2', 'B1', 'B2'];
-    const currentLevelIndex = levelOrder.indexOf(state.currentLanguageLevel);
+    const currentLevelIndex = LEVEL_ORDER.indexOf(state.currentLanguageLevel);
     Object.keys(wordDatabase).forEach(function(key) {
         wordDatabase[key].forEach(function(word) {
-            const wordLevelIndex = levelOrder.indexOf(word.level);
-            if (!state.currentLanguageLevel || wordLevelIndex <= currentLevelIndex) {
+            const wordLevelIndex = LEVEL_ORDER.indexOf(word.level);
+            if (wordLevelIndex === -1 || wordLevelIndex <= currentLevelIndex) {
                 allWords.push(word);
             }
         });
