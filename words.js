@@ -1219,6 +1219,181 @@ const germanWords = {
         { german: "Ich bin dagegen.", polish: "Jestem przeciw.", example: "Das finde ich nicht gut. Ich bin dagegen.", level: "A2" },
         { german: "Ich stimme zu.", polish: "Zgadzam się.", example: "Du hast recht. Ich stimme zu.", level: "A2" },
         { german: "Da bin ich anderer Meinung.", polish: "Mam inną opinię.", example: "Da bin ich anderer Meinung.", level: "B1" }
+    ],
+
+    // 🎓 SŁOWNICTWO C1
+    c1vocabulary: [
+        // Myślenie i argumentacja
+        { german: "die Auseinandersetzung", polish: "dyskusja / spór / konfrontacja", example: "Die Auseinandersetzung mit diesem Thema ist wichtig.", level: "C1" },
+        { german: "die Behauptung", polish: "twierdzenie / stwierdzenie", example: "Das ist eine gewagte Behauptung.", level: "C1" },
+        { german: "die Schlussfolgerung", polish: "wniosek / konkluzja", example: "Die Schlussfolgerung ist eindeutig.", level: "C1" },
+        { german: "die Voraussetzung", polish: "warunek / założenie / przesłanka", example: "Die Voraussetzung für Erfolg ist harte Arbeit.", level: "C1" },
+        { german: "die Auswirkung", polish: "skutek / wpływ / oddziaływanie", example: "Die Auswirkungen des Klimawandels sind spürbar.", level: "C1" },
+        { german: "die Einschränkung", polish: "ograniczenie", example: "Es gibt gewisse Einschränkungen.", level: "C1" },
+        { german: "der Zusammenhang", polski: "związek / kontekst / powiązanie", example: "Das steht in keinem Zusammenhang.", level: "C1" },
+        { german: "der Widerspruch", polish: "sprzeczność / protest / zaprzeczenie", example: "Das ist ein offensichtlicher Widerspruch.", level: "C1" },
+        { german: "die Überzeugung", polish: "przekonanie", example: "Das ist meine feste Überzeugung.", level: "C1" },
+        { german: "die Abwägung", polish: "rozważenie / wyważenie racji", example: "Nach sorgfältiger Abwägung entschied er sich.", level: "C1" },
+
+        // Społeczeństwo i polityka
+        { german: "die Chancengleichheit", polish: "równość szans", example: "Chancengleichheit ist ein demokratisches Grundprinzip.", level: "C1" },
+        { german: "die Nachhaltigkeit", polish: "zrównoważony rozwój / trwałość", example: "Nachhaltigkeit ist heute ein zentrales Thema.", level: "C1" },
+        { german: "der Wohlstand", polish: "dobrobyt / zamożność", example: "Der wirtschaftliche Wohlstand ist gestiegen.", level: "C1" },
+        { german: "die Benachteiligung", polish: "dyskryminacja / upośledzenie", example: "Die Benachteiligung von Minderheiten muss bekämpft werden.", level: "C1" },
+        { german: "die Eigenverantwortung", polish: "odpowiedzialność własna", example: "Eigenverantwortung ist eine wichtige Tugend.", level: "C1" },
+        { german: "die Inanspruchnahme", polish: "skorzystanie / wykorzystanie (usług)", example: "Die Inanspruchnahme sozialer Leistungen ist gestiegen.", level: "C1" },
+        { german: "das Bewusstsein", polish: "świadomość", example: "Das Umweltbewusstsein hat zugenommen.", level: "C1" },
+        { german: "die Infrastruktur", polish: "infrastruktura", example: "Die Infrastruktur muss modernisiert werden.", level: "C1" },
+        { german: "der Lebensstandard", polish: "standard życia", example: "Der Lebensstandard hat sich verbessert.", level: "C1" },
+        { german: "die Globalisierung", polish: "globalizacja", example: "Die Globalisierung hat Vor- und Nachteile.", level: "C1" },
+
+        // Praca i gospodarka
+        { german: "die Qualifikation", polish: "kwalifikacje", example: "Welche Qualifikationen bringen Sie mit?", level: "C1" },
+        { german: "die Weiterbildung", polish: "dokształcanie / szkolenie zawodowe", example: "Weiterbildung ist für die Karriere wichtig.", level: "C1" },
+        { german: "die Arbeitnehmerrechte", polish: "prawa pracownicze", example: "Arbeitnehmerrechte müssen geschützt werden.", level: "C1" },
+        { german: "die Selbstständigkeit", polish: "samodzielność / działalność własna", example: "Er entschied sich für die Selbstständigkeit.", level: "C1" },
+        { german: "das Engagement", polish: "zaangażowanie", example: "Ihr Engagement ist sehr lobenswert.", level: "C1" },
+        { german: "die Herausforderung", polish: "wyzwanie", example: "Das ist eine große Herausforderung.", level: "C1" },
+        { german: "die Effizienz", polish: "efektywność / wydajność", example: "Die Effizienz kann noch gesteigert werden.", level: "C1" },
+        { german: "die Zusammenarbeit", polish: "współpraca", example: "Eine gute Zusammenarbeit ist entscheidend.", level: "C1" },
+
+        // Nauka i badania
+        { german: "die Erkenntnis", polish: "odkrycie / spostrzeżenie / poznanie", example: "Das ist eine wichtige wissenschaftliche Erkenntnis.", level: "C1" },
+        { german: "die Forschung", polish: "badania naukowe", example: "Die Forschung auf diesem Gebiet schreitet voran.", level: "C1" },
+        { german: "der Ansatz", polish: "podejście / metoda / podejście badawcze", example: "Ein interdisziplinärer Ansatz ist sinnvoll.", level: "C1" },
+        { german: "die Hypothese", polish: "hipoteza", example: "Die Hypothese wurde bestätigt.", level: "C1" },
+        { german: "die Grundlage", polish: "podstawa / fundament", example: "Auf welcher Grundlage basiert das?", level: "C1" },
+        { german: "belegen", polish: "udowodnić / udokumentować", example: "Das lässt sich wissenschaftlich belegen.", level: "C1" },
+        { german: "widerlegen", polish: "obalić / zaprzeczyć", example: "Diese Theorie wurde widerlegt.", level: "C1" },
+
+        // Wyrażenia i czasowniki zaawansowane
+        { german: "berücksichtigen", polish: "uwzględniać / brać pod uwagę", example: "Man muss alle Faktoren berücksichtigen.", level: "C1" },
+        { german: "gewährleisten", polish: "zapewniać / gwarantować", example: "Die Sicherheit muss gewährleistet werden.", level: "C1" },
+        { german: "beanspruchen", polish: "żądać / zajmować / wymagać", example: "Das beansprucht viel Zeit.", level: "C1" },
+        { german: "einschränken", polish: "ograniczać", example: "Das schränkt die Freiheit ein.", level: "C1" },
+        { german: "überwältigen", polish: "przytłaczać / pokonywać", example: "Die Situation hat sie überwältigt.", level: "C1" },
+        { german: "umsetzen", polish: "wdrażać / realizować", example: "Die Pläne müssen umgesetzt werden.", level: "C1" },
+        { german: "nachvollziehen", polish: "rozumieć / śledzić rozumowanie", example: "Das kann ich gut nachvollziehen.", level: "C1" },
+        { german: "abwägen", polish: "rozważać / wyważać", example: "Man muss die Vor- und Nachteile abwägen.", level: "C1" },
+        { german: "voraussetzen", polish: "zakładać / wymagać z góry", example: "Das setzt gute Kenntnisse voraus.", level: "C1" },
+        { german: "veranschaulichen", polish: "ilustrować / unaoczniać", example: "Ein Beispiel soll das veranschaulichen.", level: "C1" },
+
+        // Zwroty C1 przydatne w rozmowie
+        { german: "Im Großen und Ganzen...", polish: "Ogólnie rzecz biorąc...", example: "Im Großen und Ganzen bin ich zufrieden.", level: "C1" },
+        { german: "Einerseits... andererseits...", polish: "Z jednej strony... z drugiej strony...", example: "Einerseits ist es gut, andererseits riskant.", level: "C1" },
+        { german: "Es kommt darauf an, ob...", polish: "To zależy od tego, czy...", example: "Es kommt darauf an, ob wir Zeit haben.", level: "C1" },
+        { german: "Es steht außer Frage, dass...", polish: "Nie ulega wątpliwości, że...", example: "Es steht außer Frage, dass das falsch war.", level: "C1" },
+        { german: "Im Hinblick auf...", polish: "W odniesieniu do... / Biorąc pod uwagę...", example: "Im Hinblick auf die Kosten ist das sinnvoll.", level: "C1" },
+        { german: "Meiner Einschätzung nach...", polish: "Moim zdaniem / Według mojej oceny...", example: "Meiner Einschätzung nach ist das zu riskant.", level: "C1" },
+        { german: "Es lässt sich nicht leugnen, dass...", polish: "Nie da się zaprzeczyć, że...", example: "Es lässt sich nicht leugnen, dass die Lage ernst ist.", level: "C1" },
+        { german: "Abgesehen davon...", polish: "Poza tym / Abstrahując od tego...", example: "Abgesehen davon gibt es noch weitere Probleme.", level: "C1" },
+        { german: "Dementsprechend...", polish: "Odpowiednio / W związku z tym...", example: "Dementsprechend müssen wir handeln.", level: "C1" },
+        { german: "Letztendlich...", polish: "W ostateczności / Ostatecznie...", example: "Letztendlich ist es Ihre Entscheidung.", level: "C1" }
+    ],
+
+    // 🗣️ ROZMÓWKI POTOCZNE
+    colloquial: [
+        // Pozdrowienia i jak leci
+        { german: "Was geht?", polish: "Co słychać? (potocznie)", example: "Hey! Was geht bei dir?", level: "A2" },
+        { german: "Wie läuft's?", polish: "Jak leci?", example: "Hey! Wie läuft's bei dir so?", level: "A2" },
+        { german: "Moin!", polish: "Cześć! (północne Niemcy)", example: "Moin! Schon wieder Montag...", level: "A1" },
+        { german: "Servus!", polish: "Cześć! / Pa! (Austria / Bawaria)", example: "Servus! Schön dich zu sehen!", level: "A1" },
+        { german: "Alles klar!", polish: "Wszystko jasne! / Spoko!", example: "Alles klar, bis morgen!", level: "A1" },
+        { german: "Läuft bei mir!", polish: "Idzie mi świetnie! / Spoko u mnie!", example: "Und dir? – Läuft bei mir!", level: "B1" },
+        { german: "Es geht so.", polish: "Tak sobie / Jakoś tam.", example: "Alles gut? – Ach, es geht so.", level: "A2" },
+        { german: "Nicht so der Hammer.", polish: "Niezbyt / Nie za bardzo.", example: "Wie war der Film? – Nicht so der Hammer.", level: "B1" },
+        { german: "Was machst du so?", polish: "Co tam u ciebie?", example: "Was machst du so in letzter Zeit?", level: "A2" },
+        { german: "Ich bin am Ende.", polish: "Jestem wykończony/a.", example: "Nach der Arbeit bin ich total am Ende.", level: "B1" },
+
+        // Reakcje i wykrzyknienia
+        { german: "Krass!", polish: "Niesamowite! / No to powiem!", example: "Er hat einen Porsche? – Krass!", level: "A2" },
+        { german: "Hammer!", polish: "Bomba! / Zajebiste!", example: "Das war ein Hammer-Konzert!", level: "A2" },
+        { german: "Mega!", polish: "Mega! / Super!", example: "Das Essen war mega!", level: "A2" },
+        { german: "Voll cool!", polish: "Bardzo fajne!", example: "Neue Jacke? – Voll cool!", level: "A2" },
+        { german: "Echt jetzt?", polish: "Serio? / Naprawdę?", example: "Er hat gekündigt. – Echt jetzt?!", level: "A2" },
+        { german: "Alter!", polish: "Człowieku! / No człowieku!", example: "Alter, das glaubst du nicht!", level: "A2" },
+        { german: "Boah!", polish: "Wow! / O rany!", example: "Boah, das war so lecker!", level: "A2" },
+        { german: "Ich glaub's nicht!", polish: "Nie wierzę!", example: "Das hat er wirklich gesagt? – Ich glaub's nicht!", level: "A2" },
+        { german: "Kein Bock!", polish: "Nie chce mi się! / Nie mam ochoty!", example: "Ins Gym? – Kein Bock heute.", level: "A2" },
+        { german: "Voll nervig!", polish: "Strasznie irytujące!", example: "Der Typ ist voll nervig.", level: "B1" },
+        { german: "Das nervt!", polish: "To irytuje! / Wkurza!", example: "Schon wieder? Das nervt!", level: "A2" },
+        { german: "Ich dreh durch!", polish: "Oszaleję! / Zwariuję!", example: "Noch eine Aufgabe? – Ich dreh durch!", level: "B1" },
+
+        // Zgoda i brak zgody
+        { german: "Passt!", polish: "Pasuje! / Okej!", example: "Treffen wir uns um 8? – Passt!", level: "A2" },
+        { german: "Geht klar!", polish: "Spoko / Da radę / Można!", example: "Kannst du das erledigen? – Geht klar!", level: "A2" },
+        { german: "Läuft!", polish: "Śmiga! / Ogarnięte!", example: "Alles erledigt? – Läuft!", level: "A2" },
+        { german: "Ich bin dabei!", polish: "Jestem na tak! / Wchodzę w to!", example: "Party am Samstag? – Ich bin dabei!", level: "A2" },
+        { german: "Stimmt genau!", polish: "Zgadza się! / Właśnie tak!", example: "Das ist so unfair. – Stimmt genau!", level: "A2" },
+        { german: "Da hast du recht.", polish: "Masz rację.", example: "Das war blöd von mir. – Da hast du recht.", level: "A2" },
+        { german: "Voll deine Meinung!", polish: "Dokładnie to samo myślę!", example: "Das finde ich auch total so! – Voll deine Meinung!", level: "B1" },
+        { german: "Ich sehe das anders.", polish: "Ja to inaczej widzę.", example: "Ich sehe das ein bisschen anders.", level: "B1" },
+        { german: "Na ja...", polish: "No... / Hmm...", example: "War's gut? – Na ja, geht so.", level: "A2" },
+        { german: "Eigentlich nicht.", polish: "Właściwie to nie.", example: "Magst du das? – Eigentlich nicht.", level: "A2" },
+        { german: "Naja, mal sehen.", polish: "Hmm, zobaczymy.", example: "Kommst du? – Naja, mal sehen.", level: "A2" },
+        { german: "Keine Ahnung!", polish: "Nie mam pojęcia!", example: "Wo ist Tom? – Keine Ahnung!", level: "A1" },
+        { german: "Das ist mir wurst.", polish: "Wszystko mi jedno.", example: "Kino oder Bar? – Das ist mir wurst.", level: "B1" },
+        { german: "Scheiß drauf!", polish: "Olej to! / Daj spokój!", example: "Den Job? Scheiß drauf, ich kündige.", level: "B1" },
+
+        // Plany i spotkania
+        { german: "Was hast du vor?", polish: "Co planujesz? / Co masz w planach?", example: "Was hast du dieses Wochenende vor?", level: "A2" },
+        { german: "Wann passt es dir?", polish: "Kiedy ci pasuje?", example: "Wann passt es dir am besten?", level: "A2" },
+        { german: "Bin gleich da!", polish: "Już jadę! / Zaraz będę!", example: "Wo bist du? – Bin gleich da!", level: "A2" },
+        { german: "Ich komme zu spät.", polish: "Spóźnię się.", example: "Hey, ich komme leider 10 Minuten zu spät!", level: "A2" },
+        { german: "Ich muss absagen.", polish: "Muszę odwołać.", example: "Tut mir leid, ich muss heute absagen.", level: "B1" },
+        { german: "Auf geht's!", polish: "No to lecimy! / Ruszamy!", example: "Alle fertig? – Auf geht's!", level: "A2" },
+        { german: "Wo hängen wir ab?", polish: "Gdzie się kręcimy? / Gdzie się bawimy?", example: "Heute Abend – wo hängen wir ab?", level: "B1" },
+        { german: "Lass uns irgendwas machen.", polish: "Zróbmy cokolwiek.", example: "Ich hab Langeweile – lass uns irgendwas machen.", level: "A2" },
+        { german: "Ich bin raus.", polish: "Odpadam. / Nie idę.", example: "Sorry, heute bin ich raus.", level: "B1" },
+
+        // Jedzenie i picie ze znajomymi
+        { german: "Prost!", polish: "Na zdrowie!", example: "Alle haben ein Glas? – Prost!", level: "A1" },
+        { german: "Auf uns!", polish: "Za nas!", example: "Prost! Auf uns!", level: "A1" },
+        { german: "Ich schmeiß eine Runde!", polish: "Stawiam kolejkę!", example: "Ich schmeiß eine Runde – was wollt ihr?", level: "B1" },
+        { german: "Wir teilen uns das.", polish: "Dzielimy się tym.", example: "Das ist zu viel – wir teilen uns das?", level: "A2" },
+        { german: "Ich bin satt.", polish: "Jestem najedzony/a.", example: "Noch mehr? – Nein danke, ich bin satt.", level: "A1" },
+        { german: "Das ist so lecker!", polish: "To jest takie pyszne!", example: "Probier mal – das ist so lecker!", level: "A1" },
+        { german: "Hau rein!", polish: "Smacznego! / Jedz śmiało!", example: "Alles fertig! Hau rein!", level: "B1" },
+        { german: "Noch eine Runde?", polish: "Jeszcze jedną kolejkę?", example: "Noch eine Runde Bier?", level: "A2" },
+        { german: "Ich hol uns was.", polish: "Przyniosę nam coś.", example: "Warte hier, ich hol uns was zu trinken.", level: "A2" },
+
+        // Imprezy i rozrywka
+        { german: "Die Party war der Hammer!", polish: "Ta impreza była mega!", example: "Gestern – die Party war der Hammer!", level: "B1" },
+        { german: "Ich war total platt.", polish: "Byłem/am totalnie rozłożony/a.", example: "Danach war ich total platt.", level: "B1" },
+        { german: "Wir haben die Nacht durchgemacht.", polish: "Bawiliśmy się całą noc.", example: "Wir haben die Nacht durchgemacht – so ein Spaß!", level: "B2" },
+        { german: "Das war ein guter Abend.", polish: "To był dobry wieczór.", example: "Danke für alles, das war ein guter Abend!", level: "A2" },
+        { german: "Wir wiederholen das!", polish: "Powtarzamy to! / Robimy to znowu!", example: "Das war so toll – wir wiederholen das!", level: "B1" },
+
+        // Uczucia i nastrój
+        { german: "Ich freu mich so!", polish: "Tak się cieszę!", example: "Du kommst? – Ich freu mich so!", level: "A2" },
+        { german: "Das macht mich fertig.", polish: "To mnie dobija.", example: "Diese Arbeit macht mich fertig.", level: "B1" },
+        { german: "Ich bin am Limit.", polish: "Jestem na granicy wytrzymałości.", example: "Noch mehr Stress? – Ich bin wirklich am Limit.", level: "B2" },
+        { german: "Das geht mir auf die Nerven.", polish: "To działa mi na nerwy.", example: "Das geht mir total auf die Nerven.", level: "B1" },
+        { german: "Ich bin hin und weg.", polish: "Jestem zachwycony/a.", example: "Von diesem Song bin ich total hin und weg.", level: "B2" },
+        { german: "Ich bin so müde.", polish: "Jestem taki/a zmęczony/a.", example: "Sorry, ich bin heute so müde.", level: "A1" },
+        { german: "Du machst mich wahnsinnig.", polish: "Doprowadzasz mnie do szaleństwa.", example: "Du machst mich wahnsinnig – hör auf damit!", level: "B1" },
+
+        // Codzienne sytuacje ze znajomymi
+        { german: "Mach dir keinen Stress!", polish: "Nie stresuj się!", example: "Alles gut? – Mach dir keinen Stress!", level: "A2" },
+        { german: "Das wird schon!", polish: "Jakoś to będzie! / Uda się!", example: "Ich bin nervös wegen morgen. – Das wird schon!", level: "B1" },
+        { german: "Ich komme klar.", polish: "Daję radę.", example: "Brauchst du Hilfe? – Ich komme klar, danke.", level: "A2" },
+        { german: "Wir schaffen das!", polish: "Damy radę! / My to zrobimy!", example: "Es ist viel, aber wir schaffen das!", level: "A2" },
+        { german: "Ich habe keinen Plan.", polish: "Nie mam pojęcia / żadnego planu.", example: "Was machen wir? – Ich habe keinen Plan.", level: "A2" },
+        { german: "Ich check das nicht.", polish: "Nie kapuję. / Nie rozumiem tego.", example: "Diese Aufgabe – ich check das einfach nicht.", level: "B1" },
+        { german: "Das ist doch klar!", polish: "No to oczywiste!", example: "Warum bist du sauer? – Das ist doch klar!", level: "B1" },
+        { german: "Jetzt mal ehrlich...", polish: "No dobra, szczerze mówiąc...", example: "Jetzt mal ehrlich – gefällt dir das wirklich?", level: "B1" },
+        { german: "Was willst du damit sagen?", polish: "Co przez to masz na myśli?", example: "Hmm, was willst du damit sagen?", level: "B1" },
+        { german: "Lass mich in Ruhe!", polish: "Daj mi spokój!", example: "Lass mich bitte kurz in Ruhe.", level: "A2" },
+        { german: "Das läuft schief.", polish: "Coś idzie nie tak.", example: "Ich glaube, das läuft gerade schief.", level: "B2" },
+        { german: "Ich steh dazu.", polish: "Stoję za tym. / Nie wypieram się.", example: "Ich steh dazu, das war meine Entscheidung.", level: "B2" },
+        { german: "Ich bin voll dabei.", polish: "Jestem w pełni zaangażowany/a.", example: "Nächstes Projekt? – Ich bin voll dabei!", level: "B1" },
+        { german: "Das ist nicht mein Problem.", polish: "To nie mój problem.", example: "Löst das selbst – das ist nicht mein Problem.", level: "B1" },
+        { german: "Bin gleich fertig!", polish: "Już kończę! / Zaraz gotowe!", example: "Warte kurz – bin gleich fertig!", level: "A2" },
+        { german: "Ich mach das kurz.", polish: "Szybko to zrobię.", example: "Warte, ich mach das kurz.", level: "A2" },
+        { german: "Das klingt gut!", polish: "Brzmi dobrze!", example: "Treffen um 7? – Das klingt gut!", level: "A2" },
+        { german: "Ich weiß auch nicht.", polish: "Sam/sama nie wiem.", example: "Was ist mit ihm los? – Ich weiß auch nicht.", level: "A2" },
+        { german: "So ein Mist!", polish: "Co za pech! / Do licha!", example: "Ich hab den Bus verpasst. – So ein Mist!", level: "A2" },
+        { german: "Das ist mir peinlich.", polish: "Wstyd mi.", example: "Ich hab das total vergessen – das ist mir so peinlich.", level: "B1" }
     ]
 };
 
@@ -1342,6 +1517,137 @@ const grammarData = {
         `,
         exercises: [
             { question: 'Ich _____ (sein)', answer: 'war', options: ['war', 'waren', 'warst'] }
+        ]
+    },
+
+    konjunktiv2: {
+        title: 'Konjunktiv II',
+        content: `
+            <h3>Konjunktiv II – tryb przypuszczający</h3>
+            <p>Używamy do wyrażania życzeń, hipotez i grzecznych próśb.</p>
+            <ul>
+                <li><strong>würde + Infinitiv:</strong> Ich würde gern reisen. (Chętnie bym podróżował.)</li>
+                <li><strong>wäre:</strong> Wenn ich reich wäre... (Gdybym był bogaty...)</li>
+                <li><strong>hätte:</strong> Wenn ich Zeit hätte... (Gdybym miał czas...)</li>
+                <li><strong>könnte:</strong> Könntest du mir helfen? (Czy mógłbyś mi pomóc?)</li>
+                <li><strong>sollte:</strong> Du solltest mehr schlafen. (Powinieneś więcej spać.)</li>
+                <li><strong>müsste:</strong> Ich müsste lernen. (Powinienem się uczyć.)</li>
+            </ul>
+            <p><strong>Przykłady:</strong></p>
+            <ul>
+                <li>Ich würde gern Deutsch lernen.</li>
+                <li>Wenn ich mehr Geld hätte, würde ich reisen.</li>
+                <li>Das wäre toll!</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Wenn ich Zeit _____, würde ich kommen.', answer: 'hätte', options: ['hätte', 'habe', 'hatte'] },
+            { question: 'Er _____ gern ins Kino gehen.', answer: 'würde', options: ['würde', 'wird', 'wäre'] },
+            { question: 'Das _____ wirklich schön!', answer: 'wäre', options: ['wäre', 'war', 'wird'] },
+            { question: '_____ du mir bitte helfen?', answer: 'Könntest', options: ['Könntest', 'Kannst', 'Konntest'] }
+        ]
+    },
+
+    passiv: {
+        title: 'Passiv (strona bierna)',
+        content: `
+            <h3>Passiv – strona bierna</h3>
+            <p>Strona bierna skupia się na czynności, nie na osobie wykonującej.</p>
+            <h4>Präsens Passiv: werden + Partizip II</h4>
+            <ul>
+                <li>Das Buch <strong>wird gelesen</strong>. (Książka jest czytana.)</li>
+                <li>Die Tür <strong>wird geöffnet</strong>. (Drzwi są otwierane.)</li>
+                <li>Das Essen <strong>wird gekocht</strong>. (Jedzenie jest gotowane.)</li>
+            </ul>
+            <h4>Perfekt Passiv: sein + Partizip II + worden</h4>
+            <ul>
+                <li>Das Buch <strong>ist gelesen worden</strong>. (Książka została przeczytana.)</li>
+                <li>Das Auto <strong>ist repariert worden</strong>. (Samochód został naprawiony.)</li>
+            </ul>
+            <h4>Odmiana "werden" w Präsens:</h4>
+            <ul>
+                <li>ich werde, du wirst, er/sie/es wird</li>
+                <li>wir werden, ihr werdet, sie werden</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Das Auto _____ repariert.', answer: 'wird', options: ['wird', 'ist', 'hat'] },
+            { question: 'Die Briefe _____ geschrieben.', answer: 'werden', options: ['werden', 'sind', 'haben'] },
+            { question: 'Das Haus _____ gebaut worden.', answer: 'ist', options: ['ist', 'wird', 'hat'] },
+            { question: 'Der Kuchen _____ gegessen.', answer: 'wird', options: ['wird', 'ist', 'war'] }
+        ]
+    },
+
+    komparativ: {
+        title: 'Komparativ i Superlativ',
+        content: `
+            <h3>Komparativ i Superlativ – stopniowanie przymiotników</h3>
+            <h4>Stopień wyższy (Komparativ): przymiotnik + -er</h4>
+            <ul>
+                <li>schnell → <strong>schneller</strong> (szybszy)</li>
+                <li>groß → <strong>größer</strong> (większy)</li>
+                <li>alt → <strong>älter</strong> (starszy)</li>
+            </ul>
+            <h4>Stopień najwyższy (Superlativ): am ...sten / der/die/das ...ste</h4>
+            <ul>
+                <li>schnell → <strong>am schnellsten</strong> / <strong>der schnellste</strong></li>
+                <li>groß → <strong>am größten</strong> / <strong>der größte</strong></li>
+                <li>alt → <strong>am ältesten</strong> / <strong>der älteste</strong></li>
+            </ul>
+            <h4>Nieregularne:</h4>
+            <ul>
+                <li>gut → besser → am besten (dobry → lepszy → najlepszy)</li>
+                <li>viel → mehr → am meisten (dużo → więcej → najwięcej)</li>
+                <li>gern → lieber → am liebsten (chętnie → chętniej → najchętniej)</li>
+            </ul>
+            <h4>Porównanie: so ... wie / ...er als</h4>
+            <ul>
+                <li>Er ist <strong>so groß wie</strong> ich. (Jest tak wysoki jak ja.)</li>
+                <li>Sie ist <strong>größer als</strong> ich. (Ona jest wyższa niż ja.)</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'schnell → _____er', answer: 'schneller', options: ['schneller', 'schnellster', 'schnellerer'] },
+            { question: 'gut → _____ (Komparativ)', answer: 'besser', options: ['besser', 'guter', 'am besten'] },
+            { question: 'groß → am _____', answer: 'größten', options: ['größten', 'größten', 'großsten'] },
+            { question: 'viel → _____ (Komparativ)', answer: 'mehr', options: ['mehr', 'vieler', 'am meisten'] }
+        ]
+    },
+
+    nebensaetze: {
+        title: 'Zdania podrzędne',
+        content: `
+            <h3>Nebensätze – zdania podrzędne</h3>
+            <p><strong>Uwaga:</strong> w zdaniu podrzędnym czasownik idzie NA KONIEC!</p>
+            <h4>weil (bo, ponieważ)</h4>
+            <ul>
+                <li>Ich lerne Deutsch, <strong>weil</strong> es interessant <em>ist</em>.</li>
+                <li>Er schläft nicht, <strong>weil</strong> er Kaffee getrunken <em>hat</em>.</li>
+            </ul>
+            <h4>dass (że)</h4>
+            <ul>
+                <li>Ich glaube, <strong>dass</strong> du recht <em>hast</em>.</li>
+                <li>Sie sagt, <strong>dass</strong> sie kommt <em>kommt</em>.</li>
+            </ul>
+            <h4>wenn (gdy, kiedy, jeżeli)</h4>
+            <ul>
+                <li><strong>Wenn</strong> ich Zeit <em>habe</em>, komme ich.</li>
+                <li>Ruf mich an, <strong>wenn</strong> du fertig <em>bist</em>.</li>
+            </ul>
+            <h4>obwohl (chociaż, mimo że)</h4>
+            <ul>
+                <li>Er kommt, <strong>obwohl</strong> er müde <em>ist</em>.</li>
+            </ul>
+            <h4>damit (żeby, po to żeby)</h4>
+            <ul>
+                <li>Ich lerne, <strong>damit</strong> ich die Prüfung <em>bestehe</em>.</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich lerne Deutsch, weil es interessant _____.', answer: 'ist', options: ['ist', 'sein', 'es ist'] },
+            { question: 'Er sagt, dass er morgen _____.', answer: 'kommt', options: ['kommt', 'kommen', 'er kommt'] },
+            { question: '_____ ich Zeit habe, lese ich.', answer: 'Wenn', options: ['Wenn', 'Weil', 'Dass'] },
+            { question: 'Sie lernt, damit sie die Prüfung _____.', answer: 'besteht', options: ['besteht', 'bestehen', 'bestehe'] }
         ]
     }
 };

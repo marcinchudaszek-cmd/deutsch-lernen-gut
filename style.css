@@ -2,6 +2,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+button, .menu-btn, .back-btn, .control-btn, .lang-level-btn,
+.diff-btn, .tab-btn, .topic-btn, .scenario-btn, .quiz-option,
+.dict-word, .memory-card, .flashcard {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
 :root {
@@ -13,10 +24,10 @@
     --danger: #ef4444;
     --warning: #f59e0b;
     --dark: #0f0f1a;
-    --darker: #0a0a12;
+    --darker: #07070f;
     --light: #f1f5f9;
-    --card-bg: rgba(30, 30, 50, 0.7);
-    --card-border: rgba(255, 255, 255, 0.1);
+    --card-bg: #1a1a2e;
+    --card-border: rgba(255, 255, 255, 0.08);
     --text: #f1f5f9;
     --text-muted: #94a3b8;
     --a1-color: #22c55e;
@@ -30,9 +41,9 @@
 /* ==================== TRYB JASNY ==================== */
 body.light-mode {
     --dark: #f8fafc;
-    --darker: #e2e8f0;
+    --darker: #e8eaf0;
     --light: #1e293b;
-    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-bg: #ffffff;
     --card-border: rgba(0, 0, 0, 0.1);
     --text: #1e293b;
     --text-muted: #64748b;
@@ -71,22 +82,30 @@ body.light-mode select {
     color: #1e293b !important;
 }
 
+html {
+    height: 100%;
+    overscroll-behavior: none;
+}
+
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     background: var(--dark);
-    background-image: 
+    background-image:
         radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
-    min-height: 100vh;
+    min-height: 100%;
     color: var(--text);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .app {
     max-width: 500px;
     margin: 0 auto;
-    padding: 12px;
-    min-height: 100vh;
+    padding: 0 12px 12px;
+    min-height: 100%;
 }
 
 /* ==================== NAWIGACJA ==================== */
@@ -94,17 +113,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    margin-bottom: 14px;
+    padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+    background: var(--darker);
+    border: none;
+    border-radius: 0;
+    margin: 0 -12px 14px;
     position: sticky;
-    top: 10px;
+    top: 0;
     z-index: 100;
-    box-shadow: var(--glow);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .navbar h1 {
@@ -240,8 +257,8 @@ body {
 /* ==================== WYBÓR POZIOMU JĘZYKOWEGO ==================== */
 .language-level-select {
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border: 1px solid var(--card-border);
     padding: 12px 14px;
     border-radius: 14px;
@@ -311,8 +328,8 @@ body {
 
 .menu-btn {
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border: 1px solid var(--card-border);
     padding: 18px 10px;
     border-radius: 16px;
@@ -340,18 +357,10 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.menu-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.25);
-    border-color: var(--primary);
-}
-
-.menu-btn:hover::before {
-    opacity: 0.1;
-}
-
 .menu-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.94);
+    opacity: 0.85;
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 .menu-btn .icon {
@@ -377,22 +386,23 @@ body {
 
 /* ==================== BACK BUTTON ==================== */
 .back-btn {
-    background: var(--glass);
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    padding: 10px 18px;
-    border-radius: 12px;
+    background: transparent;
+    border: none;
+    color: var(--primary-light);
+    padding: 8px 0;
+    border-radius: 8px;
     cursor: pointer;
     margin-bottom: 14px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.back-btn:hover {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+.back-btn:active {
+    opacity: 0.6;
 }
 
 /* ==================== KATEGORIE SELECT ==================== */
@@ -471,7 +481,7 @@ body {
     position: absolute;
     bottom: 14px;
     background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
+    backdrop-filter: none;
     border: none;
     padding: 8px 18px;
     border-radius: 20px;
@@ -1090,9 +1100,9 @@ body {
     transition: all 0.3s ease;
 }
 
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+.stat-card:active {
+    transform: scale(0.97);
+    opacity: 0.85;
 }
 
 .stat-value {
@@ -2376,6 +2386,15 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Ukryte scrollbary — natywny wygląd */
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+    display: none;
+}
+
 /* ==================== SELECTION ==================== */
 ::selection {
     background: var(--primary);
@@ -2390,4 +2409,220 @@ html {
 
 .floating {
     animation: float 3s ease-in-out infinite;
+}
+
+/* ==================== BOTTOM NAVIGATION BAR ==================== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--darker);
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: stretch;
+    z-index: 1000;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .bottom-nav {
+    background: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bnav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #64748b);
+    padding: 6px 4px;
+    transition: color 0.15s ease;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.bnav-btn.active {
+    color: var(--primary);
+}
+
+.bnav-btn:active {
+    opacity: 0.7;
+}
+
+.bnav-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.bnav-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* Push app content above the bottom nav */
+.app {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom) + 8px) !important;
+}
+
+/* ==================== KALENDARZ NAUKI ==================== */
+.streak-calendar-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+}
+.streak-calendar-section h3 {
+    color: var(--text);
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+.streak-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+}
+.streak-day {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    min-width: 0;
+    cursor: default;
+    position: relative;
+}
+.streak-day.day-label {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+.streak-day.day-0   { background: var(--glass); border: 1px solid var(--card-border); }
+.streak-day.day-low  { background: rgba(99,102,241,0.35); }
+.streak-day.day-mid  { background: rgba(99,102,241,0.65); }
+.streak-day.day-high { background: var(--primary); box-shadow: 0 0 6px rgba(99,102,241,0.5); }
+.streak-day.day-today { outline: 2px solid var(--warning); outline-offset: 1px; }
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+.legend-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+.legend-dot.day-0   { background: var(--glass); border: 1px solid var(--card-border); }
+.legend-dot.day-low  { background: rgba(99,102,241,0.35); }
+.legend-dot.day-mid  { background: rgba(99,102,241,0.65); }
+.legend-dot.day-high { background: var(--primary); }
+
+/* ==================== POSTĘP PER KATEGORIA ==================== */
+.category-progress-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+}
+.category-progress-section h3 {
+    color: var(--text);
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+.cat-progress-item {
+    display: grid;
+    grid-template-columns: 110px 1fr 50px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.cat-progress-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cat-progress-bar {
+    height: 7px;
+    background: var(--glass);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.cat-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.4s ease;
+}
+.cat-progress-count {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+/* ==================== POWTÓRKA + TRYB ODWRÓCONY ==================== */
+.review-btn .icon {
+    position: relative;
+    display: inline-block;
+}
+
+.review-badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: #e74c3c;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 4px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.review-badge.hidden {
+    display: none;
+}
+
+.flashcard-extra-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.reverse-btn {
+    background: var(--glass);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 6px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.reverse-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
 }

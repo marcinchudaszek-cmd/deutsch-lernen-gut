@@ -105,14 +105,19 @@ function addAIChatBubble(text, type) {
             .replace(/\(pol:([^)]+)\)/gi, '<br><small style="color:#888;font-style:italic">(🇵🇱$1)</small>')
             .replace(/\(PL:([^)]+)\)/gi, '<br><small style="color:#888;font-style:italic">(🇵🇱$1)</small>')
             .replace(/💡([^<\n]+)/g, '<br><span style="color:#ed8936">💡$1</span>');
-        
-        var german = extractGerman(text).replace(/'/g, "\\'").replace(/"/g, '\\"');
-        
+
+        var german = extractGerman(text);
+
         div.innerHTML = '<span>' + formatted + '</span>' +
             '<div class="message-actions" style="margin-top:8px">' +
-            '<button onclick="speakText(\'' + german + '\')" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;margin-right:5px">🔊</button>' +
-            '<button onclick="speakTextSlow(\'' + german + '\')" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer">🐢</button>' +
+            '<button class="ai-speak-btn" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;margin-right:5px">🔊</button>' +
+            '<button class="ai-speak-slow-btn" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer">🐢</button>' +
             '</div>';
+
+        var speakBtn = div.querySelector('.ai-speak-btn');
+        var slowBtn = div.querySelector('.ai-speak-slow-btn');
+        speakBtn.addEventListener('click', function() { speakText(german); });
+        slowBtn.addEventListener('click', function() { speakTextSlow(german); });
     }
     
     container.appendChild(div);
@@ -264,17 +269,16 @@ function startChatSpeech() {
 // ==================== POPUP KLUCZA API ====================
 
 function showApiKeyPopup() {
-    // Usuń istniejący popup
     var existing = document.querySelector('.api-popup');
     if (existing) existing.remove();
-    
+
     var currentKey = getGeminiApiKey();
-    
+
     var popup = document.createElement('div');
     popup.className = 'api-popup';
     popup.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px';
-    
-    popup.innerHTML = 
+
+    popup.innerHTML =
         '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:25px;border-radius:20px;max-width:380px;width:100%;border:1px solid rgba(102,126,234,0.3)">' +
             '<h3 style="margin:0 0 15px;color:white;text-align:center">🔑 Klucz API Gemini</h3>' +
             '<p style="color:#aaa;font-size:14px;margin-bottom:15px">Aby korzystać z czatu AI, potrzebujesz darmowego klucza:</p>' +
@@ -284,21 +288,24 @@ function showApiKeyPopup() {
                 '<li style="margin-bottom:8px">Kliknij "Create API key in new project"</li>' +
                 '<li>Skopiuj klucz i wklej poniżej</li>' +
             '</ol>' +
-            '<input type="text" id="apiKeyField" placeholder="AIzaSy..." value="' + currentKey + '" style="width:100%;padding:14px;border-radius:10px;border:1px solid #444;background:#2a2a4a;color:white;font-size:15px;box-sizing:border-box">' +
+            '<input type="text" id="apiKeyField" placeholder="AIzaSy..." style="width:100%;padding:14px;border-radius:10px;border:1px solid #444;background:#2a2a4a;color:white;font-size:15px;box-sizing:border-box">' +
             '<div style="display:flex;gap:10px;margin-top:15px">' +
-                '<button onclick="saveApiKey()" style="flex:1;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:10px;color:white;font-size:16px;cursor:pointer;font-weight:bold">💾 Zapisz</button>' +
-                '<button onclick="closeApiPopup()" style="flex:1;padding:14px;background:#444;border:none;border-radius:10px;color:white;font-size:16px;cursor:pointer">❌ Anuluj</button>' +
+                '<button id="apiKeySaveBtn" style="flex:1;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:10px;color:white;font-size:16px;cursor:pointer;font-weight:bold">💾 Zapisz</button>' +
+                '<button id="apiKeyCancelBtn" style="flex:1;padding:14px;background:#444;border:none;border-radius:10px;color:white;font-size:16px;cursor:pointer">❌ Anuluj</button>' +
             '</div>' +
             '<p style="font-size:12px;color:#666;margin-top:12px;text-align:center">🔒 Klucz zapisany tylko na Twoim urządzeniu</p>' +
         '</div>';
-    
+
     document.body.appendChild(popup);
-    
-    // Focus na input
-    setTimeout(function() {
-        var input = document.getElementById('apiKeyField');
-        if (input) input.focus();
-    }, 100);
+
+    var input = document.getElementById('apiKeyField');
+    if (input) {
+        input.value = currentKey;
+        setTimeout(function() { input.focus(); }, 100);
+    }
+
+    document.getElementById('apiKeySaveBtn').addEventListener('click', saveApiKey);
+    document.getElementById('apiKeyCancelBtn').addEventListener('click', closeApiPopup);
 }
 
 function saveApiKey() {

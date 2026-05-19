@@ -2,11 +2,12 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>🇩🇪 Deutsch Lernen</title>
-    
+
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
     <meta name="description" content="Aplikacja do nauki języka niemieckiego z fiszkami, quizami i czatem AI">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Deutsch Lernen">
@@ -17,17 +18,17 @@
     <meta name="apple-mobile-web-app-title" content="Deutsch">
     
     <!-- iOS Icons -->
-    <link rel="apple-touch-icon" href="icons/icon-152.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
-    
+    <link rel="apple-touch-icon" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icon-72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icon-96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icon-128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icon-144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-72.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon-72.png">
     
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -78,10 +79,15 @@
                     <button class="lang-level-btn" onclick="setLanguageLevel('A2', this)">A2</button>
                     <button class="lang-level-btn" onclick="setLanguageLevel('B1', this)">B1</button>
                     <button class="lang-level-btn" onclick="setLanguageLevel('B2', this)">B2</button>
+                    <button class="lang-level-btn" onclick="setLanguageLevel('C1', this)">C1</button>
                 </div>
             </div>
             
             <div class="menu-grid">
+                <button class="menu-btn review-btn" onclick="startReview()">
+                    <span class="icon">🔁<span id="reviewBadge" class="review-badge hidden">0</span></span>
+                    <span>Powtórka</span>
+                </button>
                 <button class="menu-btn" onclick="startFlashcards()">
                     <span class="icon">📚</span>
                     <span>Fiszki</span>
@@ -219,10 +225,15 @@
                         <option value="technology">💻 Technologia</option>
                         <option value="socialmedia">📱 Social Media</option>
                         <option value="vacation">🏖️ Wakacje</option>
-                        <option value="business">💼 Biznes</option>
                         <option value="relationships">❤️ Relacje</option>
                         <option value="entertainment">🎬 Rozrywka</option>
                         <option value="fitness">🏃 Fitness</option>
+                    </optgroup>
+                    <optgroup label="🎓 Zaawansowane">
+                        <option value="c1vocabulary">🎓 Słownictwo C1</option>
+                    </optgroup>
+                    <optgroup label="🗣️ Potoczne">
+                        <option value="colloquial">🗣️ Rozmówki potoczne</option>
                     </optgroup>
                     <optgroup label="⭐ Własne">
                         <option value="custom">⭐ Moje słówka</option>
@@ -246,6 +257,10 @@
             <div class="flashcard-controls">
                 <button class="control-btn wrong" onclick="markWord(false)">❌ Nie umiem</button>
                 <button class="control-btn correct" onclick="markWord(true)">✅ Umiem!</button>
+            </div>
+
+            <div class="flashcard-extra-controls">
+                <button class="reverse-btn" id="reverseBtn" onclick="toggleReverseMode()">🔄 PL→DE</button>
             </div>
             
             <div class="card-counter">
@@ -321,6 +336,22 @@
                 <button class="topic-btn" onclick="loadGrammarTopic('praeteritum')">
                     <span>Präteritum</span>
                     <span class="topic-desc">Czas przeszły prosty</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('konjunktiv2')">
+                    <span>Konjunktiv II</span>
+                    <span class="topic-desc">Tryb przypuszczający</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('passiv')">
+                    <span>Passiv</span>
+                    <span class="topic-desc">Strona bierna</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('komparativ')">
+                    <span>Komparativ</span>
+                    <span class="topic-desc">Stopniowanie</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('nebensaetze')">
+                    <span>Nebensätze</span>
+                    <span class="topic-desc">Zdania podrzędne</span>
                 </button>
             </div>
             
@@ -410,6 +441,11 @@
                     <div class="lang-progress-bar"><div id="b2Progress" class="lang-progress-fill"></div></div>
                     <span id="b2Count">0</span>
                 </div>
+                <div class="lang-progress-item">
+                    <span>C1</span>
+                    <div class="lang-progress-bar"><div id="c1Progress" class="lang-progress-fill"></div></div>
+                    <span id="c1Count">0</span>
+                </div>
             </div>
             
             <div class="stats-grid">
@@ -429,6 +465,24 @@
                     <span class="stat-value" id="streakDays">0</span>
                     <span class="stat-label">Dni z rzędu</span>
                 </div>
+            </div>
+
+            <!-- Kalendarz nauki -->
+            <div class="streak-calendar-section">
+                <h3>📅 Kalendarz nauki <span id="calendarMonthLabel"></span></h3>
+                <div class="streak-calendar" id="streakCalendar"></div>
+                <div class="calendar-legend">
+                    <span class="legend-dot day-0"></span> Brak
+                    <span class="legend-dot day-low" style="margin-left:10px"></span> 1–4
+                    <span class="legend-dot day-mid" style="margin-left:10px"></span> 5–9
+                    <span class="legend-dot day-high" style="margin-left:10px"></span> 10+
+                </div>
+            </div>
+
+            <!-- Postęp per kategoria -->
+            <div class="category-progress-section">
+                <h3>📚 Postęp per kategoria</h3>
+                <div id="categoryProgressList"></div>
             </div>
 
             <!-- Wykresy -->
@@ -508,6 +562,12 @@
                     <button class="scenario-btn" onclick="startScenario('interview')">👔 Rozmowa o pracę</button>
                     <button class="scenario-btn" onclick="startScenario('restaurant')">🍽️ Restauracja</button>
                     <button class="scenario-btn" onclick="startScenario('free')">💬 Wolna</button>
+                </div>
+                <div class="scenario-row">
+                    <button class="scenario-btn" onclick="startScenario('bahnhof')">🚂 Dworzec</button>
+                    <button class="scenario-btn" onclick="startScenario('apotheke')">💊 Apteka</button>
+                    <button class="scenario-btn" onclick="startScenario('bank')">🏦 Bank</button>
+                    <button class="scenario-btn" onclick="startScenario('amt')">🏛️ Urząd</button>
                 </div>
             </div>
             
@@ -590,6 +650,7 @@
                         <option value="A2">A2 - Podstawowy</option>
                         <option value="B1">B1 - Średniozaawansowany</option>
                         <option value="B2">B2 - Zaawansowany</option>
+                        <option value="C1">C1 - Biegły</option>
                     </select>
                 </div>
             </div>
@@ -691,6 +752,7 @@
                 <button class="dict-level-btn" onclick="filterDictByLevel('A2', this)">A2</button>
                 <button class="dict-level-btn" onclick="filterDictByLevel('B1', this)">B1</button>
                 <button class="dict-level-btn" onclick="filterDictByLevel('B2', this)">B2</button>
+                <button class="dict-level-btn" onclick="filterDictByLevel('C1', this)">C1</button>
             </div>
             
             <div class="search-box">
@@ -713,6 +775,30 @@
         </div>
 
     </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="bnav-btn active" id="bnav-home" onclick="goToMenu()" data-tab="home">
+            <span class="bnav-icon">🏠</span>
+            <span class="bnav-label">Ćwicz</span>
+        </button>
+        <button class="bnav-btn" id="bnav-dict" onclick="showAllWords()" data-tab="dict">
+            <span class="bnav-icon">📖</span>
+            <span class="bnav-label">Słownik</span>
+        </button>
+        <button class="bnav-btn" id="bnav-chat" onclick="startChat()" data-tab="chat">
+            <span class="bnav-icon">🤖</span>
+            <span class="bnav-label">Czat AI</span>
+        </button>
+        <button class="bnav-btn" id="bnav-progress" onclick="showProgress()" data-tab="progress">
+            <span class="bnav-icon">📊</span>
+            <span class="bnav-label">Postępy</span>
+        </button>
+        <button class="bnav-btn" id="bnav-settings" onclick="openReminders()" data-tab="settings">
+            <span class="bnav-icon">⚙️</span>
+            <span class="bnav-label">Opcje</span>
+        </button>
+    </nav>
 
     <!-- Przycisk instalacji PWA -->
     <div id="installPrompt" class="install-prompt hidden">

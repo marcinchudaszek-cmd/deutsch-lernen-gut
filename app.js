@@ -25,8 +25,13 @@ let state = {
     speakingWord: null,
     chatScenario: 'free',
     currentLanguageLevel: 'A1',
-    autoSpeak: true // NOWE: automatyczna wymowa
+    autoSpeak: true,
+    reverseMode: false,
+    wrongWords: [],
+    wordProgress: {}
 };
+
+let reviewMode = false;
 
 const levelSystem = [
     { level: 1, title: "🌱 Początkujący", xpRequired: 0 },
@@ -59,54 +64,61 @@ let memoryDifficulty = 'easy';
 let memoryLocked = false;
 
 // ==================== SYSTEM DŹWIĘKÓW ====================
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let audioContext = null;
 let soundEnabled = true;
+
+function getAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+}
 
 function playCorrectSound() {
     if (!soundEnabled) return;
     try {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const oscillator = getAudioContext().createOscillator();
+        const gainNode = getAudioContext().createGain();
         oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
+        gainNode.connect(getAudioContext().destination);
+        oscillator.frequency.setValueAtTime(523.25, getAudioContext().currentTime);
+        oscillator.frequency.setValueAtTime(659.25, getAudioContext().currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(783.99, getAudioContext().currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.3, getAudioContext().currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, getAudioContext().currentTime + 0.4);
+        oscillator.start(getAudioContext().currentTime);
+        oscillator.stop(getAudioContext().currentTime + 0.4);
     } catch(e) {}
 }
 
 function playWrongSound() {
     if (!soundEnabled) return;
     try {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const oscillator = getAudioContext().createOscillator();
+        const gainNode = getAudioContext().createGain();
         oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.15);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
+        gainNode.connect(getAudioContext().destination);
+        oscillator.frequency.setValueAtTime(200, getAudioContext().currentTime);
+        oscillator.frequency.setValueAtTime(150, getAudioContext().currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.3, getAudioContext().currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, getAudioContext().currentTime + 0.3);
+        oscillator.start(getAudioContext().currentTime);
+        oscillator.stop(getAudioContext().currentTime + 0.3);
     } catch(e) {}
 }
 
 function playClickSound() {
     if (!soundEnabled) return;
     try {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const oscillator = getAudioContext().createOscillator();
+        const gainNode = getAudioContext().createGain();
         oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.05);
+        gainNode.connect(getAudioContext().destination);
+        oscillator.frequency.setValueAtTime(800, getAudioContext().currentTime);
+        gainNode.gain.setValueAtTime(0.1, getAudioContext().currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, getAudioContext().currentTime + 0.05);
+        oscillator.start(getAudioContext().currentTime);
+        oscillator.stop(getAudioContext().currentTime + 0.05);
     } catch(e) {}
 }
 
@@ -115,15 +127,15 @@ function playLevelUpSound() {
     try {
         const notes = [523.25, 659.25, 783.99, 1046.50];
         notes.forEach((freq, i) => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+            const oscillator = getAudioContext().createOscillator();
+            const gainNode = getAudioContext().createGain();
             oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + i * 0.15);
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + i * 0.15);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.15 + 0.3);
-            oscillator.start(audioContext.currentTime + i * 0.15);
-            oscillator.stop(audioContext.currentTime + i * 0.15 + 0.3);
+            gainNode.connect(getAudioContext().destination);
+            oscillator.frequency.setValueAtTime(freq, getAudioContext().currentTime + i * 0.15);
+            gainNode.gain.setValueAtTime(0.3, getAudioContext().currentTime + i * 0.15);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, getAudioContext().currentTime + i * 0.15 + 0.3);
+            oscillator.start(getAudioContext().currentTime + i * 0.15);
+            oscillator.stop(getAudioContext().currentTime + i * 0.15 + 0.3);
         });
     } catch(e) {}
 }
@@ -223,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     displayCustomWords();
     countTotalWords();
     loadVoices();
+    updateReviewBadge();
 });
 
 function loadState() {
@@ -299,14 +312,127 @@ function checkStreak() {
 
 function setLanguageLevel(level, btn) {
     state.currentLanguageLevel = level;
-    document.querySelectorAll('.lang-level-btn').forEach(function(b) { 
-        b.classList.remove('active'); 
+    document.querySelectorAll('.lang-level-btn').forEach(function(b) {
+        b.classList.remove('active');
     });
     btn.classList.add('active');
     const el = document.getElementById('currentLangLevel');
     if (el) el.textContent = level;
     saveState();
     showToast('Poziom: ' + level);
+}
+
+const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
+
+// ==================== SRS + POWTÓRKA BŁĘDÓW ====================
+
+function updateSRS(wordKey, correct) {
+    if (!state.wordProgress) state.wordProgress = {};
+    const p = state.wordProgress[wordKey] || { correct: 0, wrong: 0, interval: 0, ease: 2.5 };
+    if (correct) {
+        p.correct++;
+        if (p.interval === 0)      p.interval = 1;
+        else if (p.interval === 1) p.interval = 4;
+        else p.interval = Math.min(Math.round(p.interval * (p.ease || 2.5)), 60);
+        p.ease = Math.min(2.5, (p.ease || 2.5) + 0.1);
+    } else {
+        p.wrong++;
+        p.interval = 1;
+        p.ease = Math.max(1.3, (p.ease || 2.5) - 0.2);
+    }
+    const next = new Date();
+    next.setDate(next.getDate() + p.interval);
+    p.nextReview = next.toISOString().split('T')[0];
+    state.wordProgress[wordKey] = p;
+}
+
+function getSRSDueWords() {
+    if (!state.wordProgress) return [];
+    const today = new Date().toISOString().split('T')[0];
+    const due = [];
+    const found = new Set();
+    Object.keys(state.wordProgress).forEach(function(wordKey) {
+        const p = state.wordProgress[wordKey];
+        if (p.nextReview && p.nextReview <= today && !found.has(wordKey)) {
+            Object.keys(wordDatabase).some(function(cat) {
+                const w = wordDatabase[cat].find(function(w) { return (w.german || w.de) === wordKey; });
+                if (w) { due.push(w); found.add(wordKey); return true; }
+                return false;
+            });
+        }
+    });
+    return due;
+}
+
+function getReviewCount() {
+    const allKeys = new Set(state.wrongWords || []);
+    getSRSDueWords().forEach(function(w) { allKeys.add(w.german || w.de); });
+    return allKeys.size;
+}
+
+function updateReviewBadge() {
+    const badge = document.getElementById('reviewBadge');
+    if (!badge) return;
+    const count = getReviewCount();
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.classList.toggle('hidden', count === 0);
+}
+
+function startReview() {
+    const allKeys = new Set(state.wrongWords || []);
+    getSRSDueWords().forEach(function(w) { allKeys.add(w.german || w.de); });
+
+    if (allKeys.size === 0) {
+        showToast('🎉 Brak słówek do powtórki!');
+        return;
+    }
+
+    const cards = [];
+    allKeys.forEach(function(wordKey) {
+        let found = null;
+        Object.keys(wordDatabase).some(function(cat) {
+            const w = wordDatabase[cat].find(function(w) { return (w.german || w.de) === wordKey; });
+            if (w) { found = w; return true; }
+            return false;
+        });
+        if (!found) found = (state.customWords || []).find(function(w) { return (w.german || w.de) === wordKey; });
+        if (found) cards.push(found);
+    });
+
+    if (cards.length === 0) { showToast('❌ Nie znaleziono słówek'); return; }
+
+    state.currentCards = shuffleArray(cards);
+    state.currentCardIndex = 0;
+    reviewMode = true;
+
+    showScreen('flashcards');
+    const ll = document.getElementById('currentLangLevel');
+    if (ll) ll.textContent = '🔁 Powtórka (' + cards.length + ')';
+    showCurrentCard();
+}
+
+function toggleReverseMode() {
+    state.reverseMode = !state.reverseMode;
+    const btn = document.getElementById('reverseBtn');
+    if (btn) {
+        btn.textContent = state.reverseMode ? '🔄 DE→PL' : '🔄 PL→DE';
+        btn.classList.toggle('active', state.reverseMode);
+    }
+    saveState();
+    showToast(state.reverseMode ? '🔄 Tryb odwrócony: PL→DE' : '🔄 Tryb normalny: DE→PL');
+    if (state.currentCards.length > 0) showCurrentCard();
+}
+
+function getWordsForCurrentLevel() {
+    const maxIdx = LEVEL_ORDER.indexOf(state.currentLanguageLevel);
+    let words = [];
+    Object.keys(wordDatabase).forEach(function(key) {
+        wordDatabase[key].forEach(function(word) {
+            const idx = LEVEL_ORDER.indexOf(word.level);
+            if (idx === -1 || idx <= maxIdx) words.push(word);
+        });
+    });
+    return words;
 }
 
 function filterDictByLevel(level, btn) {
@@ -344,12 +470,26 @@ function goToMenu() {
     showScreen('menu');
 }
 
+const screenToTab = {
+    menu: 'home', flashcards: 'home', quiz: 'home', memory: 'home',
+    grammar: 'home', typing: 'home', listening: 'home', speaking: 'home',
+    dictionary: 'dict', mywords: 'dict',
+    chat: 'chat',
+    progress: 'progress', levels: 'progress',
+    reminders: 'settings'
+};
+
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(function(s) {
         s.classList.remove('active');
     });
     document.getElementById(screenId).classList.add('active');
     state.currentScreen = screenId;
+
+    const activeTab = screenToTab[screenId] || 'home';
+    document.querySelectorAll('.bnav-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.tab === activeTab);
+    });
 }
 
 // ==================== FISZKI Z ULEPSZONĄ WYMOWĄ ====================
@@ -375,7 +515,12 @@ function loadCategory() {
             goToMenu();
             return;
         }
-        state.currentCards = wordDatabase[category].slice();
+        const maxIdx = LEVEL_ORDER.indexOf(state.currentLanguageLevel);
+        const filtered = wordDatabase[category].filter(function(w) {
+            const idx = LEVEL_ORDER.indexOf(w.level);
+            return idx === -1 || idx <= maxIdx;
+        });
+        state.currentCards = (filtered.length > 0 ? filtered : wordDatabase[category]).slice();
     }
     
     state.currentCardIndex = 0;
@@ -384,38 +529,51 @@ function loadCategory() {
 
 function showCurrentCard() {
     if (state.currentCardIndex >= state.currentCards.length) {
-        showToast('🎉 Ukończono kategorię!');
-        addXP(20);
+        if (reviewMode) {
+            reviewMode = false;
+            state.wrongWords = [];
+            saveState();
+            updateReviewBadge();
+            showToast('🎉 Powtórka zakończona!');
+        } else {
+            showToast('🎉 Ukończono kategorię!');
+            addXP(20);
+        }
         goToMenu();
         return;
     }
-    
+
     const card = state.currentCards[state.currentCardIndex];
     const germanWord = card.german || card.de || '?';
     const polishWord = card.polish || card.pl || '?';
-    
-    document.getElementById('germanWord').textContent = germanWord;
-    document.getElementById('polishWord').textContent = polishWord;
+
+    const frontEl = document.getElementById('germanWord');
+    const backEl = document.getElementById('polishWord');
+
+    if (state.reverseMode) {
+        frontEl.textContent = polishWord;
+        backEl.textContent = germanWord;
+    } else {
+        frontEl.textContent = germanWord;
+        backEl.textContent = polishWord;
+    }
     document.getElementById('exampleSentence').textContent = card.example || '';
-    document.getElementById('cardCounter').textContent = 
+    document.getElementById('cardCounter').textContent =
         (state.currentCardIndex + 1) + ' / ' + state.currentCards.length;
-    
+
     document.getElementById('flashcardInner').classList.remove('flipped');
-    
-    // NOWE: Automatyczna wymowa jeśli włączona
+
     if (state.autoSpeak) {
-        setTimeout(() => speak(germanWord), 300);
+        setTimeout(() => speak(state.reverseMode ? polishWord : germanWord), 300);
     }
 }
 
 function flipCard() {
     document.getElementById('flashcardInner').classList.toggle('flipped');
-    
-    // NOWE: Wymów polskie słowo po odwróceniu (opcjonalnie)
+
     const card = state.currentCards[state.currentCardIndex];
     const germanWord = card.german || card.de;
-    
-    // Po odwróceniu wymów jeszcze raz niemieckie słowo
+
     if (document.getElementById('flashcardInner').classList.contains('flipped')) {
         setTimeout(() => speak(germanWord), 200);
     }
@@ -424,15 +582,17 @@ function flipCard() {
 function markWord(known) {
     const card = state.currentCards[state.currentCardIndex];
     const wordKey = card.german || card.de;
-    
+
     if (!wordKey) {
         state.currentCardIndex++;
         showCurrentCard();
         return;
     }
-    
+
     if (known) {
         addXP(5);
+        const wi = (state.wrongWords || []).indexOf(wordKey);
+        if (wi !== -1) state.wrongWords.splice(wi, 1);
         if (state.wordsLearned.indexOf(wordKey) === -1) {
             state.wordsLearned.push(wordKey);
             checkAchievement('first_word', true);
@@ -443,12 +603,17 @@ function markWord(known) {
         state.wordsMastered.push(wordKey);
         addTodayWord(wordKey);
         playCorrectSound();
+        updateSRS(wordKey, true);
     } else {
+        if (!state.wrongWords) state.wrongWords = [];
+        if (state.wrongWords.indexOf(wordKey) === -1) state.wrongWords.push(wordKey);
         playWrongSound();
+        updateSRS(wordKey, false);
     }
-    
+
     state.currentCardIndex++;
     saveState();
+    updateReviewBadge();
     showCurrentCard();
 }
 
@@ -512,11 +677,8 @@ function initMemory() {
     document.getElementById('memoryMoves').textContent = '0';
     document.getElementById('memoryPairs').textContent = '0';
     
-    let allWords = [];
-    Object.keys(wordDatabase).forEach(function(key) {
-        allWords = allWords.concat(wordDatabase[key]);
-    });
-    
+    const allWords = getWordsForCurrentLevel();
+
     const selectedWords = shuffleArray(allWords).slice(0, pairCount);
     
     selectedWords.forEach(function(word, index) {
@@ -647,16 +809,13 @@ function restartMemory() {
 // ==================== QUIZ Z WYMOWĄ ====================
 function startQuiz() {
     showScreen('quiz');
-    
-    let allWords = [];
-    Object.keys(wordDatabase).forEach(function(key) {
-        allWords = allWords.concat(wordDatabase[key]);
-    });
-    
+
+    let allWords = getWordsForCurrentLevel();
+
     if (state.customWords.length > 0) {
         allWords = allWords.concat(state.customWords);
     }
-    
+
     state.quizWords = shuffleArray(allWords).slice(0, 10);
     state.quizIndex = 0;
     state.quizScore = 0;
@@ -689,15 +848,9 @@ function showQuizQuestion() {
         setTimeout(() => speak(correctGerman), 300);
     }
     
-    let allTranslations = [];
-    Object.keys(wordDatabase).forEach(function(key) {
-        wordDatabase[key].forEach(function(w) {
-            const wPolish = w.polish || w.pl;
-            if (wPolish && wPolish !== correctPolish) {
-                allTranslations.push(wPolish);
-            }
-        });
-    });
+    const allTranslations = getWordsForCurrentLevel()
+        .map(function(w) { return w.polish || w.pl; })
+        .filter(function(p) { return p && p !== correctPolish; });
     
     const wrongOptions = shuffleArray(allTranslations).slice(0, 3);
     const options = shuffleArray([correctPolish].concat(wrongOptions));
@@ -739,9 +892,10 @@ function checkQuizAnswer(selected, correct, btn) {
         addXP(10);
         showQuizFeedback('✅ Dobrze! ' + germanWord + ' = ' + correct, 'success');
         playCorrectSound();
-        
-        // NOWE: Wymów poprawną odpowiedź
         speak(germanWord);
+        const wi = (state.wrongWords || []).indexOf(germanWord);
+        if (wi !== -1) state.wrongWords.splice(wi, 1);
+        updateSRS(germanWord, true);
     } else {
         btn.classList.add('wrong');
         options.forEach(function(opt) {
@@ -749,12 +903,14 @@ function checkQuizAnswer(selected, correct, btn) {
         });
         showQuizFeedback('❌ ' + germanWord + ' = ' + correct, 'error');
         playWrongSound();
-        
-        // NOWE: Wymów słowo żeby zapamiętać
         setTimeout(() => speak(germanWord), 500);
+        if (!state.wrongWords) state.wrongWords = [];
+        if (state.wrongWords.indexOf(germanWord) === -1) state.wrongWords.push(germanWord);
+        updateSRS(germanWord, false);
     }
-    
+
     saveState();
+    updateReviewBadge();
     setTimeout(function() {
         state.quizIndex++;
         showQuizQuestion();
@@ -852,10 +1008,7 @@ function startListening() {
 }
 
 function loadListeningWord() {
-    let allWords = [];
-    Object.keys(wordDatabase).forEach(function(key) {
-        allWords = allWords.concat(wordDatabase[key]);
-    });
+    const allWords = getWordsForCurrentLevel();
     state.listeningWord = allWords[Math.floor(Math.random() * allWords.length)];
     document.getElementById('listeningInput').value = '';
     document.getElementById('listeningFeedback').classList.add('hidden');
@@ -910,10 +1063,7 @@ function startSpeaking() {
 }
 
 function loadSpeakingWord() {
-    let allWords = [];
-    Object.keys(wordDatabase).forEach(function(key) {
-        allWords = allWords.concat(wordDatabase[key]);
-    });
+    const allWords = getWordsForCurrentLevel();
     state.speakingWord = allWords[Math.floor(Math.random() * allWords.length)];
     
     document.getElementById('speakingWord').textContent = state.speakingWord.german || state.speakingWord.de;
@@ -1089,11 +1239,35 @@ const chatScenarios = {
         mission: { title: "Rozmowa kwalifikacyjna", steps: ["Przedstaw się", "Opisz doświadczenie", "Zadaj pytanie"], keywords: [["name", "bin", "komme", "heiße"], ["erfahrung", "gearbeitet", "studiert", "stärken"], ["frage", "gehalt", "wann", "team"]] },
         helpPhrases: ["Ich bin...", "Ich habe... Jahre Erfahrung", "Meine Stärke ist...", "Ich bin motiviert", "Wann kann ich anfangen?"]
     },
-    restaurant: { 
-        greeting: "Guten Abend! Haben Sie reserviert? Hier ist die Speisekarte.<br><small>(Dobry wieczór! Macie rezerwację? Oto menu.)</small>", 
+    restaurant: {
+        greeting: "Guten Abend! Haben Sie reserviert? Hier ist die Speisekarte.<br><small>(Dobry wieczór! Macie rezerwację? Oto menu.)</small>",
         suggestions: ["Einen Tisch für zwei, bitte", "Was empfehlen Sie?", "Ich nehme das Schnitzel"],
         mission: { title: "Kolacja w restauracji", steps: ["Poproś o stolik", "Zamów jedzenie", "Poproś o rachunek"], keywords: [["tisch", "platz", "reserviert"], ["nehme", "möchte", "bestelle", "essen"], ["rechnung", "zahlen", "karte"]] },
         helpPhrases: ["Einen Tisch für...", "Was empfehlen Sie?", "Ich nehme...", "Die Rechnung, bitte", "Es war lecker!"]
+    },
+    bahnhof: {
+        greeting: "Guten Tag! Willkommen am Schalter. Wohin möchten Sie fahren?<br><small>(Dzień dobry! Dokąd chce Pan/Pani pojechać?)</small>",
+        suggestions: ["Einmal nach Berlin, bitte", "Wann fährt der nächste Zug?", "Auf welchem Gleis?"],
+        mission: { title: "Na dworcu kolejowym", steps: ["Zapytaj o odjazd", "Kup bilet", "Zapytaj o peron"], keywords: [["wann", "abfahrt", "uhr", "zug"], ["ticket", "fahrkarte", "einmal", "hin"], ["gleis", "platform", "wo", "welchem"]] },
+        helpPhrases: ["Einmal nach... bitte", "Hin und zurück?", "Wann fährt der Zug ab?", "Von welchem Gleis?", "Gibt es einen Rabatt?"]
+    },
+    apotheke: {
+        greeting: "Guten Tag! Was kann ich für Sie tun?<br><small>(Dzień dobry! W czym mogę pomóc?)</small>",
+        suggestions: ["Ich brauche etwas gegen Kopfschmerzen", "Haben Sie Ibuprofen?", "Brauche ich ein Rezept?"],
+        mission: { title: "W aptece", steps: ["Opisz dolegliwość", "Zapytaj o lek", "Zapytaj o dawkowanie"], keywords: [["schmerzen", "krank", "fieber", "husten", "schnupfen"], ["tabletten", "tropfen", "salbe", "mittel", "medikament"], ["dosis", "nehmen", "mal täglich", "wie oft"]] },
+        helpPhrases: ["Ich habe Kopfschmerzen.", "Ich brauche etwas gegen...", "Wie nehme ich das?", "Dreimal täglich?", "Brauche ich ein Rezept?"]
+    },
+    bank: {
+        greeting: "Guten Tag! Womit kann ich Ihnen helfen?<br><small>(Dzień dobry! W czym mogę pomóc?)</small>",
+        suggestions: ["Ich möchte ein Konto eröffnen", "Ich möchte Geld überweisen", "Was sind die Gebühren?"],
+        mission: { title: "W banku", steps: ["Wyjaśnij cel wizyty", "Podaj dane", "Zapytaj o warunki"], keywords: [["konto", "überweisen", "abheben", "einzahlen"], ["name", "adresse", "ausweis", "daten"], ["gebühren", "zinsen", "kosten", "wie viel"]] },
+        helpPhrases: ["Ich möchte ein Konto eröffnen.", "Ich möchte Geld überweisen.", "Was kostet das?", "Brauche ich meinen Ausweis?", "Wie lange dauert das?"]
+    },
+    amt: {
+        greeting: "Guten Tag! Haben Sie einen Termin?<br><small>(Dzień dobry! Czy ma Pan/Pani termin?)</small>",
+        suggestions: ["Ich brauche eine Anmeldebescheinigung", "Ich möchte mich anmelden", "Welche Unterlagen brauche ich?"],
+        mission: { title: "W urzędzie", steps: ["Wyjaśnij sprawę", "Podaj dokumenty", "Zapytaj o czas oczekiwania"], keywords: [["anmelden", "bescheinigung", "antrag", "formular"], ["ausweis", "pass", "dokument", "unterlagen"], ["wann", "wie lange", "warten", "fertig"]] },
+        helpPhrases: ["Ich möchte mich anmelden.", "Welche Unterlagen brauche ich?", "Hier ist mein Ausweis.", "Wie lange dauert es?", "Wann ist es fertig?"]
     },
     free: { 
         greeting: "Hallo! Worüber möchtest du sprechen?<br><small>(Cześć! O czym chcesz porozmawiać?)</small>", 
@@ -1182,6 +1356,38 @@ const aiResponses = {
             "Das tut mir leid. Seit wann haben Sie diese Beschwerden?<br><small>(Przykro mi. Od kiedy ma Pan/Pani te dolegliwości?)</small>",
             "Ich verschreibe Ihnen etwas. Nehmen Sie das dreimal täglich.<br><small>(Przepiszę Panu/Pani coś. Proszę brać trzy razy dziennie.)</small>",
             "Trinken Sie viel und ruhen Sie sich aus!<br><small>(Proszę dużo pić i odpoczywać!)</small>"
+        ]
+    },
+    train: {
+        patterns: ["zug", "gleis", "bahnhof", "ticket", "fahrkarte", "abfahrt", "ankunft", "berlin", "münchen", "hamburg"],
+        responses: [
+            "Der nächste Zug fährt um 14:32 Uhr ab, Gleis 7.<br><small>(Następny pociąg odjeżdża o 14:32, peron 7.)</small>",
+            "Eine Fahrkarte nach Berlin kostet 49 Euro. Hin und zurück?<br><small>(Bilet do Berlina kosztuje 49 euro. W obie strony?)</small>",
+            "Der Zug hat leider 10 Minuten Verspätung.<br><small>(Pociąg ma niestety 10 minut opóźnienia.)</small>"
+        ]
+    },
+    pharmacy: {
+        patterns: ["tabletten", "medikament", "apotheke", "rezept", "kopfschmerzen", "schnupfen", "ibuprofen", "aspirin"],
+        responses: [
+            "Ich empfehle Ihnen Ibuprofen 400mg. Dreimal täglich nach dem Essen.<br><small>(Polecam ibuprofen 400mg. Trzy razy dziennie po jedzeniu.)</small>",
+            "Dafür brauchen Sie kein Rezept. Das ist rezeptfrei.<br><small>(Na to nie potrzeba recepty. To jest bez recepty.)</small>",
+            "Nehmen Sie das nicht länger als 3 Tage ohne Arzt.<br><small>(Nie stosować dłużej niż 3 dni bez lekarza.)</small>"
+        ]
+    },
+    banking: {
+        patterns: ["konto", "überweisen", "abheben", "einzahlen", "gebühren", "zinsen", "kredit", "geld"],
+        responses: [
+            "Für ein Girokonto brauchen Sie Ihren Personalausweis und eine Meldebescheinigung.<br><small>(Do konta bieżącego potrzebuje Pan/Pani dowód osobisty i zaświadczenie o zameldowaniu.)</small>",
+            "Die Überweisung dauert 1–2 Werktage.<br><small>(Przelew trwa 1–2 dni robocze.)</small>",
+            "Die monatliche Kontoführungsgebühr beträgt 5 Euro.<br><small>(Miesięczna opłata za prowadzenie konta wynosi 5 euro.)</small>"
+        ]
+    },
+    office: {
+        patterns: ["anmelden", "ummelden", "ausweis", "pass", "bescheinigung", "formular", "antrag", "termin"],
+        responses: [
+            "Sie brauchen Ihren Reisepass, eine aktuelle Meldebescheinigung und das ausgefüllte Formular.<br><small>(Potrzebuje Pan/Pani paszport, aktualne zaświadczenie o zameldowaniu i wypełniony formularz.)</small>",
+            "Die Bearbeitungszeit beträgt ca. 2 Wochen.<br><small>(Czas rozpatrzenia wynosi ok. 2 tygodnie.)</small>",
+            "Bitte nehmen Sie einen Termin online über unsere Webseite.<br><small>(Proszę umówić termin online na naszej stronie.)</small>"
         ]
     }
 };
@@ -1635,10 +1841,9 @@ function deleteCustomWord(i) {
 // ==================== STATYSTYKI ====================
 function showProgress() {
     showScreen('progress');
-    
+
     let currentLevelData = levelSystem[0];
     let nextLevelData = levelSystem[1];
-    
     for (let i = levelSystem.length - 1; i >= 0; i--) {
         if (state.xp >= levelSystem[i].xpRequired) {
             currentLevelData = levelSystem[i];
@@ -1646,29 +1851,53 @@ function showProgress() {
             break;
         }
     }
-    
+
     document.getElementById('levelIcon').textContent = currentLevelData.title.split(' ')[0];
     document.getElementById('levelTitleBig').textContent = currentLevelData.title.split(' ').slice(1).join(' ');
     document.getElementById('currentLevel').textContent = currentLevelData.level;
     document.getElementById('currentXP').textContent = state.xp;
     document.getElementById('nextLevelXP').textContent = nextLevelData.xpRequired;
-    
+
     const xpIn = state.xp - currentLevelData.xpRequired;
     const xpFor = nextLevelData.xpRequired - currentLevelData.xpRequired;
     document.getElementById('levelProgressBig').style.width = Math.min((xpIn / xpFor) * 100, 100) + '%';
-    
+
     document.getElementById('wordsLearned').textContent = state.wordsLearned.length;
     document.getElementById('quizzesDone').textContent = state.quizzesDone;
     document.getElementById('streakDays').textContent = state.streak;
-    document.getElementById('accuracy').textContent = state.totalAnswers > 0 ? Math.round((state.correctAnswers / state.totalAnswers) * 100) + '%' : '0%';
-    
+    document.getElementById('accuracy').textContent = state.totalAnswers > 0
+        ? Math.round((state.correctAnswers / state.totalAnswers) * 100) + '%' : '0%';
+
+    // Paski A1/A2/B1/B2
+    const learnedSet = new Set(state.wordsLearned);
+    const levelCounts = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0 };
+    const levelTotals = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0 };
+    Object.keys(wordDatabase).forEach(function(key) {
+        wordDatabase[key].forEach(function(w) {
+            const lv = w.level;
+            if (levelTotals[lv] !== undefined) {
+                levelTotals[lv]++;
+                if (learnedSet.has(w.german || w.de)) levelCounts[lv]++;
+            }
+        });
+    });
+    ['A1', 'A2', 'B1', 'B2', 'C1'].forEach(function(lv) {
+        const pct = levelTotals[lv] > 0 ? Math.round((levelCounts[lv] / levelTotals[lv]) * 100) : 0;
+        const bar = document.getElementById(lv.toLowerCase() + 'Progress');
+        const cnt = document.getElementById(lv.toLowerCase() + 'Count');
+        if (bar) bar.style.width = pct + '%';
+        if (cnt) cnt.textContent = levelCounts[lv] + '/' + levelTotals[lv];
+    });
+
     const achievementsList = document.getElementById('achievementsList');
     achievementsList.innerHTML = '';
     achievements.forEach(function(a) {
         const unlocked = state.achievements.indexOf(a.id) !== -1;
         achievementsList.innerHTML += '<div class="achievement ' + (unlocked ? '' : 'locked') + '">' + a.icon + ' ' + a.name + '</div>';
     });
-    
+
+    renderStreakCalendar();
+    renderCategoryProgress();
     setTimeout(initCharts, 100);
 }
 
@@ -2281,26 +2510,150 @@ function getWeeklyData() {
 function getCategoryData() {
     const labels = [];
     const values = [];
-    
+    const learnedSet = new Set(state.wordsLearned);
+
     const topCategories = [
         { key: 'basics', name: 'Podstawy' },
         { key: 'food', name: 'Jedzenie' },
         { key: 'family', name: 'Rodzina' },
         { key: 'travel', name: 'Podróże' },
         { key: 'work', name: 'Praca' },
-        { key: 'technology', name: 'Technologia' },
+        { key: 'colloquial', name: 'Potoczne' },
         { key: 'health', name: 'Zdrowie' },
-        { key: 'relationships', name: 'Relacje' }
+        { key: 'verbs', name: 'Czasowniki' }
     ];
-    
+
     topCategories.forEach(function(cat) {
         if (wordDatabase[cat.key]) {
-            labels.push(cat.name);
-            values.push(wordDatabase[cat.key].length);
+            const learned = wordDatabase[cat.key].filter(function(w) {
+                return learnedSet.has(w.german || w.de);
+            }).length;
+            if (learned > 0) {
+                labels.push(cat.name);
+                values.push(learned);
+            }
         }
     });
-    
+
+    if (labels.length === 0) {
+        labels.push('Brak danych');
+        values.push(1);
+    }
+
     return { labels: labels, values: values };
+}
+
+function renderStreakCalendar() {
+    const container = document.getElementById('streakCalendar');
+    const label = document.getElementById('calendarMonthLabel');
+    if (!container) return;
+
+    const weeklyStats = JSON.parse(localStorage.getItem('weeklyStats') || '{}');
+    const today = new Date();
+    const todayKey = today.toISOString().split('T')[0];
+
+    // Pokaż ostatnie 10 tygodni (70 dni)
+    const DAYS = 70;
+    const dayNames = ['Pon', 'Wto', 'Śro', 'Czw', 'Pią', 'Sob', 'Nie'];
+
+    container.innerHTML = '';
+
+    // Nagłówki dni
+    dayNames.forEach(function(d) {
+        const cell = document.createElement('div');
+        cell.className = 'streak-day day-label';
+        cell.textContent = d;
+        container.appendChild(cell);
+    });
+
+    // Wyznacz pierwszy dzień (poniedziałek sprzed ~10 tygodni)
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - DAYS + 1);
+    // Cofnij do poniedziałku
+    const dow = (startDate.getDay() + 6) % 7; // 0=Pon
+    startDate.setDate(startDate.getDate() - dow);
+
+    let months = new Set();
+    for (let i = 0; i < DAYS; i++) {
+        const d = new Date(startDate);
+        d.setDate(startDate.getDate() + i);
+        const key = d.toISOString().split('T')[0];
+        const count = weeklyStats[key] || 0;
+        months.add(d.getMonth());
+
+        const cell = document.createElement('div');
+        let cls = 'streak-day ';
+        if (count === 0)       cls += 'day-0';
+        else if (count < 5)    cls += 'day-low';
+        else if (count < 10)   cls += 'day-mid';
+        else                   cls += 'day-high';
+        if (key === todayKey)  cls += ' day-today';
+        cell.className = cls;
+        cell.title = key + ': ' + count + ' aktywności';
+        container.appendChild(cell);
+    }
+
+    if (label) {
+        const monthNames = ['Sty','Lut','Mar','Kwi','Maj','Cze','Lip','Sie','Wrz','Paź','Lis','Gru'];
+        label.textContent = '(' + monthNames[today.getMonth()] + ' ' + today.getFullYear() + ')';
+    }
+}
+
+function renderCategoryProgress() {
+    const container = document.getElementById('categoryProgressList');
+    if (!container) return;
+
+    const learnedSet = new Set(state.wordsLearned);
+    const catMeta = [
+        { key: 'basics', name: '🗣️ Podstawy' },
+        { key: 'greetings', name: '👋 Powitania' },
+        { key: 'numbers', name: '🔢 Liczby' },
+        { key: 'colors', name: '🎨 Kolory' },
+        { key: 'time', name: '⏰ Czas' },
+        { key: 'days', name: '📅 Dni i miesiące' },
+        { key: 'family', name: '👨‍👩‍👧 Rodzina' },
+        { key: 'body', name: '🧍 Ciało' },
+        { key: 'clothes', name: '👔 Ubrania' },
+        { key: 'food', name: '🍕 Jedzenie' },
+        { key: 'drinks', name: '🥤 Napoje' },
+        { key: 'home', name: '🏠 Dom' },
+        { key: 'shopping', name: '🛒 Zakupy' },
+        { key: 'travel', name: '✈️ Podróże' },
+        { key: 'city', name: '🏙️ Miasto' },
+        { key: 'transport', name: '🚗 Transport' },
+        { key: 'nature', name: '🌳 Natura' },
+        { key: 'weather', name: '🌤️ Pogoda' },
+        { key: 'animals', name: '🐕 Zwierzęta' },
+        { key: 'work', name: '💼 Praca' },
+        { key: 'school', name: '🎓 Szkoła' },
+        { key: 'health', name: '🏥 Zdrowie' },
+        { key: 'verbs', name: '🏃 Czasowniki' },
+        { key: 'adjectives', name: '📏 Przymiotniki' },
+        { key: 'phrases', name: '💬 Zwroty' },
+        { key: 'colloquial', name: '🗣️ Potoczne' },
+        { key: 'technology', name: '💻 Technologia' },
+        { key: 'emotions', name: '😀 Emocje' },
+        { key: 'business', name: '💼 Biznes' },
+        { key: 'hobby', name: '⚽ Hobby' }
+    ];
+
+    container.innerHTML = '';
+    catMeta.forEach(function(cat) {
+        if (!wordDatabase[cat.key] || wordDatabase[cat.key].length === 0) return;
+        const total = wordDatabase[cat.key].length;
+        const learned = wordDatabase[cat.key].filter(function(w) {
+            return learnedSet.has(w.german || w.de);
+        }).length;
+        const pct = Math.round((learned / total) * 100);
+
+        const row = document.createElement('div');
+        row.className = 'cat-progress-item';
+        row.innerHTML =
+            '<span class="cat-progress-label">' + cat.name + '</span>' +
+            '<div class="cat-progress-bar"><div class="cat-progress-fill" style="width:' + pct + '%"></div></div>' +
+            '<span class="cat-progress-count">' + learned + '/' + total + '</span>';
+        container.appendChild(row);
+    });
 }
 
 function trackDailyActivity() {
