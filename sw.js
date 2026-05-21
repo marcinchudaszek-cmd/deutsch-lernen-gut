@@ -1,5 +1,5 @@
 ﻿// Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v14';
+const CACHE_NAME = 'deutsch-lernen-v15';
 const STATIC_FILES = [
     './',
     './index.html',
@@ -12,7 +12,6 @@ const STATIC_FILES = [
     './icon-512.png'
 ];
 
-// Instalacja
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_FILES))
@@ -20,7 +19,6 @@ self.addEventListener('install', event => {
     self.skipWaiting();
 });
 
-// Aktywacja - usuÅ„ stare cache
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys =>
@@ -30,14 +28,12 @@ self.addEventListener('activate', event => {
     self.clients.claim();
 });
 
-// Natychmiastowa aktualizacja na Å¼Ä…danie strony
 self.addEventListener('message', event => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
     }
 });
 
-// Fetch - Network First dla JS/CSS/HTML, Cache First dla obrazÃ³w
 self.addEventListener('fetch', event => {
     if (event.request.url.startsWith('chrome-extension://')) return;
 
@@ -53,30 +49,33 @@ self.addEventListener('fetch', event => {
     const isAppFile = ['html', 'js', 'css', 'json'].includes(ext) || url.pathname.endsWith('/');
 
     if (isAppFile) {
-        // Network First: zawsze prÃ³buj pobraÄ‡ Å›wieÅ¼Ä… wersjÄ™
+        // Stale While Revalidate: od razu z cache, w tle pobiera nowÄ… wersjÄ™
         event.respondWith(
-            fetch(event.request)
-                .then(response => {
+            caches.open(CACHE_NAME).then(cache =>
+                cache.match(event.request).then(cached => {
+                    const fetchPromise = fetch(event.request).then(response => {
+                        if (response && response.status === 200) {
+                            cache.put(event.request, response.clone());
+                        }
+                        return response;
+                    }).catch(() => cached);
+
+                    return cached || fetchPromise;
+                })
+            )
+        );
+    } else {
+        // Cache First dla obrazÃ³w
+        event.respondWith(
+            caches.match(event.request).then(cached =>
+                cached || fetch(event.request).then(response => {
                     if (response && response.status === 200) {
                         const clone = response.clone();
                         caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
                     }
                     return response;
                 })
-                .catch(() => caches.match(event.request))
-        );
-    } else {
-        // Cache First dla obrazÃ³w i ikon
-        event.respondWith(
-            caches.match(event.request).then(cached => {
-                return cached || fetch(event.request).then(response => {
-                    if (response && response.status === 200) {
-                        const clone = response.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-                    }
-                    return response;
-                });
-            })
+            )
         );
     }
 });
