@@ -257,7 +257,7 @@ function saveState() {
 function countTotalWords() {
     let total = 0;
     Object.keys(wordDatabase).forEach(function(key) {
-        total += wordDatabase[key].length;
+        if (Array.isArray(wordDatabase[key])) total += wordDatabase[key].length;
     });
     total += state.customWords.length;
     const el = document.getElementById('totalWordsCount');
