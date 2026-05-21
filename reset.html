@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Czyszczenie cache...</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #6c5ce7; color: #fff; }
+        h2 { font-size: 1.5em; }
+        p { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <h2>🔄 Czyszczenie cache...</h2>
+    <p id="status">Proszę czekać...</p>
+    <script>
+        (async () => {
+            const s = document.getElementById('status');
+            try {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                for (const r of regs) await r.unregister();
+                const keys = await caches.keys();
+                for (const k of keys) await caches.delete(k);
+                s.textContent = '✅ Gotowe! Przekierowanie...';
+            } catch(e) {
+                s.textContent = '✅ Przekierowanie...';
+            }
+            setTimeout(() => { window.location.replace('/'); }, 1000);
+        })();
+    </script>
+</body>
+</html>
