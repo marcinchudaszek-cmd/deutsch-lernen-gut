@@ -2120,6 +2120,18 @@ function displayWords() {
 }
 
 // ==================== PRZYPOMNIENIA ====================
+async function clearCacheAndReload() {
+    if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) await reg.unregister();
+    }
+    if ('caches' in window) {
+        const keys = await caches.keys();
+        for (const key of keys) await caches.delete(key);
+    }
+    window.location.reload(true);
+}
+
 function openReminders() {
     showScreen('reminders');
     loadReminderSettings();
