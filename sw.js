@@ -1,5 +1,5 @@
-// Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v9';
+﻿// Service Worker dla Deutsch Lernen PWA
+const CACHE_NAME = 'deutsch-lernen-v11';
 const urlsToCache = [
     './',
     './index.html',
@@ -51,13 +51,13 @@ self.addEventListener('fetch', event => {
     
     const url = new URL(event.request.url);
     
-    // Dla API Gemini - zawsze sieć
+    // Dla API Gemini - zawsze sieÄ‡
     if (url.hostname.includes('googleapis.com')) {
         event.respondWith(fetch(event.request));
         return;
     }
     
-    // Dla reszty - Cache First z fallback na sieć
+    // Dla reszty - Cache First z fallback na sieÄ‡
     event.respondWith(
         caches.match(event.request)
             .then(response => {
