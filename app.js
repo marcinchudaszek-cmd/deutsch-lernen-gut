@@ -296,6 +296,13 @@ function updateUI() {
         b.classList.toggle('active', b.textContent.trim() === state.currentLanguageLevel);
     });
 
+    // Przywróć stan przycisku trybu odwróconego
+    const reverseBtn = document.getElementById('reverseBtn');
+    if (reverseBtn) {
+        reverseBtn.textContent = state.reverseMode ? '🔄 Tryb: PL→DE ✓' : '🔄 PL→DE';
+        reverseBtn.classList.toggle('active', state.reverseMode);
+    }
+
     saveState();
 }
 
@@ -430,7 +437,7 @@ function toggleReverseMode() {
     state.reverseMode = !state.reverseMode;
     const btn = document.getElementById('reverseBtn');
     if (btn) {
-        btn.textContent = state.reverseMode ? '🔄 DE→PL' : '🔄 PL→DE';
+        btn.textContent = state.reverseMode ? '🔄 Tryb: PL→DE ✓' : '🔄 PL→DE';
         btn.classList.toggle('active', state.reverseMode);
     }
     saveState();
