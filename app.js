@@ -578,6 +578,8 @@ function showCurrentCard() {
         backEl.textContent = polishWord;
     }
     document.getElementById('exampleSentence').textContent = card.example || '';
+    document.getElementById('exampleActions').style.display = 'none';
+    document.getElementById('exampleTranslation').textContent = '';
     document.getElementById('cardCounter').textContent =
         (state.currentCardIndex + 1) + ' / ' + state.currentCards.length;
 
@@ -596,6 +598,44 @@ function flipCard() {
 
     if (document.getElementById('flashcardInner').classList.contains('flipped')) {
         setTimeout(() => speak(germanWord), 200);
+        if (card.example) {
+            document.getElementById('exampleActions').style.display = 'flex';
+            setTimeout(() => speakExample(), 600);
+        }
+    }
+}
+
+function speakExample() {
+    const card = state.currentCards[state.currentCardIndex];
+    if (!card || !card.example) return;
+    const utterance = new SpeechSynthesisUtterance(card.example);
+    utterance.lang = 'de-DE';
+    utterance.rate = 0.9;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
+}
+
+async function translateExample() {
+    const card = state.currentCards[state.currentCardIndex];
+    if (!card || !card.example) return;
+
+    const btn = document.getElementById('translateBtn');
+    const translEl = document.getElementById('exampleTranslation');
+
+    btn.disabled = true;
+    btn.textContent = '⏳';
+    translEl.textContent = '';
+
+    try {
+        const result = await callGeminiAI(
+            'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy: ' + card.example
+        );
+        translEl.textContent = result.trim();
+    } catch (e) {
+        translEl.textContent = 'Błąd tłumaczenia. Sprawdź klucz API.';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '🌐 Tłumacz';
     }
 }
 

@@ -250,7 +250,14 @@
                     </div>
                     <div class="flashcard-back">
                         <span id="polishWord">Cześć</span>
-                        <p id="exampleSentence" class="example"></p>
+                        <div class="example-block">
+                            <p id="exampleSentence" class="example"></p>
+                            <div class="example-actions" id="exampleActions" style="display:none">
+                                <button class="example-btn" onclick="event.stopPropagation(); speakExample()">🔊</button>
+                                <button class="example-btn translate-btn" id="translateBtn" onclick="event.stopPropagation(); translateExample()">🌐 Tłumacz</button>
+                            </div>
+                            <p id="exampleTranslation" class="example-translation"></p>
+                        </div>
                     </div>
                 </div>
             </div>

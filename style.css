@@ -2626,3 +2626,53 @@ body.light-mode .bottom-nav {
     color: #fff;
     border-color: var(--primary);
 }
+
+.example-block {
+    margin-top: 12px;
+    width: 100%;
+}
+
+.example {
+    font-size: 0.85em;
+    color: var(--text-secondary, #888);
+    font-style: italic;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
+}
+
+.example-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+
+.example-btn {
+    background: var(--glass);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 0.82em;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.example-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.example-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.example-translation {
+    font-size: 0.82em;
+    color: var(--primary);
+    font-style: normal;
+    margin: 0;
+    min-height: 1.2em;
+}
