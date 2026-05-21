@@ -1,5 +1,5 @@
 ﻿// Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v11';
+const CACHE_NAME = 'deutsch-lernen-v12';
 const urlsToCache = [
     './',
     './index.html',
@@ -40,6 +40,13 @@ self.addEventListener('activate', event => {
         })
     );
     self.clients.claim();
+});
+
+// Natychmiastowa aktualizacja na żądanie strony
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
 });
 
 // Fetch

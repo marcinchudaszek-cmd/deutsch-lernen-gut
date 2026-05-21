@@ -847,6 +847,16 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then(function(registration) {
                         console.log('✅ Service Worker zarejestrowany:', registration.scope);
+                        registration.update();
+                        registration.addEventListener('updatefound', function() {
+                            var newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', function() {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    window.location.reload();
+                                }
+                            });
+                        });
                     })
                     .catch(function(error) {
                         console.log('❌ Błąd rejestracji Service Worker:', error);
