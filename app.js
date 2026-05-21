@@ -2124,6 +2124,45 @@ function openReminders() {
     showScreen('reminders');
     loadReminderSettings();
     updateDailyProgress();
+    loadApiKeyToSettings();
+}
+
+function loadApiKeyToSettings() {
+    const input = document.getElementById('geminiKeyInput');
+    const status = document.getElementById('apiKeyStatus');
+    if (!input) return;
+    const key = localStorage.getItem('geminiApiKey') || '';
+    input.value = key;
+    status.textContent = key.length > 10 ? '✅ Klucz zapisany' : '❌ Brak klucza — czat AI i tłumacz nie będą działać';
+}
+
+function previewApiKey() {
+    const input = document.getElementById('geminiKeyInput');
+    const status = document.getElementById('apiKeyStatus');
+    const val = input.value.trim();
+    status.textContent = val.length > 10 ? '✅ Gotowy do zapisu' : '⚠️ Klucz wygląda za krótki';
+}
+
+function saveApiKeyFromSettings() {
+    const input = document.getElementById('geminiKeyInput');
+    const status = document.getElementById('apiKeyStatus');
+    const val = input.value.trim();
+    if (val.length < 10) {
+        status.textContent = '❌ Wpisz prawidłowy klucz API';
+        return;
+    }
+    localStorage.setItem('geminiApiKey', val);
+    status.textContent = '✅ Klucz zapisany!';
+    showToast('✅ Klucz Gemini API zapisany');
+}
+
+function clearApiKey() {
+    localStorage.removeItem('geminiApiKey');
+    const input = document.getElementById('geminiKeyInput');
+    const status = document.getElementById('apiKeyStatus');
+    if (input) input.value = '';
+    if (status) status.textContent = '❌ Klucz usunięty';
+    showToast('🗑️ Klucz API usunięty');
 }
 
 function loadReminderSettings() {
