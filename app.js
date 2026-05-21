@@ -177,30 +177,34 @@ if ('speechSynthesis' in window) {
 
 // ULEPSZONA funkcja wymowy
 function speak(text, rate = 0.85) {
+    // Capacitor TTS (Android natywny)
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) {
+        window.Capacitor.Plugins.TextToSpeech.speak({ text: text, lang: 'de-DE', rate: rate, pitch: 1.0, volume: 1.0 });
+        return;
+    }
+
     if (!('speechSynthesis' in window)) {
         showToast('❌ Twoja przeglądarka nie wspiera wymowy');
         return;
     }
-    
+
     // Anuluj poprzednią wymowę
     speechSynthesis.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'de-DE';
     utterance.rate = rate;
     utterance.pitch = 1;
     utterance.volume = 1;
-    
-    // Użyj najlepszego głosu jeśli dostępny
+
     if (germanVoice) {
         utterance.voice = germanVoice;
     }
-    
-    // Wizualne potwierdzenie
+
     utterance.onstart = function() {
         document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
     };
-    
+
     speechSynthesis.speak(utterance);
 }
 
@@ -625,12 +629,20 @@ async function translateExample() {
     translEl.textContent = '';
 
     try {
+        if (!hasApiKey()) {
+            translEl.textContent = '❌ Ustaw klucz Gemini API w ustawieniach czatu AI.';
+            return;
+        }
         const result = await callGeminiAI(
             'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy: ' + card.example
         );
-        translEl.textContent = result.trim();
+        if (result.success) {
+            translEl.textContent = result.response.trim();
+        } else {
+            translEl.textContent = '❌ ' + (result.error || 'Błąd tłumaczenia');
+        }
     } catch (e) {
-        translEl.textContent = 'Błąd tłumaczenia. Sprawdź klucz API.';
+        translEl.textContent = '❌ Błąd połączenia z API.';
     } finally {
         btn.disabled = false;
         btn.textContent = '🌐 Tłumacz';
