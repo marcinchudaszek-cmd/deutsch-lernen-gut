@@ -32,6 +32,7 @@ let state = {
 };
 
 let reviewMode = false;
+let exampleSpeakTimeout = null;
 
 const levelSystem = [
     { level: 1, title: "🌱 Początkujący", xpRequired: 0 },
@@ -577,6 +578,7 @@ function showCurrentCard() {
         frontEl.textContent = germanWord;
         backEl.textContent = polishWord;
     }
+    clearTimeout(exampleSpeakTimeout);
     document.getElementById('exampleSentence').textContent = card.example || '';
     document.getElementById('exampleActions').style.display = 'none';
     document.getElementById('exampleTranslation').textContent = '';
@@ -597,10 +599,10 @@ function flipCard() {
     const germanWord = card.german || card.de;
 
     if (document.getElementById('flashcardInner').classList.contains('flipped')) {
-        setTimeout(() => speak(germanWord), 200);
+        speak(germanWord);
         if (card.example) {
             document.getElementById('exampleActions').style.display = 'flex';
-            setTimeout(() => speakExample(), 600);
+            exampleSpeakTimeout = setTimeout(() => speakExample(), 1800);
         }
     }
 }
@@ -608,11 +610,7 @@ function flipCard() {
 function speakExample() {
     const card = state.currentCards[state.currentCardIndex];
     if (!card || !card.example) return;
-    const utterance = new SpeechSynthesisUtterance(card.example);
-    utterance.lang = 'de-DE';
-    utterance.rate = 0.9;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(utterance);
+    speak(card.example, 0.85);
 }
 
 async function translateExample() {
