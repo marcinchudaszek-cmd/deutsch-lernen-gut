@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ðŸ‡©ðŸ‡ª Deutsch Lernen</title>
+    <title>🇩🇪 Deutsch Lernen</title>
 
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
-    <meta name="description" content="Aplikacja do nauki jÄ™zyka niemieckiego z fiszkami, quizami i czatem AI">
+    <meta name="description" content="Aplikacja do nauki języka niemieckiego z fiszkami, quizami i czatem AI">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Deutsch Lernen">
     
@@ -34,7 +34,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css">
     
     <!-- Splash Screen iOS -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -43,37 +43,37 @@
     <div class="app">
         <!-- Nawigacja -->
         <nav class="navbar">
-            <h1>ðŸ‡©ðŸ‡ª Deutsch Lernen</h1>
+            <h1>🇩🇪 Deutsch Lernen</h1>
             <div class="nav-right">
                 <div class="stats">
-                    <span class="xp">â­ <span id="totalXP">0</span></span>
-                    <span class="streak">ðŸ”¥ <span id="streak">0</span></span>
+                    <span class="xp">⭐ <span id="totalXP">0</span></span>
+                    <span class="streak">🔥 <span id="streak">0</span></span>
                 </div>
-                <button class="theme-toggle" onclick="toggleSound()" title="DÅºwiÄ™ki">
-                    <span id="soundToggle">ðŸ”Š</span>
+                <button class="theme-toggle" onclick="toggleSound()" title="Dźwięki">
+                    <span id="soundToggle">🔊</span>
                 </button>
                 <button class="theme-toggle" onclick="toggleTheme()">
-                    <span id="themeIcon">ðŸŒ™</span>
+                    <span id="themeIcon">🌙</span>
                 </button>
             </div>
         </nav>
 
-        <!-- Menu gÅ‚Ã³wne -->
+        <!-- Menu główne -->
         <div id="menu" class="screen active">
             <div class="level-badge">
                 <div class="level-info">
-                    <span id="levelTitle">ðŸŒ± PoczÄ…tkujÄ…cy</span>
+                    <span id="levelTitle">🌱 Początkujący</span>
                     <span id="userLevel">Poziom 1</span>
                 </div>
                 <div class="progress-bar">
                     <div id="levelProgress" class="progress-fill" style="width: 0%"></div>
                 </div>
-                <span class="xp-to-next">Do nastÄ™pnego: <span id="xpToNext">100</span> XP</span>
+                <span class="xp-to-next">Do następnego: <span id="xpToNext">100</span> XP</span>
             </div>
 
-            <!-- WybÃ³r poziomu jÄ™zykowego -->
+            <!-- Wybór poziomu językowego -->
             <div class="language-level-select">
-                <span>Poziom jÄ™zykowy:</span>
+                <span>Poziom językowy:</span>
                 <div class="level-buttons">
                     <button class="lang-level-btn active" onclick="setLanguageLevel('A1', this)">A1</button>
                     <button class="lang-level-btn" onclick="setLanguageLevel('A2', this)">A2</button>
@@ -85,71 +85,71 @@
             
             <div class="menu-grid">
                 <button class="menu-btn review-btn" onclick="startReview()">
-                    <span class="icon">ðŸ”<span id="reviewBadge" class="review-badge hidden">0</span></span>
-                    <span>PowtÃ³rka</span>
+                    <span class="icon">🔁<span id="reviewBadge" class="review-badge hidden">0</span></span>
+                    <span>Powtórka</span>
                 </button>
                 <button class="menu-btn" onclick="startFlashcards()">
-                    <span class="icon">ðŸ“š</span>
+                    <span class="icon">📚</span>
                     <span>Fiszki</span>
                 </button>
                 <button class="menu-btn" onclick="startQuiz()">
-                    <span class="icon">ðŸ“</span>
+                    <span class="icon">📝</span>
                     <span>Quiz</span>
                 </button>
                 <button class="menu-btn" onclick="startMemory()">
-                    <span class="icon">ðŸŽ®</span>
+                    <span class="icon">🎮</span>
                     <span>Memory</span>
                 </button>
                 <button class="menu-btn" onclick="startGrammar()">
-                    <span class="icon">âœï¸</span>
+                    <span class="icon">✍️</span>
                     <span>Gramatyka</span>
                 </button>
                 <button class="menu-btn" onclick="startTyping()">
-                    <span class="icon">âœï¸</span>
+                    <span class="icon">✏️</span>
                     <span>Pisanie</span>
                 </button>
                 <button class="menu-btn" onclick="startListening()">
-                    <span class="icon">ðŸŽ§</span>
-                    <span>SÅ‚uchanie</span>
+                    <span class="icon">🎧</span>
+                    <span>Słuchanie</span>
                 </button>
                 <button class="menu-btn" onclick="startSpeaking()">
-                    <span class="icon">ðŸŽ¤</span>
-                    <span>MÃ³wienie</span>
+                    <span class="icon">🎤</span>
+                    <span>Mówienie</span>
                 </button>
                 <button class="menu-btn" onclick="startChat()">
-                    <span class="icon">ðŸ¤–</span>
+                    <span class="icon">🤖</span>
                     <span>Czat AI</span>
                 </button>
                 <button class="menu-btn" onclick="showProgress()">
-                    <span class="icon">ðŸ“Š</span>
-                    <span>PostÄ™py</span>
+                    <span class="icon">📊</span>
+                    <span>Postępy</span>
                 </button>
                 <button class="menu-btn" onclick="showAllWords()">
-                    <span class="icon">ðŸ“–</span>
-                    <span>SÅ‚ownik</span>
+                    <span class="icon">📖</span>
+                    <span>Słownik</span>
                 </button>
                 <button class="menu-btn" onclick="openMyWords()">
-                    <span class="icon">âž•</span>
-                    <span>Moje sÅ‚Ã³wka</span>
+                    <span class="icon">➕</span>
+                    <span>Moje słówka</span>
                 </button>
                 <button class="menu-btn" onclick="showLevels()">
-                    <span class="icon">ðŸ†</span>
+                    <span class="icon">🏆</span>
                     <span>Poziomy</span>
                 </button>
                 <button class="menu-btn" onclick="openReminders()">
-                    <span class="icon">âš™ï¸</span>
+                    <span class="icon">⚙️</span>
                     <span>Ustawienia</span>
                 </button>
             </div>
 
             <div class="word-stats">
-                ðŸ“š SÅ‚Ã³w w bazie: <span id="totalWordsCount">0</span>
+                📚 Słów w bazie: <span id="totalWordsCount">0</span>
             </div>
         </div>
 
         <!-- Ekran fiszek -->
         <div id="flashcards" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
             
             <div class="current-lang-level">
                 Poziom: <span id="currentLangLevel">A1</span>
@@ -157,87 +157,87 @@
 
             <div class="category-select">
                 <select id="categorySelect" onchange="loadCategory()">
-                    <option value="all">ðŸŒ Wszystkie kategorie (bieÅ¼Ä…cy poziom)</option>
-                    <optgroup label="ðŸ“— Podstawowe">
-                        <option value="basics">ðŸ—£ï¸ Podstawy</option>
-                        <option value="greetings">ðŸ‘‹ Powitania</option>
-                        <option value="numbers">ðŸ”¢ Liczby</option>
-                        <option value="colors">ðŸŽ¨ Kolory</option>
-                        <option value="time">â° Czas</option>
-                        <option value="days">ðŸ“… Dni i miesiÄ…ce</option>
+                    <option value="all">🌍 Wszystkie kategorie (bieżący poziom)</option>
+                    <optgroup label="📗 Podstawowe">
+                        <option value="basics">🗣️ Podstawy</option>
+                        <option value="greetings">👋 Powitania</option>
+                        <option value="numbers">🔢 Liczby</option>
+                        <option value="colors">🎨 Kolory</option>
+                        <option value="time">⏰ Czas</option>
+                        <option value="days">📅 Dni i miesiące</option>
                     </optgroup>
-                    <optgroup label="ðŸ‘¨â€ðŸ‘©â€ðŸ‘§ Ludzie">
-                        <option value="family">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§ Rodzina</option>
-                        <option value="body">ðŸ§ CiaÅ‚o</option>
-                        <option value="clothes">ðŸ‘” Ubrania</option>
-                        <option value="emotions">ðŸ˜€ Emocje</option>
-                        <option value="character">ðŸŽ­ Charakter</option>
+                    <optgroup label="👨‍👩‍👧 Ludzie">
+                        <option value="family">👨‍👩‍👧 Rodzina</option>
+                        <option value="body">🧍 Ciało</option>
+                        <option value="clothes">👔 Ubrania</option>
+                        <option value="emotions">😀 Emocje</option>
+                        <option value="character">🎭 Charakter</option>
                     </optgroup>
-                    <optgroup label="ðŸ  Å»ycie codzienne">
-                        <option value="home">ðŸ  Dom</option>
-                        <option value="food">ðŸ• Jedzenie</option>
-                        <option value="drinks">ðŸ¥¤ Napoje</option>
-                        <option value="shopping">ðŸ›’ Zakupy</option>
-                        <option value="restaurant">ðŸ½ï¸ Restauracja</option>
+                    <optgroup label="🏠 Życie codzienne">
+                        <option value="home">🏠 Dom</option>
+                        <option value="food">🍕 Jedzenie</option>
+                        <option value="drinks">🥤 Napoje</option>
+                        <option value="shopping">🛒 Zakupy</option>
+                        <option value="restaurant">🍽️ Restauracja</option>
                     </optgroup>
-                    <optgroup label="ðŸŒ Åšwiat">
-                        <option value="city">ðŸ™ï¸ Miasto</option>
-                        <option value="travel">âœˆï¸ PodrÃ³Å¼e</option>
-                        <option value="transport">ðŸš— Transport</option>
-                        <option value="nature">ðŸŒ³ Natura</option>
-                        <option value="weather">ðŸŒ¤ï¸ Pogoda</option>
-                        <option value="animals">ðŸ• ZwierzÄ™ta</option>
+                    <optgroup label="🌍 Świat">
+                        <option value="city">🏙️ Miasto</option>
+                        <option value="travel">✈️ Podróże</option>
+                        <option value="transport">🚗 Transport</option>
+                        <option value="nature">🌳 Natura</option>
+                        <option value="weather">🌤️ Pogoda</option>
+                        <option value="animals">🐕 Zwierzęta</option>
                     </optgroup>
-                    <optgroup label="ðŸ“š Nauka i praca">
-                        <option value="school">ðŸŽ“ SzkoÅ‚a</option>
-                        <option value="work">ðŸ’¼ Praca</option>
-                        <option value="professions">ðŸ‘¨â€âš•ï¸ Zawody</option>
-                        <option value="office">ðŸ–¥ï¸ Biuro</option>
-                        <option value="construction">ðŸ—ï¸ Budownictwo</option>
+                    <optgroup label="📚 Nauka i praca">
+                        <option value="school">🎓 Szkoła</option>
+                        <option value="work">💼 Praca</option>
+                        <option value="professions">👨‍⚕️ Zawody</option>
+                        <option value="office">🖥️ Biuro</option>
+                        <option value="construction">🏗️ Budownictwo</option>
                     </optgroup>
-                    <optgroup label="ðŸŽ‰ Czas wolny">
-                        <option value="hobby">âš½ Hobby</option>
-                        <option value="sports">ðŸƒ Sport</option>
-                        <option value="music">ðŸŽµ Muzyka</option>
-                        <option value="culture">ðŸŽ­ Kultura</option>
+                    <optgroup label="🎉 Czas wolny">
+                        <option value="hobby">⚽ Hobby</option>
+                        <option value="sports">🏃 Sport</option>
+                        <option value="music">🎵 Muzyka</option>
+                        <option value="culture">🎭 Kultura</option>
                     </optgroup>
-                    <optgroup label="ðŸ“– Gramatyka">
-                        <option value="verbs">ðŸƒ Czasowniki</option>
-                        <option value="adjectives">ðŸ“ Przymiotniki</option>
-                        <option value="adverbs">âš¡ PrzysÅ‚Ã³wki</option>
-                        <option value="prepositions">ðŸ“ Przyimki</option>
-                        <option value="conjunctions">ðŸ”— SpÃ³jniki</option>
+                    <optgroup label="📖 Gramatyka">
+                        <option value="verbs">🏃 Czasowniki</option>
+                        <option value="adjectives">📏 Przymiotniki</option>
+                        <option value="adverbs">⚡ Przysłówki</option>
+                        <option value="prepositions">📍 Przyimki</option>
+                        <option value="conjunctions">🔗 Spójniki</option>
                     </optgroup>
-                    <optgroup label="ðŸ’¬ Komunikacja">
-                        <option value="phrases">ðŸ’¬ Zwroty</option>
-                        <option value="questions">â“ Pytania</option>
-                        <option value="opinions">ðŸ’­ Opinie</option>
-                        <option value="business">ðŸ’¼ Biznes</option>
-                        <option value="formal">ðŸ“œ JÄ™zyk formalny</option>
-                        <option value="dailyPhrases">ðŸ—¨ï¸ Zdania na co dzieÅ„</option>
+                    <optgroup label="💬 Komunikacja">
+                        <option value="phrases">💬 Zwroty</option>
+                        <option value="questions">❓ Pytania</option>
+                        <option value="opinions">💭 Opinie</option>
+                        <option value="business">💼 Biznes</option>
+                        <option value="formal">📜 Język formalny</option>
+                        <option value="dailyPhrases">🗨️ Zdania na co dzień</option>
                     </optgroup>
-                    <optgroup label="ðŸ¥ Sytuacje">
-                        <option value="health">ðŸ¥ Zdrowie</option>
-                        <option value="emergency">ðŸš¨ NagÅ‚e wypadki</option>
-                        <option value="bank">ðŸ¦ Bank</option>
-                        <option value="hotel">ðŸ¨ Hotel</option>
+                    <optgroup label="🏥 Sytuacje">
+                        <option value="health">🏥 Zdrowie</option>
+                        <option value="emergency">🚨 Nagłe wypadki</option>
+                        <option value="bank">🏦 Bank</option>
+                        <option value="hotel">🏨 Hotel</option>
                     </optgroup>
-                    <optgroup label="ðŸ†• Nowe kategorie">
-                        <option value="technology">ðŸ’» Technologia</option>
-                        <option value="socialmedia">ðŸ“± Social Media</option>
-                        <option value="vacation">ðŸ–ï¸ Wakacje</option>
-                        <option value="relationships">â¤ï¸ Relacje</option>
-                        <option value="entertainment">ðŸŽ¬ Rozrywka</option>
-                        <option value="fitness">ðŸƒ Fitness</option>
+                    <optgroup label="🆕 Nowe kategorie">
+                        <option value="technology">💻 Technologia</option>
+                        <option value="socialmedia">📱 Social Media</option>
+                        <option value="vacation">🏖️ Wakacje</option>
+                        <option value="relationships">❤️ Relacje</option>
+                        <option value="entertainment">🎬 Rozrywka</option>
+                        <option value="fitness">🏃 Fitness</option>
                     </optgroup>
-                    <optgroup label="ðŸŽ“ Zaawansowane">
-                        <option value="c1vocabulary">ðŸŽ“ SÅ‚ownictwo C1</option>
+                    <optgroup label="🎓 Zaawansowane">
+                        <option value="c1vocabulary">🎓 Słownictwo C1</option>
                     </optgroup>
-                    <optgroup label="ðŸ—£ï¸ Potoczne">
-                        <option value="colloquial">ðŸ—£ï¸ RozmÃ³wki potoczne</option>
+                    <optgroup label="🗣️ Potoczne">
+                        <option value="colloquial">🗣️ Rozmówki potoczne</option>
                     </optgroup>
-                    <optgroup label="â­ WÅ‚asne">
-                        <option value="custom">â­ Moje sÅ‚Ã³wka</option>
+                    <optgroup label="⭐ Własne">
+                        <option value="custom">⭐ Moje słówka</option>
                     </optgroup>
                 </select>
             </div>
@@ -246,15 +246,15 @@
                 <div class="flashcard-inner" id="flashcardInner">
                     <div class="flashcard-front">
                         <span id="germanWord">Hallo</span>
-                        <button class="sound-btn" onclick="event.stopPropagation(); playSound()">ðŸ”Š</button>
+                        <button class="sound-btn" onclick="event.stopPropagation(); playSound()">🔊</button>
                     </div>
                     <div class="flashcard-back">
-                        <span id="polishWord">CzeÅ›Ä‡</span>
+                        <span id="polishWord">Cześć</span>
                         <div class="example-block">
                             <p id="exampleSentence" class="example"></p>
                             <div class="example-actions" id="exampleActions" style="display:none">
-                                <button class="example-btn" onclick="event.stopPropagation(); speakExample()">ðŸ”Š</button>
-                                <button class="example-btn translate-btn" id="translateBtn" onclick="event.stopPropagation(); translateExample()">ðŸŒ TÅ‚umacz</button>
+                                <button class="example-btn" onclick="event.stopPropagation(); speakExample()">🔊</button>
+                                <button class="example-btn translate-btn" id="translateBtn" onclick="event.stopPropagation(); translateExample()">🌐 Tłumacz</button>
                             </div>
                             <p id="exampleTranslation" class="example-translation"></p>
                         </div>
@@ -263,12 +263,12 @@
             </div>
             
             <div class="flashcard-controls">
-                <button class="control-btn wrong" onclick="markWord(false)">âŒ Nie umiem</button>
-                <button class="control-btn correct" onclick="markWord(true)">âœ… Umiem!</button>
+                <button class="control-btn wrong" onclick="markWord(false)">❌ Nie umiem</button>
+                <button class="control-btn correct" onclick="markWord(true)">✅ Umiem!</button>
             </div>
 
             <div class="flashcard-extra-controls">
-                <button class="reverse-btn" id="reverseBtn" onclick="toggleReverseMode()">ðŸ”„ PLâ†’DE</button>
+                <button class="reverse-btn" id="reverseBtn" onclick="toggleReverseMode()">🔄 PL→DE</button>
             </div>
             
             <div class="card-counter">
@@ -278,9 +278,9 @@
 
         <!-- Ekran Memory -->
         <div id="memory" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
             <div class="memory-header">
-                <h2>ðŸŽ® Memory</h2>
+                <h2>🎮 Memory</h2>
                 <div class="memory-stats">
                     <span>Ruchy: <span id="memoryMoves">0</span></span>
                     <span>Pary: <span id="memoryPairs">0</span>/<span id="memoryTotal">6</span></span>
@@ -288,19 +288,19 @@
             </div>
             
             <div class="memory-difficulty">
-                <button class="diff-btn active" onclick="setMemoryDifficulty('easy', this)">Åatwy</button>
-                <button class="diff-btn" onclick="setMemoryDifficulty('medium', this)">Åšredni</button>
+                <button class="diff-btn active" onclick="setMemoryDifficulty('easy', this)">Łatwy</button>
+                <button class="diff-btn" onclick="setMemoryDifficulty('medium', this)">Średni</button>
                 <button class="diff-btn" onclick="setMemoryDifficulty('hard', this)">Trudny</button>
             </div>
             
             <div class="memory-board" id="memoryBoard"></div>
             
-            <button class="check-btn" onclick="restartMemory()">ðŸ”„ Nowa gra</button>
+            <button class="check-btn" onclick="restartMemory()">🔄 Nowa gra</button>
         </div>
 
         <!-- Ekran quizu -->
         <div id="quiz" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
             <div class="quiz-header">
                 <span id="quizProgress">Pytanie 1/10</span>
                 <span id="quizScore">Wynik: 0</span>
@@ -308,7 +308,7 @@
             
             <div class="quiz-question">
                 <h2 id="quizWord">Hallo</h2>
-                <p>Wybierz poprawne tÅ‚umaczenie:</p>
+                <p>Wybierz poprawne tłumaczenie:</p>
             </div>
             
             <div class="quiz-options" id="quizOptions"></div>
@@ -317,8 +317,8 @@
 
         <!-- Ekran gramatyki -->
         <div id="grammar" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>âœï¸ Gramatyka</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>✍️ Gramatyka</h2>
             
             <div class="grammar-topics">
                 <button class="topic-btn" onclick="loadGrammarTopic('articles')">
@@ -335,19 +335,19 @@
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('perfect')">
                     <span>Perfekt</span>
-                    <span class="topic-desc">Czas przeszÅ‚y</span>
+                    <span class="topic-desc">Czas przeszły</span>
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('modal')">
                     <span>Modalverben</span>
                     <span class="topic-desc">Czasowniki modalne</span>
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('praeteritum')">
-                    <span>PrÃ¤teritum</span>
-                    <span class="topic-desc">Czas przeszÅ‚y prosty</span>
+                    <span>Präteritum</span>
+                    <span class="topic-desc">Czas przeszły prosty</span>
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('konjunktiv2')">
                     <span>Konjunktiv II</span>
-                    <span class="topic-desc">Tryb przypuszczajÄ…cy</span>
+                    <span class="topic-desc">Tryb przypuszczający</span>
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('passiv')">
                     <span>Passiv</span>
@@ -358,8 +358,8 @@
                     <span class="topic-desc">Stopniowanie</span>
                 </button>
                 <button class="topic-btn" onclick="loadGrammarTopic('nebensaetze')">
-                    <span>NebensÃ¤tze</span>
-                    <span class="topic-desc">Zdania podrzÄ™dne</span>
+                    <span>Nebensätze</span>
+                    <span class="topic-desc">Zdania podrzędne</span>
                 </button>
             </div>
             
@@ -367,59 +367,59 @@
             <div id="grammarExercise" class="grammar-exercise hidden"></div>
         </div>
 
-        <!-- Ekran sÅ‚uchania -->
+        <!-- Ekran słuchania -->
         <div id="listening" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>ðŸŽ§ Ä†wiczenie sÅ‚uchania</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>🎧 Ćwiczenie słuchania</h2>
             
             <div class="listening-card">
-                <button class="big-sound-btn" onclick="playListeningWord()">ðŸ”Š PosÅ‚uchaj</button>
-                <input type="text" id="listeningInput" placeholder="Wpisz co sÅ‚yszysz..." 
+                <button class="big-sound-btn" onclick="playListeningWord()">🔊 Posłuchaj</button>
+                <input type="text" id="listeningInput" placeholder="Wpisz co słyszysz..." 
                        onkeypress="if(event.key==='Enter') checkListening()">
-                <button class="check-btn" onclick="checkListening()">SprawdÅº</button>
+                <button class="check-btn" onclick="checkListening()">Sprawdź</button>
                 <div id="listeningFeedback" class="feedback hidden"></div>
             </div>
         </div>
 
-        <!-- Ekran mÃ³wienia -->
+        <!-- Ekran mówienia -->
         <div id="speaking" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>ðŸŽ¤ Ä†wicz wymowÄ™</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>🎤 Ćwicz wymowę</h2>
             
             <div class="speaking-card">
                 <div class="word-to-say">
-                    <p>Powiedz to sÅ‚owo:</p>
+                    <p>Powiedz to słowo:</p>
                     <h2 id="speakingWord">Hallo</h2>
-                    <p id="speakingTranslation" class="translation">CzeÅ›Ä‡</p>
+                    <p id="speakingTranslation" class="translation">Cześć</p>
                 </div>
                 
                 <button class="listen-btn" onclick="playSpeakingWord()">
-                    ðŸ”Š PosÅ‚uchaj wymowy
+                    🔊 Posłuchaj wymowy
                 </button>
                 
                 <button class="big-mic-btn" id="micButton" onclick="startSpeechRecognition()">
-                    ðŸŽ¤ NaciÅ›nij i mÃ³w
+                    🎤 Naciśnij i mów
                 </button>
                 
                 <div id="speechResult" class="speech-result hidden">
-                    <p>PowiedziaÅ‚eÅ›:</p>
+                    <p>Powiedziałeś:</p>
                     <h3 id="userSpeech"></h3>
                 </div>
                 
                 <div id="speakingFeedback" class="feedback hidden"></div>
                 
-                <button class="check-btn" onclick="nextSpeakingWord()">âž¡ï¸ NastÄ™pne sÅ‚owo</button>
+                <button class="check-btn" onclick="nextSpeakingWord()">➡️ Następne słowo</button>
             </div>
         </div>
 
-        <!-- Ekran postÄ™pÃ³w -->
+        <!-- Ekran postępów -->
         <div id="progress" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>ðŸ“Š Twoje postÄ™py</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>📊 Twoje postępy</h2>
             
             <div class="level-detail">
-                <div class="level-icon" id="levelIcon">ðŸŒ±</div>
-                <h3 id="levelTitleBig">PoczÄ…tkujÄ…cy</h3>
+                <div class="level-icon" id="levelIcon">🌱</div>
+                <h3 id="levelTitleBig">Początkujący</h3>
                 <p>Poziom <span id="currentLevel">1</span></p>
                 <div class="level-progress-bar">
                     <div id="levelProgressBig" class="level-progress-fill" style="width: 0%"></div>
@@ -428,7 +428,7 @@
             </div>
 
             <div class="lang-level-progress">
-                <h3>ðŸ“š PostÄ™p wg poziomu jÄ™zykowego</h3>
+                <h3>📚 Postęp wg poziomu językowego</h3>
                 <div class="lang-progress-item">
                     <span>A1</span>
                     <div class="lang-progress-bar"><div id="a1Progress" class="lang-progress-fill"></div></div>
@@ -459,43 +459,43 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <span class="stat-value" id="wordsLearned">0</span>
-                    <span class="stat-label">SÅ‚Ã³wek</span>
+                    <span class="stat-label">Słówek</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-value" id="quizzesDone">0</span>
-                    <span class="stat-label">QuizÃ³w</span>
+                    <span class="stat-label">Quizów</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-value" id="accuracy">0%</span>
-                    <span class="stat-label">DokÅ‚adnoÅ›Ä‡</span>
+                    <span class="stat-label">Dokładność</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-value" id="streakDays">0</span>
-                    <span class="stat-label">Dni z rzÄ™du</span>
+                    <span class="stat-label">Dni z rzędu</span>
                 </div>
             </div>
 
             <!-- Kalendarz nauki -->
             <div class="streak-calendar-section">
-                <h3>ðŸ“… Kalendarz nauki <span id="calendarMonthLabel"></span></h3>
+                <h3>📅 Kalendarz nauki <span id="calendarMonthLabel"></span></h3>
                 <div class="streak-calendar" id="streakCalendar"></div>
                 <div class="calendar-legend">
                     <span class="legend-dot day-0"></span> Brak
-                    <span class="legend-dot day-low" style="margin-left:10px"></span> 1â€“4
-                    <span class="legend-dot day-mid" style="margin-left:10px"></span> 5â€“9
+                    <span class="legend-dot day-low" style="margin-left:10px"></span> 1–4
+                    <span class="legend-dot day-mid" style="margin-left:10px"></span> 5–9
                     <span class="legend-dot day-high" style="margin-left:10px"></span> 10+
                 </div>
             </div>
 
-            <!-- PostÄ™p per kategoria -->
+            <!-- Postęp per kategoria -->
             <div class="category-progress-section">
-                <h3>ðŸ“š PostÄ™p per kategoria</h3>
+                <h3>📚 Postęp per kategoria</h3>
                 <div id="categoryProgressList"></div>
             </div>
 
             <!-- Wykresy -->
             <div class="charts-section">
-                <h3>ðŸ“ˆ Statystyki</h3>
+                <h3>📈 Statystyki</h3>
                 <div class="chart-container">
                     <canvas id="weeklyChart"></canvas>
                 </div>
@@ -505,19 +505,19 @@
             </div>
             
             <div class="achievements">
-                <h3>ðŸ† OsiÄ…gniÄ™cia</h3>
+                <h3>🏆 Osiągnięcia</h3>
                 <div id="achievementsList" class="achievements-list"></div>
             </div>
         </div>
 
-        <!-- Ekran poziomÃ³w -->
+        <!-- Ekran poziomów -->
         <div id="levels" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>ðŸ† TwÃ³j poziom</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>🏆 Twój poziom</h2>
             
             <div class="current-level-big">
-                <span class="big-level-icon" id="bigLevelIcon">ðŸŒ±</span>
-                <h2 id="bigLevelTitle">PoczÄ…tkujÄ…cy</h2>
+                <span class="big-level-icon" id="bigLevelIcon">🌱</span>
+                <h2 id="bigLevelTitle">Początkujący</h2>
                 <p>Poziom <span id="bigCurrentLevel">1</span></p>
                 <div class="big-progress-bar">
                     <div id="bigLevelProgress" class="big-progress-fill"></div>
@@ -531,19 +531,19 @@
 
         <!-- Ekran czatu AI -->
         <div id="chat" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
             <div class="chat-header">
-                <h2>ðŸ¤– Rozmowa</h2>
+                <h2>🤖 Rozmowa</h2>
                 <div class="chat-stats-mini">
-                    <span>â­ <span id="chatScore">0</span></span>
-                    <span>ðŸŽ¯ <span id="chatAccuracy">0%</span></span>
+                    <span>⭐ <span id="chatScore">0</span></span>
+                    <span>🎯 <span id="chatAccuracy">0%</span></span>
                 </div>
             </div>
             
             <!-- Aktywna misja -->
             <div class="chat-mission" id="chatMission">
                 <div class="mission-header">
-                    <span>ðŸŽ¯ Misja:</span>
+                    <span>🎯 Misja:</span>
                     <span class="mission-title" id="missionTitle">Wybierz scenariusz</span>
                 </div>
                 <div class="mission-progress">
@@ -555,42 +555,42 @@
             <!-- Scenariusze - rozszerzone -->
             <div class="chat-scenario-tabs">
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('cafe')">â˜• Kawiarnia</button>
-                    <button class="scenario-btn" onclick="startScenario('shop')">ðŸ›’ Sklep</button>
-                    <button class="scenario-btn" onclick="startScenario('travel')">âœˆï¸ PodrÃ³Å¼</button>
-                    <button class="scenario-btn" onclick="startScenario('work')">ðŸ’¼ Praca</button>
+                    <button class="scenario-btn" onclick="startScenario('cafe')">☕ Kawiarnia</button>
+                    <button class="scenario-btn" onclick="startScenario('shop')">🛒 Sklep</button>
+                    <button class="scenario-btn" onclick="startScenario('travel')">✈️ Podróż</button>
+                    <button class="scenario-btn" onclick="startScenario('work')">💼 Praca</button>
                 </div>
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('doctor')">ðŸ¥ Lekarz</button>
-                    <button class="scenario-btn" onclick="startScenario('hotel')">ðŸ¨ Hotel</button>
-                    <button class="scenario-btn" onclick="startScenario('airport')">âœˆï¸ Lotnisko</button>
-                    <button class="scenario-btn" onclick="startScenario('date')">â¤ï¸ Randka</button>
+                    <button class="scenario-btn" onclick="startScenario('doctor')">🏥 Lekarz</button>
+                    <button class="scenario-btn" onclick="startScenario('hotel')">🏨 Hotel</button>
+                    <button class="scenario-btn" onclick="startScenario('airport')">✈️ Lotnisko</button>
+                    <button class="scenario-btn" onclick="startScenario('date')">❤️ Randka</button>
                 </div>
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('interview')">ðŸ‘” Rozmowa o pracÄ™</button>
-                    <button class="scenario-btn" onclick="startScenario('restaurant')">ðŸ½ï¸ Restauracja</button>
-                    <button class="scenario-btn" onclick="startScenario('free')">ðŸ’¬ Wolna</button>
+                    <button class="scenario-btn" onclick="startScenario('interview')">👔 Rozmowa o pracę</button>
+                    <button class="scenario-btn" onclick="startScenario('restaurant')">🍽️ Restauracja</button>
+                    <button class="scenario-btn" onclick="startScenario('free')">💬 Wolna</button>
                 </div>
                 <div class="scenario-row">
-                    <button class="scenario-btn" onclick="startScenario('bahnhof')">ðŸš‚ Dworzec</button>
-                    <button class="scenario-btn" onclick="startScenario('apotheke')">ðŸ’Š Apteka</button>
-                    <button class="scenario-btn" onclick="startScenario('bank')">ðŸ¦ Bank</button>
-                    <button class="scenario-btn" onclick="startScenario('amt')">ðŸ›ï¸ UrzÄ…d</button>
+                    <button class="scenario-btn" onclick="startScenario('bahnhof')">🚂 Dworzec</button>
+                    <button class="scenario-btn" onclick="startScenario('apotheke')">💊 Apteka</button>
+                    <button class="scenario-btn" onclick="startScenario('bank')">🏦 Bank</button>
+                    <button class="scenario-btn" onclick="startScenario('amt')">🏛️ Urząd</button>
                 </div>
             </div>
             
             <div class="chat-container" id="chatContainer">
                 <div class="chat-message bot">
-                    <span>Hallo! WÃ¤hle ein Szenario und starte eine Mission! ðŸ˜Š
-                    <br><small>(CzeÅ›Ä‡! Wybierz scenariusz i rozpocznij misjÄ™!)</small></span>
+                    <span>Hallo! Wähle ein Szenario und starte eine Mission! 😊
+                    <br><small>(Cześć! Wybierz scenariusz i rozpocznij misję!)</small></span>
                 </div>
             </div>
             
             <div class="chat-input-container">
-                <button class="mic-btn-small" onclick="startChatSpeech()">ðŸŽ¤</button>
+                <button class="mic-btn-small" onclick="startChatSpeech()">🎤</button>
                 <input type="text" id="chatInput" placeholder="Napisz po niemiecku..." 
                        onkeypress="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()">ðŸ“¤</button>
+                <button onclick="sendMessage()">📤</button>
             </div>
             
             <div class="chat-suggestions" id="chatSuggestions">
@@ -601,7 +601,7 @@
             
             <!-- Panel pomocy -->
             <div class="chat-help-panel" id="chatHelpPanel">
-                <button class="help-toggle" onclick="toggleChatHelp()">ðŸ’¡ Pomoc</button>
+                <button class="help-toggle" onclick="toggleChatHelp()">💡 Pomoc</button>
                 <div class="help-content hidden" id="helpContent">
                     <p><strong>Przydatne zwroty:</strong></p>
                     <div id="helpPhrases"></div>
@@ -609,91 +609,82 @@
             </div>
         </div>
 
-        <!-- Ekran moich sÅ‚Ã³wek -->
+        <!-- Ekran moich słówek -->
         <div id="mywords" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>âž• Moje sÅ‚Ã³wka</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>➕ Moje słówka</h2>
             
             <div class="add-word-form">
-                <h3>Dodaj nowe sÅ‚Ã³wko</h3>
-                <input type="text" id="newWordDe" placeholder="ðŸ‡©ðŸ‡ª SÅ‚owo po niemiecku">
-                <input type="text" id="newWordPl" placeholder="ðŸ‡µðŸ‡± TÅ‚umaczenie po polsku">
-                <input type="text" id="newWordExample" placeholder="ðŸ“ PrzykÅ‚ad (opcjonalne)">
+                <h3>Dodaj nowe słówko</h3>
+                <input type="text" id="newWordDe" placeholder="🇩🇪 Słowo po niemiecku">
+                <input type="text" id="newWordPl" placeholder="🇵🇱 Tłumaczenie po polsku">
+                <input type="text" id="newWordExample" placeholder="📝 Przykład (opcjonalne)">
                 <select id="newWordLevel">
                     <option value="A1">Poziom A1</option>
                     <option value="A2">Poziom A2</option>
                     <option value="B1">Poziom B1</option>
                     <option value="B2">Poziom B2</option>
                 </select>
-                <button class="check-btn" onclick="addCustomWord()">âž• Dodaj sÅ‚Ã³wko</button>
+                <button class="check-btn" onclick="addCustomWord()">➕ Dodaj słówko</button>
             </div>
             
             <div class="my-words-list">
-                <h3>Twoje sÅ‚Ã³wka (<span id="customWordCount">0</span>)</h3>
+                <h3>Twoje słówka (<span id="customWordCount">0</span>)</h3>
                 <div id="customWordsList"></div>
             </div>
         </div>
 
-        <!-- Ekran ustawieÅ„ -->
+        <!-- Ekran ustawień -->
         <div id="reminders" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>âš™ï¸ Ustawienia</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>⚙️ Ustawienia</h2>
             
             <div class="settings-section">
-                <h3>ðŸ¤– Gemini API (Czat AI + TÅ‚umacz)</h3>
+                <h3>🤖 Gemini API (Czat AI + Tłumacz)</h3>
                 <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:8px">
                     <a href="https://aistudio.google.com/app/apikey" target="_blank"
                        style="display:inline-block;padding:8px 14px;border-radius:10px;background:var(--glass);border:1px solid var(--card-border);color:var(--primary);font-size:0.85em;text-decoration:none;">
-                        ðŸ”— Pobierz bezpÅ‚atny klucz na aistudio.google.com
+                        🔗 Pobierz bezpłatny klucz na aistudio.google.com
                     </a>
                     <input type="password" id="geminiKeyInput" placeholder="Wklej klucz API (AIza...)"
                            style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--card-border);background:var(--glass);color:var(--text);font-size:0.9em;"
                            oninput="previewApiKey()">
                     <div style="display:flex;gap:8px;width:100%">
-                        <button onclick="saveApiKeyFromSettings()" style="flex:1;padding:8px;border-radius:10px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:0.9em;">ðŸ’¾ Zapisz klucz</button>
-                        <button onclick="clearApiKey()" style="padding:8px 14px;border-radius:10px;background:var(--glass);border:1px solid var(--card-border);color:var(--text);cursor:pointer;font-size:0.9em;">ðŸ—‘ï¸</button>
+                        <button onclick="saveApiKeyFromSettings()" style="flex:1;padding:8px;border-radius:10px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:0.9em;">💾 Zapisz klucz</button>
+                        <button onclick="clearApiKey()" style="padding:8px 14px;border-radius:10px;background:var(--glass);border:1px solid var(--card-border);color:var(--text);cursor:pointer;font-size:0.9em;">🗑️</button>
                     </div>
                     <small id="apiKeyStatus" style="color:var(--text-secondary);font-size:0.8em;"></small>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3>ðŸ”„ Aktualizacja aplikacji</h3>
-                <div class="setting-row">
-                    <button onclick="clearCacheAndReload()" style="width:100%;padding:10px;border-radius:10px;background:#e74c3c;color:#fff;border:none;cursor:pointer;font-size:0.95em;">
-                        ðŸ—‘ï¸ WyczyÅ›Ä‡ cache i pobierz nowÄ… wersjÄ™
-                    </button>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <h3>ðŸŽ¨ WyglÄ…d</h3>
+                <h3>🎨 Wygląd</h3>
                 <div class="setting-row">
                     <label>Motyw:</label>
                     <button class="theme-btn" onclick="toggleTheme()">
-                        <span id="themeText">ðŸŒ™ Ciemny</span>
+                        <span id="themeText">🌙 Ciemny</span>
                     </button>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3>ðŸŽ“ DomyÅ›lny poziom jÄ™zykowy</h3>
+                <h3>🎓 Domyślny poziom językowy</h3>
                 <div class="setting-row">
                     <label>Poziom:</label>
                     <select id="defaultLangLevel" onchange="saveDefaultLevel()">
-                        <option value="A1">A1 - PoczÄ…tkujÄ…cy</option>
+                        <option value="A1">A1 - Początkujący</option>
                         <option value="A2">A2 - Podstawowy</option>
-                        <option value="B1">B1 - Åšredniozaawansowany</option>
+                        <option value="B1">B1 - Średniozaawansowany</option>
                         <option value="B2">B2 - Zaawansowany</option>
-                        <option value="C1">C1 - BiegÅ‚y</option>
+                        <option value="C1">C1 - Biegły</option>
                     </select>
                 </div>
             </div>
             
             <div class="settings-section">
-                <h3>ðŸ”” Przypomnienia</h3>
+                <h3>🔔 Przypomnienia</h3>
                 <div class="reminder-setting">
-                    <label>WÅ‚Ä…cz:</label>
+                    <label>Włącz:</label>
                     <label class="switch">
                         <input type="checkbox" id="reminderToggle" onchange="toggleReminders()">
                         <span class="slider"></span>
@@ -708,35 +699,35 @@
                 <div class="reminder-setting">
                     <label>Dzienny cel:</label>
                     <select id="dailyGoal" onchange="setDailyGoal()">
-                        <option value="5">5 sÅ‚Ã³wek</option>
-                        <option value="10" selected>10 sÅ‚Ã³wek</option>
-                        <option value="20">20 sÅ‚Ã³wek</option>
-                        <option value="30">30 sÅ‚Ã³wek</option>
-                        <option value="50">50 sÅ‚Ã³wek</option>
+                        <option value="5">5 słówek</option>
+                        <option value="10" selected>10 słówek</option>
+                        <option value="20">20 słówek</option>
+                        <option value="30">30 słówek</option>
+                        <option value="50">50 słówek</option>
                     </select>
                 </div>
             </div>
             
             <div class="daily-progress">
-                <h3>ðŸ“Š Dzisiejszy postÄ™p</h3>
+                <h3>📊 Dzisiejszy postęp</h3>
                 <div class="daily-goal-bar">
                     <div class="daily-goal-fill" id="dailyGoalFill" style="width: 0%"></div>
                 </div>
-                <p id="dailyGoalText">0 / 10 sÅ‚Ã³wek</p>
+                <p id="dailyGoalText">0 / 10 słówek</p>
             </div>
             
             <div class="settings-section danger-zone">
-                <h3>âš ï¸ Dane</h3>
-                <button class="danger-btn" onclick="exportProgress()">ðŸ“¥ Eksportuj postÄ™py</button>
-                <button class="danger-btn" onclick="importProgress()">ðŸ“¤ Importuj postÄ™py</button>
-                <button class="danger-btn red" onclick="resetProgress()">ðŸ—‘ï¸ Resetuj wszystko</button>
+                <h3>⚠️ Dane</h3>
+                <button class="danger-btn" onclick="exportProgress()">📥 Eksportuj postępy</button>
+                <button class="danger-btn" onclick="importProgress()">📤 Importuj postępy</button>
+                <button class="danger-btn red" onclick="resetProgress()">🗑️ Resetuj wszystko</button>
             </div>
         </div>
 
         <!-- Ekran gry Pisanie -->
         <div id="typing" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>âœï¸ Pisanie</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>✏️ Pisanie</h2>
             
             <div class="typing-stats">
                 <div class="typing-stat">
@@ -749,14 +740,14 @@
                 </div>
                 <div class="typing-stat">
                     <span class="typing-stat-value" id="typingProgress">0/10</span>
-                    <span class="typing-stat-label">PostÄ™p</span>
+                    <span class="typing-stat-label">Postęp</span>
                 </div>
             </div>
             
             <div class="typing-word-display">
-                <div class="word-hint" id="typingHint">ðŸ‡µðŸ‡± TÅ‚umaczenie</div>
+                <div class="word-hint" id="typingHint">🇵🇱 Tłumaczenie</div>
                 <div class="word-to-type" id="typingPolish">dom</div>
-                <button class="sound-btn" onclick="speakTypingWord()">ðŸ”Š PosÅ‚uchaj</button>
+                <button class="sound-btn" onclick="speakTypingWord()">🔊 Posłuchaj</button>
             </div>
             
             <div class="typing-input-section">
@@ -770,16 +761,16 @@
             </div>
             
             <div class="typing-buttons">
-                <button class="skip-btn" onclick="skipTypingWord()">â­ï¸ PomiÅ„</button>
-                <button class="hint-btn" onclick="showTypingHint()">ðŸ’¡ PodpowiedÅº</button>
-                <button class="check-btn" onclick="checkTypingAnswer()">âœ… SprawdÅº</button>
+                <button class="skip-btn" onclick="skipTypingWord()">⏭️ Pomiń</button>
+                <button class="hint-btn" onclick="showTypingHint()">💡 Podpowiedź</button>
+                <button class="check-btn" onclick="checkTypingAnswer()">✅ Sprawdź</button>
             </div>
         </div>
 
-        <!-- Ekran sÅ‚ownika -->
+        <!-- Ekran słownika -->
         <div id="dictionary" class="screen">
-            <button class="back-btn" onclick="goToMenu()">â† PowrÃ³t</button>
-            <h2>ðŸ“– SÅ‚ownik</h2>
+            <button class="back-btn" onclick="goToMenu()">← Powrót</button>
+            <h2>📖 Słownik</h2>
 
             <div class="dict-level-filter">
                 <button class="dict-level-btn active" onclick="filterDictByLevel('all', this)">Wszystkie</button>
@@ -791,7 +782,7 @@
             </div>
             
             <div class="search-box">
-                <input type="text" id="searchWord" placeholder="ðŸ” Szukaj..." oninput="searchWords()">
+                <input type="text" id="searchWord" placeholder="🔍 Szukaj..." oninput="searchWords()">
             </div>
             
             <div class="category-tabs" id="categoryTabs">
@@ -803,7 +794,7 @@
             </div>
             
             <div class="word-count">
-                Znaleziono: <span id="wordCount">0</span> sÅ‚Ã³w
+                Znaleziono: <span id="wordCount">0</span> słów
             </div>
             
             <div class="dictionary-list" id="dictionaryList"></div>
@@ -814,23 +805,23 @@
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="bnav-btn active" id="bnav-home" onclick="goToMenu()" data-tab="home">
-            <span class="bnav-icon">ðŸ </span>
-            <span class="bnav-label">Ä†wicz</span>
+            <span class="bnav-icon">🏠</span>
+            <span class="bnav-label">Ćwicz</span>
         </button>
         <button class="bnav-btn" id="bnav-dict" onclick="showAllWords()" data-tab="dict">
-            <span class="bnav-icon">ðŸ“–</span>
-            <span class="bnav-label">SÅ‚ownik</span>
+            <span class="bnav-icon">📖</span>
+            <span class="bnav-label">Słownik</span>
         </button>
         <button class="bnav-btn" id="bnav-chat" onclick="startChat()" data-tab="chat">
-            <span class="bnav-icon">ðŸ¤–</span>
+            <span class="bnav-icon">🤖</span>
             <span class="bnav-label">Czat AI</span>
         </button>
         <button class="bnav-btn" id="bnav-progress" onclick="showProgress()" data-tab="progress">
-            <span class="bnav-icon">ðŸ“Š</span>
-            <span class="bnav-label">PostÄ™py</span>
+            <span class="bnav-icon">📊</span>
+            <span class="bnav-label">Postępy</span>
         </button>
         <button class="bnav-btn" id="bnav-settings" onclick="openReminders()" data-tab="settings">
-            <span class="bnav-icon">âš™ï¸</span>
+            <span class="bnav-icon">⚙️</span>
             <span class="bnav-label">Opcje</span>
         </button>
     </nav>
@@ -838,15 +829,15 @@
     <!-- Przycisk instalacji PWA -->
     <div id="installPrompt" class="install-prompt hidden">
         <div class="install-content">
-            <span>ðŸ“± Zainstaluj aplikacjÄ™!</span>
+            <span>📱 Zainstaluj aplikację!</span>
             <button onclick="installPWA()">Instaluj</button>
-            <button onclick="hideInstallPrompt()" class="close-btn">âœ•</button>
+            <button onclick="hideInstallPrompt()" class="close-btn">✕</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="words.js?v=19"></script>
-    <script src="app.js?v=19"></script>
+    <script src="words.js"></script>
+    <script src="app.js"></script>
     
     <!-- Rejestracja Service Worker -->
     <script>
@@ -855,32 +846,22 @@
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('./sw.js')
                     .then(function(registration) {
-                        console.log('âœ… Service Worker zarejestrowany:', registration.scope);
-                        registration.update();
-                        registration.addEventListener('updatefound', function() {
-                            var newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', function() {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                    window.location.reload();
-                                }
-                            });
-                        });
+                        console.log('✅ Service Worker zarejestrowany:', registration.scope);
                     })
                     .catch(function(error) {
-                        console.log('âŒ BÅ‚Ä…d rejestracji Service Worker:', error);
+                        console.log('❌ Błąd rejestracji Service Worker:', error);
                     });
             });
         }
         
-        // ObsÅ‚uga instalacji PWA
+        // Obsługa instalacji PWA
         let deferredPrompt;
         
         window.addEventListener('beforeinstallprompt', function(e) {
             e.preventDefault();
             deferredPrompt = e;
             
-            // PokaÅ¼ przycisk instalacji po 3 sekundach
+            // Pokaż przycisk instalacji po 3 sekundach
             setTimeout(function() {
                 document.getElementById('installPrompt').classList.remove('hidden');
             }, 3000);
@@ -891,8 +872,8 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(function(choiceResult) {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('âœ… UÅ¼ytkownik zainstalowaÅ‚ aplikacjÄ™');
-                        showToast('ðŸŽ‰ Aplikacja zainstalowana!');
+                        console.log('✅ Użytkownik zainstalował aplikację');
+                        showToast('🎉 Aplikacja zainstalowana!');
                     }
                     deferredPrompt = null;
                     hideInstallPrompt();
@@ -906,17 +887,17 @@
         
         // Wykryj tryb standalone (aplikacja zainstalowana)
         if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('ðŸ“± Aplikacja dziaÅ‚a w trybie standalone');
+            console.log('📱 Aplikacja działa w trybie standalone');
         }
         
-        // ObsÅ‚uga iOS - informacja o instalacji
+        // Obsługa iOS - informacja o instalacji
         function isIOS() {
             return /iPad|iPhone|iPod/.test(navigator.userAgent);
         }
         
         if (isIOS() && !window.navigator.standalone) {
             setTimeout(function() {
-                showToast('ðŸ“± iOS: Kliknij "UdostÄ™pnij" â†’ "Dodaj do ekranu poczÄ…tkowego"');
+                showToast('📱 iOS: Kliknij "Udostępnij" → "Dodaj do ekranu początkowego"');
             }, 5000);
         }
     </script>
