@@ -628,21 +628,35 @@ async function translateExample() {
     btn.textContent = '⏳';
     translEl.textContent = '';
 
+    const apiKey = localStorage.getItem('geminiApiKey') || '';
+    if (apiKey.length < 10) {
+        translEl.textContent = '❌ Ustaw klucz Gemini API w Czacie AI (ikona robota).';
+        btn.disabled = false;
+        btn.textContent = '🌐 Tłumacz';
+        return;
+    }
+
     try {
-        if (!hasApiKey()) {
-            translEl.textContent = '❌ Ustaw klucz Gemini API w ustawieniach czatu AI.';
-            return;
-        }
-        const result = await callGeminiAI(
-            'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy: ' + card.example
+        const response = await fetch(
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: 'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy ani wyjaśnień: ' + card.example }] }]
+                })
+            }
         );
-        if (result.success) {
-            translEl.textContent = result.response.trim();
+        const data = await response.json();
+        if (data.error) {
+            translEl.textContent = '❌ ' + data.error.message;
+        } else if (data.candidates && data.candidates[0]) {
+            translEl.textContent = data.candidates[0].content.parts[0].text.trim();
         } else {
-            translEl.textContent = '❌ ' + (result.error || 'Błąd tłumaczenia');
+            translEl.textContent = '❌ Brak odpowiedzi od API.';
         }
     } catch (e) {
-        translEl.textContent = '❌ Błąd połączenia z API.';
+        translEl.textContent = '❌ Brak połączenia z internetem.';
     } finally {
         btn.disabled = false;
         btn.textContent = '🌐 Tłumacz';
