@@ -1,5 +1,5 @@
 ﻿// Service Worker dla Deutsch Lernen PWA
-const CACHE_NAME = 'deutsch-lernen-v9';
+const CACHE_NAME = 'deutsch-lernen-v10';
 const urlsToCache = [
     './',
     './index.html',

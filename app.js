@@ -547,12 +547,8 @@ function loadCategory() {
             goToMenu();
             return;
         }
-        const maxIdx = LEVEL_ORDER.indexOf(state.currentLanguageLevel);
-        const filtered = wordDatabase[category].filter(function(w) {
-            const idx = LEVEL_ORDER.indexOf(w.level);
-            return idx === -1 || idx <= maxIdx;
-        });
-        state.currentCards = (filtered.length > 0 ? filtered : wordDatabase[category]).slice();
+        // Konkretna kategoria: pokazuj wszystkie słowa bez filtra poziomu
+        state.currentCards = wordDatabase[category].slice();
     }
 
     state.currentCardIndex = 0;
