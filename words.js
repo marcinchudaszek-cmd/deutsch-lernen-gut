@@ -1394,262 +1394,7 @@ const germanWords = {
         { german: "Ich weiß auch nicht.", polish: "Sam/sama nie wiem.", example: "Was ist mit ihm los? – Ich weiß auch nicht.", level: "A2" },
         { german: "So ein Mist!", polish: "Co za pech! / Do licha!", example: "Ich hab den Bus verpasst. – So ein Mist!", level: "A2" },
         { german: "Das ist mir peinlich.", polish: "Wstyd mi.", example: "Ich hab das total vergessen – das ist mir so peinlich.", level: "B1" }
-    ]
-};
-
-// Osiągnięcia
-const achievements = [
-    { id: 'first_word', name: 'Pierwsze słowo', desc: 'Naucz się pierwszego słowa', icon: '🌱', xp: 10, requirement: 1 },
-    { id: 'ten_words', name: 'Dziesięć słówek', desc: 'Naucz się 10 słówek', icon: '📚', xp: 50, requirement: 10 },
-    { id: 'fifty_words', name: 'Pięćdziesiąt słówek', desc: 'Naucz się 50 słówek', icon: '🎓', xp: 100, requirement: 50 },
-    { id: 'hundred_words', name: 'Sto słówek', desc: 'Naucz się 100 słówek', icon: '🏆', xp: 200, requirement: 100 },
-    { id: 'first_quiz', name: 'Pierwszy quiz', desc: 'Ukończ pierwszy quiz', icon: '📝', xp: 20, requirement: 1 },
-    { id: 'ten_quizzes', name: 'Dziesięć quizów', desc: 'Ukończ 10 quizów', icon: '✅', xp: 100, requirement: 10 },
-    { id: 'perfect_quiz', name: 'Perfekcyjny quiz', desc: 'Uzyskaj 100% w quizie', icon: '⭐', xp: 50, requirement: 1 },
-    { id: 'week_streak', name: 'Tydzień z rzędu', desc: 'Ucz się 7 dni z rzędu', icon: '🔥', xp: 150, requirement: 7 },
-    { id: 'month_streak', name: 'Miesiąc z rzędu', desc: 'Ucz się 30 dni z rzędu', icon: '💪', xp: 500, requirement: 30 },
-    { id: 'first_memory', name: 'Pierwsza gra Memory', desc: 'Zagraj w Memory', icon: '🎮', xp: 30, requirement: 1 },
-    { id: 'memory_master', name: 'Mistrz Memory', desc: 'Zagraj 10 razy w Memory', icon: '🎯', xp: 200, requirement: 10 },
-    { id: 'custom_words', name: 'Własne słówka', desc: 'Dodaj 5 własnych słówek', icon: '⭐', xp: 50, requirement: 5 }
-];
-
-// Dane gramatyczne
-const grammarData = {
-    articles: {
-        title: 'Rodzajniki: der, die, das',
-        content: `
-            <h3>Rodzajniki w języku niemieckim</h3>
-            <p>W niemieckim są trzy rodzaje:</p>
-            <ul>
-                <li><strong>der</strong> - rodzaj męski (Maskulinum)</li>
-                <li><strong>die</strong> - rodzaj żeński (Femininum)</li>
-                <li><strong>das</strong> - rodzaj nijaki (Neutrum)</li>
-            </ul>
-            
-            <h4>Przykłady:</h4>
-            <ul>
-                <li><strong>der</strong> Mann (mężczyzna), <strong>der</strong> Tisch (stół)</li>
-                <li><strong>die</strong> Frau (kobieta), <strong>die</strong> Lampe (lampa)</li>
-                <li><strong>das</strong> Kind (dziecko), <strong>das</strong> Buch (książka)</li>
-            </ul>
-        `,
-        exercises: [
-            { question: '____ Mann', answer: 'der', options: ['der', 'die', 'das'] },
-            { question: '____ Frau', answer: 'die', options: ['der', 'die', 'das'] },
-            { question: '____ Kind', answer: 'das', options: ['der', 'die', 'das'] }
-        ]
-    },
-    
-    verbs: {
-        title: 'Czasowniki - odmiana',
-        content: `
-            <h3>Odmiana czasowników regularnych</h3>
-            <p>Przykład: <strong>lernen</strong> (uczyć się)</p>
-            <ul>
-                <li>ich lern<strong>e</strong></li>
-                <li>du lern<strong>st</strong></li>
-                <li>er/sie/es lern<strong>t</strong></li>
-                <li>wir lern<strong>en</strong></li>
-                <li>ihr lern<strong>t</strong></li>
-                <li>sie/Sie lern<strong>en</strong></li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'ich _____ (machen)', answer: 'mache', options: ['mache', 'machst', 'macht'] },
-            { question: 'du _____ (spielen)', answer: 'spielst', options: ['spiele', 'spielst', 'spielt'] }
-        ]
-    },
-    
-    cases: {
-        title: 'Przypadki',
-        content: `
-            <h3>Cztery przypadki w niemieckim</h3>
-            <ol>
-                <li><strong>Nominativ</strong> (mianownik) - Kto? Co?</li>
-                <li><strong>Akkusativ</strong> (biernik) - Kogo? Co?</li>
-                <li><strong>Dativ</strong> (celownik) - Komu? Czemu?</li>
-                <li><strong>Genitiv</strong> (dopełniacz) - Czyj? Czego?</li>
-            </ol>
-        `,
-        exercises: [
-            { question: 'Ich sehe ___ Mann', answer: 'den', options: ['der', 'den', 'dem'] }
-        ]
-    },
-    
-    perfect: {
-        title: 'Perfekt - czas przeszły',
-        content: `
-            <h3>Perfekt (czas przeszły)</h3>
-            <p>Formuła: <strong>haben/sein + Partizip II</strong></p>
-            <ul>
-                <li>Ich <strong>habe</strong> gelernt</li>
-                <li>Du <strong>bist</strong> gegangen</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Ich _____ gelernt', answer: 'habe', options: ['habe', 'bin', 'hat'] }
-        ]
-    },
-    
-    modal: {
-        title: 'Czasowniki modalne',
-        content: `
-            <h3>Modalverben</h3>
-            <ul>
-                <li><strong>können</strong> - móc, umieć</li>
-                <li><strong>müssen</strong> - musieć</li>
-                <li><strong>wollen</strong> - chcieć</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Ich _____ schwimmen', answer: 'kann', options: ['kann', 'kannst', 'können'] }
-        ]
-    },
-    
-    praeteritum: {
-        title: 'Präteritum',
-        content: `
-            <h3>Präteritum - czas przeszły prosty</h3>
-            <ul>
-                <li><strong>sein:</strong> ich war, du warst</li>
-                <li><strong>haben:</strong> ich hatte, du hattest</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Ich _____ (sein)', answer: 'war', options: ['war', 'waren', 'warst'] }
-        ]
-    },
-
-    konjunktiv2: {
-        title: 'Konjunktiv II',
-        content: `
-            <h3>Konjunktiv II – tryb przypuszczający</h3>
-            <p>Używamy do wyrażania życzeń, hipotez i grzecznych próśb.</p>
-            <ul>
-                <li><strong>würde + Infinitiv:</strong> Ich würde gern reisen. (Chętnie bym podróżował.)</li>
-                <li><strong>wäre:</strong> Wenn ich reich wäre... (Gdybym był bogaty...)</li>
-                <li><strong>hätte:</strong> Wenn ich Zeit hätte... (Gdybym miał czas...)</li>
-                <li><strong>könnte:</strong> Könntest du mir helfen? (Czy mógłbyś mi pomóc?)</li>
-                <li><strong>sollte:</strong> Du solltest mehr schlafen. (Powinieneś więcej spać.)</li>
-                <li><strong>müsste:</strong> Ich müsste lernen. (Powinienem się uczyć.)</li>
-            </ul>
-            <p><strong>Przykłady:</strong></p>
-            <ul>
-                <li>Ich würde gern Deutsch lernen.</li>
-                <li>Wenn ich mehr Geld hätte, würde ich reisen.</li>
-                <li>Das wäre toll!</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Wenn ich Zeit _____, würde ich kommen.', answer: 'hätte', options: ['hätte', 'habe', 'hatte'] },
-            { question: 'Er _____ gern ins Kino gehen.', answer: 'würde', options: ['würde', 'wird', 'wäre'] },
-            { question: 'Das _____ wirklich schön!', answer: 'wäre', options: ['wäre', 'war', 'wird'] },
-            { question: '_____ du mir bitte helfen?', answer: 'Könntest', options: ['Könntest', 'Kannst', 'Konntest'] }
-        ]
-    },
-
-    passiv: {
-        title: 'Passiv (strona bierna)',
-        content: `
-            <h3>Passiv – strona bierna</h3>
-            <p>Strona bierna skupia się na czynności, nie na osobie wykonującej.</p>
-            <h4>Präsens Passiv: werden + Partizip II</h4>
-            <ul>
-                <li>Das Buch <strong>wird gelesen</strong>. (Książka jest czytana.)</li>
-                <li>Die Tür <strong>wird geöffnet</strong>. (Drzwi są otwierane.)</li>
-                <li>Das Essen <strong>wird gekocht</strong>. (Jedzenie jest gotowane.)</li>
-            </ul>
-            <h4>Perfekt Passiv: sein + Partizip II + worden</h4>
-            <ul>
-                <li>Das Buch <strong>ist gelesen worden</strong>. (Książka została przeczytana.)</li>
-                <li>Das Auto <strong>ist repariert worden</strong>. (Samochód został naprawiony.)</li>
-            </ul>
-            <h4>Odmiana "werden" w Präsens:</h4>
-            <ul>
-                <li>ich werde, du wirst, er/sie/es wird</li>
-                <li>wir werden, ihr werdet, sie werden</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Das Auto _____ repariert.', answer: 'wird', options: ['wird', 'ist', 'hat'] },
-            { question: 'Die Briefe _____ geschrieben.', answer: 'werden', options: ['werden', 'sind', 'haben'] },
-            { question: 'Das Haus _____ gebaut worden.', answer: 'ist', options: ['ist', 'wird', 'hat'] },
-            { question: 'Der Kuchen _____ gegessen.', answer: 'wird', options: ['wird', 'ist', 'war'] }
-        ]
-    },
-
-    komparativ: {
-        title: 'Komparativ i Superlativ',
-        content: `
-            <h3>Komparativ i Superlativ – stopniowanie przymiotników</h3>
-            <h4>Stopień wyższy (Komparativ): przymiotnik + -er</h4>
-            <ul>
-                <li>schnell → <strong>schneller</strong> (szybszy)</li>
-                <li>groß → <strong>größer</strong> (większy)</li>
-                <li>alt → <strong>älter</strong> (starszy)</li>
-            </ul>
-            <h4>Stopień najwyższy (Superlativ): am ...sten / der/die/das ...ste</h4>
-            <ul>
-                <li>schnell → <strong>am schnellsten</strong> / <strong>der schnellste</strong></li>
-                <li>groß → <strong>am größten</strong> / <strong>der größte</strong></li>
-                <li>alt → <strong>am ältesten</strong> / <strong>der älteste</strong></li>
-            </ul>
-            <h4>Nieregularne:</h4>
-            <ul>
-                <li>gut → besser → am besten (dobry → lepszy → najlepszy)</li>
-                <li>viel → mehr → am meisten (dużo → więcej → najwięcej)</li>
-                <li>gern → lieber → am liebsten (chętnie → chętniej → najchętniej)</li>
-            </ul>
-            <h4>Porównanie: so ... wie / ...er als</h4>
-            <ul>
-                <li>Er ist <strong>so groß wie</strong> ich. (Jest tak wysoki jak ja.)</li>
-                <li>Sie ist <strong>größer als</strong> ich. (Ona jest wyższa niż ja.)</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'schnell → _____er', answer: 'schneller', options: ['schneller', 'schnellster', 'schnellerer'] },
-            { question: 'gut → _____ (Komparativ)', answer: 'besser', options: ['besser', 'guter', 'am besten'] },
-            { question: 'groß → am _____', answer: 'größten', options: ['größten', 'größten', 'großsten'] },
-            { question: 'viel → _____ (Komparativ)', answer: 'mehr', options: ['mehr', 'vieler', 'am meisten'] }
-        ]
-    },
-
-    nebensaetze: {
-        title: 'Zdania podrzędne',
-        content: `
-            <h3>Nebensätze – zdania podrzędne</h3>
-            <p><strong>Uwaga:</strong> w zdaniu podrzędnym czasownik idzie NA KONIEC!</p>
-            <h4>weil (bo, ponieważ)</h4>
-            <ul>
-                <li>Ich lerne Deutsch, <strong>weil</strong> es interessant <em>ist</em>.</li>
-                <li>Er schläft nicht, <strong>weil</strong> er Kaffee getrunken <em>hat</em>.</li>
-            </ul>
-            <h4>dass (że)</h4>
-            <ul>
-                <li>Ich glaube, <strong>dass</strong> du recht <em>hast</em>.</li>
-                <li>Sie sagt, <strong>dass</strong> sie kommt <em>kommt</em>.</li>
-            </ul>
-            <h4>wenn (gdy, kiedy, jeżeli)</h4>
-            <ul>
-                <li><strong>Wenn</strong> ich Zeit <em>habe</em>, komme ich.</li>
-                <li>Ruf mich an, <strong>wenn</strong> du fertig <em>bist</em>.</li>
-            </ul>
-            <h4>obwohl (chociaż, mimo że)</h4>
-            <ul>
-                <li>Er kommt, <strong>obwohl</strong> er müde <em>ist</em>.</li>
-            </ul>
-            <h4>damit (żeby, po to żeby)</h4>
-            <ul>
-                <li>Ich lerne, <strong>damit</strong> ich die Prüfung <em>bestehe</em>.</li>
-            </ul>
-        `,
-        exercises: [
-            { question: 'Ich lerne Deutsch, weil es interessant _____.', answer: 'ist', options: ['ist', 'sein', 'es ist'] },
-            { question: 'Er sagt, dass er morgen _____.', answer: 'kommt', options: ['kommt', 'kommen', 'er kommt'] },
-            { question: '_____ ich Zeit habe, lese ich.', answer: 'Wenn', options: ['Wenn', 'Weil', 'Dass'] },
-            { question: 'Sie lernt, damit sie die Prüfung _____.', answer: 'besteht', options: ['besteht', 'bestehen', 'bestehe'] }
-        ]
-    },
+    ],
 
     // ==================== ODMIANA CZASOWNIKÓW ====================
 
@@ -2011,6 +1756,526 @@ const grammarData = {
         { german: "gegen + Akkusativ", polish: "przeciw / o (godzinie) + A", example: "Ich bin gegen 8 Uhr da.", level: "A2" },
         { german: "seit + Dativ", polish: "od (czasu) + D", example: "Ich lerne seit einem Jahr Deutsch.", level: "A2" },
     ],
+
+    // 🔧 NARZĘDZIA (A2-B1)
+    tools: [
+        { german: "das Werkzeug", polish: "narzędzie", example: "Ich brauche mein Werkzeug.", level: "A2" },
+        { german: "der Hammer", polish: "młotek", example: "Gib mir bitte den Hammer.", level: "A2" },
+        { german: "der Schraubenzieher", polish: "śrubokręt", example: "Wo ist der Schraubenzieher?", level: "A2" },
+        { german: "die Schraube", polish: "śruba", example: "Die Schraube ist locker.", level: "A2" },
+        { german: "der Nagel", polish: "gwóźdź", example: "Ich schlage einen Nagel in die Wand.", level: "A2" },
+        { german: "die Zange", polish: "kombinerki / szczypce", example: "Reich mir die Zange.", level: "A2" },
+        { german: "die Bohrmaschine", polish: "wiertarka", example: "Die Bohrmaschine ist kaputt.", level: "A2" },
+        { german: "der Bohrer", polish: "wiertło", example: "Ich brauche einen größeren Bohrer.", level: "A2" },
+        { german: "die Säge", polish: "piła", example: "Die Säge ist stumpf.", level: "A2" },
+        { german: "der Akkuschrauber", polish: "wkrętarka akumulatorowa", example: "Der Akku vom Akkuschrauber ist leer.", level: "B1" },
+        { german: "die Wasserwaage", polish: "poziomica", example: "Prüf das mit der Wasserwaage.", level: "B1" },
+        { german: "der Zollstock", polish: "miarka składana", example: "Miss das mit dem Zollstock.", level: "B1" },
+        { german: "das Maßband", polish: "taśma miernicza", example: "Das Maßband ist fünf Meter lang.", level: "A2" },
+        { german: "die Leiter", polish: "drabina", example: "Die Leiter steht an der Wand.", level: "A2" },
+        { german: "der Eimer", polish: "wiadro", example: "Der Eimer ist voll.", level: "A2" },
+        { german: "der Pinsel", polish: "pędzel", example: "Wasch den Pinsel aus.", level: "A2" },
+        { german: "die Rolle", polish: "wałek (malarski)", example: "Mit der Rolle geht es schneller.", level: "A2" },
+        { german: "die Schaufel", polish: "łopata", example: "Die Schaufel ist im Keller.", level: "A2" },
+        { german: "die Schubkarre", polish: "taczka", example: "Die Schubkarre ist schwer.", level: "B1" },
+        { german: "der Meißel", polish: "dłuto / przecinak", example: "Ich brauche Hammer und Meißel.", level: "B1" },
+        { german: "die Feile", polish: "pilnik", example: "Glätte die Kante mit der Feile.", level: "B1" },
+        { german: "der Schlüssel (Werkzeug)", polish: "klucz (narzędzie)", example: "Welcher Schlüssel passt hier?", level: "A2" },
+        { german: "der Schraubenschlüssel", polish: "klucz płaski", example: "Hol den Schraubenschlüssel Nummer 13.", level: "B1" },
+        { german: "das Kabel", polish: "kabel", example: "Das Kabel ist zu kurz.", level: "A2" },
+        { german: "die Verlängerung", polish: "przedłużacz", example: "Wir brauchen eine Verlängerung.", level: "B1" },
+        { german: "der Handschuh", polish: "rękawica", example: "Zieh die Handschuhe an.", level: "A2" },
+        { german: "die Schutzbrille", polish: "okulary ochronne", example: "Trag immer eine Schutzbrille.", level: "B1" },
+        { german: "der Werkzeugkasten", polish: "skrzynka narzędziowa", example: "Alles ist im Werkzeugkasten.", level: "B1" },
+        { german: "das Klebeband", polish: "taśma klejąca", example: "Hast du Klebeband?", level: "A2" },
+        { german: "der Dübel", polish: "kołek rozporowy", example: "Ohne Dübel hält die Schraube nicht.", level: "B1" },
+    ],
+
+    // 🎨 REMONT (A2-B1)
+    renovation: [
+        { german: "renovieren", polish: "remontować", example: "Wir renovieren die Wohnung.", level: "A2" },
+        { german: "streichen", polish: "malować (ściany)", example: "Ich streiche das Zimmer weiß.", level: "A2" },
+        { german: "die Farbe", polish: "farba", example: "Welche Farbe nehmen wir?", level: "A2" },
+        { german: "tapezieren", polish: "tapetować", example: "Wir tapezieren das Schlafzimmer.", level: "B1" },
+        { german: "die Tapete", polish: "tapeta", example: "Die alte Tapete muss ab.", level: "B1" },
+        { german: "der Boden", polish: "podłoga", example: "Der Boden ist neu.", level: "A2" },
+        { german: "die Fliese", polish: "płytka / kafelek", example: "Die Fliesen sind rutschig.", level: "A2" },
+        { german: "fliesen", polish: "kłaść płytki", example: "Wer fliest das Bad?", level: "B1" },
+        { german: "das Laminat", polish: "panele podłogowe", example: "Wir verlegen Laminat.", level: "B1" },
+        { german: "verlegen", polish: "układać / kłaść (podłogę)", example: "Er verlegt den Teppich.", level: "B1" },
+        { german: "die Wand", polish: "ściana", example: "Die Wand ist noch nass.", level: "A2" },
+        { german: "die Decke (Raum)", polish: "sufit", example: "Die Decke ist hoch.", level: "A2" },
+        { german: "der Putz", polish: "tynk", example: "Der Putz bröckelt.", level: "B1" },
+        { german: "verputzen", polish: "tynkować", example: "Wir verputzen die Wand.", level: "B1" },
+        { german: "spachteln", polish: "szpachlować", example: "Erst spachteln, dann schleifen.", level: "B1" },
+        { german: "schleifen", polish: "szlifować", example: "Ich schleife die Tür ab.", level: "B1" },
+        { german: "abreißen", polish: "zburzyć / zrywać", example: "Wir reißen die alte Wand ab.", level: "B1" },
+        { german: "einbauen", polish: "wbudować / zamontować", example: "Wir bauen eine neue Küche ein.", level: "B1" },
+        { german: "montieren", polish: "montować", example: "Er montiert die Lampe.", level: "A2" },
+        { german: "reparieren", polish: "naprawiać", example: "Kannst du das reparieren?", level: "A2" },
+        { german: "austauschen", polish: "wymieniać", example: "Wir tauschen die Fenster aus.", level: "B1" },
+        { german: "abdichten", polish: "uszczelniać", example: "Die Fugen müssen abgedichtet werden.", level: "B1" },
+        { german: "die Steckdose", polish: "gniazdko", example: "Die Steckdose funktioniert nicht.", level: "A2" },
+        { german: "der Wasserhahn", polish: "kran", example: "Der Wasserhahn tropft.", level: "A2" },
+        { german: "die Heizung", polish: "ogrzewanie / kaloryfer", example: "Die Heizung ist kalt.", level: "A2" },
+    ],
+
+    // 🏛️ URZĄD (A2-B1)
+    amt: [
+        { german: "das Amt", polish: "urząd", example: "Ich muss morgen zum Amt.", level: "A2" },
+        { german: "der Termin", polish: "termin / wizyta", example: "Ich habe einen Termin um 10 Uhr.", level: "A1" },
+        { german: "einen Termin vereinbaren", polish: "umówić termin", example: "Ich möchte einen Termin vereinbaren.", level: "A2" },
+        { german: "das Formular", polish: "formularz", example: "Füllen Sie bitte das Formular aus.", level: "A2" },
+        { german: "ausfüllen", polish: "wypełniać", example: "Ich fülle den Antrag aus.", level: "A2" },
+        { german: "der Antrag", polish: "wniosek", example: "Ich stelle einen Antrag.", level: "A2" },
+        { german: "beantragen", polish: "wnioskować / składać wniosek", example: "Ich beantrage einen neuen Pass.", level: "B1" },
+        { german: "die Anmeldung", polish: "meldunek / rejestracja", example: "Die Anmeldung ist im ersten Stock.", level: "A2" },
+        { german: "sich anmelden", polish: "zameldować się / zapisać się", example: "Ich melde mich in Berlin an.", level: "A2" },
+        { german: "die Unterlagen", polish: "dokumenty", example: "Haben Sie alle Unterlagen dabei?", level: "B1" },
+        { german: "der Ausweis", polish: "dowód osobisty", example: "Ihren Ausweis, bitte.", level: "A2" },
+        { german: "der Reisepass", polish: "paszport", example: "Mein Reisepass ist abgelaufen.", level: "A2" },
+        { german: "die Aufenthaltserlaubnis", polish: "pozwolenie na pobyt", example: "Ich verlängere meine Aufenthaltserlaubnis.", level: "B1" },
+        { german: "die Arbeitserlaubnis", polish: "pozwolenie na pracę", example: "Brauche ich eine Arbeitserlaubnis?", level: "B1" },
+        { german: "die Bescheinigung", polish: "zaświadczenie", example: "Ich brauche eine Bescheinigung vom Arzt.", level: "B1" },
+        { german: "die Steuernummer", polish: "numer podatkowy", example: "Wie bekomme ich eine Steuernummer?", level: "B1" },
+        { german: "die Krankenversicherung", polish: "ubezpieczenie zdrowotne", example: "Sind Sie krankenversichert?", level: "B1" },
+        { german: "unterschreiben", polish: "podpisywać", example: "Unterschreiben Sie hier, bitte.", level: "A2" },
+        { german: "die Unterschrift", polish: "podpis", example: "Ihre Unterschrift fehlt noch.", level: "A2" },
+        { german: "die Frist", polish: "termin (ostateczny)", example: "Die Frist läuft nächste Woche ab.", level: "B1" },
+        { german: "die Gebühr", polish: "opłata", example: "Die Gebühr beträgt 30 Euro.", level: "B1" },
+        { german: "die Wartenummer", polish: "numerek (w kolejce)", example: "Ziehen Sie bitte eine Wartenummer.", level: "B1" },
+    ],
+
+    // 🩺 U LEKARZA (A2-B1)
+    doctor_phrases: [
+        { german: "Ich brauche einen Termin.", polish: "Potrzebuję wizyty.", example: "Guten Tag, ich brauche einen Termin beim Arzt.", level: "A2" },
+        { german: "Ich fühle mich nicht gut.", polish: "Nie czuję się dobrze.", example: "Ich fühle mich seit gestern nicht gut.", level: "A1" },
+        { german: "Ich habe Schmerzen.", polish: "Boli mnie. / Mam bóle.", example: "Ich habe starke Schmerzen im Rücken.", level: "A2" },
+        { german: "Mir ist übel.", polish: "Jest mi niedobrze.", example: "Mir ist seit heute Morgen übel.", level: "A2" },
+        { german: "Ich habe Fieber.", polish: "Mam gorączkę.", example: "Ich habe 39 Grad Fieber.", level: "A1" },
+        { german: "Ich habe Kopfschmerzen.", polish: "Boli mnie głowa.", example: "Ich habe seit zwei Tagen Kopfschmerzen.", level: "A1" },
+        { german: "Ich habe Halsschmerzen.", polish: "Boli mnie gardło.", example: "Ich habe Halsschmerzen und Husten.", level: "A1" },
+        { german: "Ich habe mich verletzt.", polish: "Zraniłem/zraniłam się.", example: "Ich habe mich bei der Arbeit verletzt.", level: "A2" },
+        { german: "Wo tut es weh?", polish: "Gdzie boli?", example: "Zeigen Sie mir, wo es weh tut.", level: "A2" },
+        { german: "Hier tut es weh.", polish: "Tu boli.", example: "Hier unten tut es weh.", level: "A2" },
+        { german: "Seit wann haben Sie die Beschwerden?", polish: "Od kiedy ma Pan/Pani dolegliwości?", example: "Seit wann haben Sie diese Beschwerden?", level: "B1" },
+        { german: "Ich bin erkältet.", polish: "Jestem przeziębiony/przeziębiona.", example: "Ich bin stark erkältet.", level: "A2" },
+        { german: "Ich bin allergisch gegen...", polish: "Mam alergię na...", example: "Ich bin allergisch gegen Penicillin.", level: "B1" },
+        { german: "Ich nehme Medikamente.", polish: "Biorę leki.", example: "Ich nehme regelmäßig Medikamente.", level: "A2" },
+        { german: "das Rezept", polish: "recepta", example: "Der Arzt gibt mir ein Rezept.", level: "A2" },
+        { german: "die Krankschreibung", polish: "zwolnienie lekarskie", example: "Ich brauche eine Krankschreibung.", level: "B1" },
+        { german: "krankgeschrieben sein", polish: "być na zwolnieniu", example: "Ich bin diese Woche krankgeschrieben.", level: "B1" },
+        { german: "die Apotheke", polish: "apteka", example: "Die Apotheke ist gleich um die Ecke.", level: "A1" },
+        { german: "die Tablette", polish: "tabletka", example: "Nehmen Sie dreimal täglich eine Tablette.", level: "A2" },
+        { german: "Gute Besserung!", polish: "Szybkiego powrotu do zdrowia!", example: "Ruh dich aus – gute Besserung!", level: "A1" },
+    ],
+
+    // 🔑 WYNAJEM MIESZKANIA (A2-B1)
+    apartment: [
+        { german: "die Miete", polish: "czynsz", example: "Die Miete beträgt 800 Euro.", level: "A2" },
+        { german: "mieten", polish: "wynajmować (od kogoś)", example: "Wir mieten eine Wohnung.", level: "A2" },
+        { german: "vermieten", polish: "wynajmować (komuś)", example: "Er vermietet zwei Zimmer.", level: "B1" },
+        { german: "der Vermieter", polish: "wynajmujący / właściciel", example: "Der Vermieter ist sehr nett.", level: "A2" },
+        { german: "der Mieter", polish: "najemca / lokator", example: "Die Mieter wohnen seit Jahren hier.", level: "A2" },
+        { german: "die Kaution", polish: "kaucja", example: "Die Kaution beträgt drei Monatsmieten.", level: "B1" },
+        { german: "die Nebenkosten", polish: "opłaty dodatkowe (media)", example: "Die Nebenkosten sind im Preis enthalten.", level: "B1" },
+        { german: "warm/kalt (Miete)", polish: "czynsz z mediami / bez mediów", example: "700 Euro kalt, 850 warm.", level: "B1" },
+        { german: "der Mietvertrag", polish: "umowa najmu", example: "Ich unterschreibe den Mietvertrag.", level: "B1" },
+        { german: "kündigen", polish: "wypowiadać (umowę)", example: "Ich kündige die Wohnung zum 1. Juli.", level: "B1" },
+        { german: "die Kündigungsfrist", polish: "okres wypowiedzenia", example: "Die Kündigungsfrist beträgt drei Monate.", level: "B1" },
+        { german: "die Besichtigung", polish: "oglądanie mieszkania", example: "Die Besichtigung ist am Samstag.", level: "B1" },
+        { german: "einziehen", polish: "wprowadzać się", example: "Wir ziehen nächste Woche ein.", level: "A2" },
+        { german: "ausziehen", polish: "wyprowadzać się", example: "Sie zieht Ende des Monats aus.", level: "A2" },
+        { german: "umziehen", polish: "przeprowadzać się", example: "Wir ziehen nach Hamburg um.", level: "A2" },
+        { german: "der Umzug", polish: "przeprowadzka", example: "Der Umzug ist stressig.", level: "A2" },
+        { german: "möbliert", polish: "umeblowane", example: "Das Zimmer ist möbliert.", level: "B1" },
+        { german: "die Wohnfläche", polish: "powierzchnia mieszkalna", example: "Die Wohnfläche beträgt 60 Quadratmeter.", level: "B1" },
+        { german: "der Stock / die Etage", polish: "piętro", example: "Wir wohnen im dritten Stock.", level: "A2" },
+        { german: "der Aufzug", polish: "winda", example: "Das Haus hat keinen Aufzug.", level: "A2" },
+    ],
+
+    // 🔁 CZASOWNIKI ZWROTNE (A2-B1)
+    reflexive_verbs: [
+        { german: "sich freuen", polish: "cieszyć się", example: "Ich freue mich auf das Wochenende.", level: "A2" },
+        { german: "sich ärgern", polish: "złościć się", example: "Er ärgert sich über den Stau.", level: "A2" },
+        { german: "sich waschen", polish: "myć się", example: "Ich wasche mich jeden Morgen.", level: "A1" },
+        { german: "sich anziehen", polish: "ubierać się", example: "Zieh dich warm an!", level: "A1" },
+        { german: "sich ausziehen", polish: "rozbierać się", example: "Das Kind zieht sich selbst aus.", level: "A2" },
+        { german: "sich duschen", polish: "brać prysznic", example: "Ich dusche mich abends.", level: "A1" },
+        { german: "sich beeilen", polish: "spieszyć się", example: "Beeil dich, wir sind spät!", level: "A2" },
+        { german: "sich ausruhen", polish: "odpoczywać", example: "Ruh dich ein bisschen aus.", level: "A2" },
+        { german: "sich treffen", polish: "spotykać się", example: "Wir treffen uns um acht.", level: "A2" },
+        { german: "sich interessieren für", polish: "interesować się", example: "Ich interessiere mich für Musik.", level: "A2" },
+        { german: "sich erinnern an", polish: "przypominać sobie", example: "Erinnerst du dich an mich?", level: "B1" },
+        { german: "sich kümmern um", polish: "troszczyć się o", example: "Sie kümmert sich um die Kinder.", level: "B1" },
+        { german: "sich entschuldigen", polish: "przepraszać", example: "Ich entschuldige mich für die Verspätung.", level: "A2" },
+        { german: "sich fühlen", polish: "czuć się", example: "Wie fühlst du dich heute?", level: "A2" },
+        { german: "sich setzen", polish: "siadać", example: "Setzen Sie sich, bitte.", level: "A1" },
+        { german: "sich vorstellen", polish: "przedstawiać się / wyobrażać sobie", example: "Darf ich mich vorstellen?", level: "A2" },
+        { german: "sich unterhalten", polish: "rozmawiać", example: "Wir unterhalten uns über die Arbeit.", level: "B1" },
+        { german: "sich verabschieden", polish: "żegnać się", example: "Ich verabschiede mich jetzt.", level: "B1" },
+        { german: "sich gewöhnen an", polish: "przyzwyczajać się do", example: "Ich gewöhne mich an das Wetter.", level: "B1" },
+        { german: "sich bewerben um", polish: "ubiegać się o (pracę)", example: "Ich bewerbe mich um die Stelle.", level: "B1" },
+    ],
+
+    // 💡 IDIOMY (B1)
+    idioms: [
+        { german: "Daumen drücken", polish: "trzymać kciuki", example: "Ich drücke dir die Daumen!", level: "B1" },
+        { german: "die Nase voll haben", polish: "mieć czegoś dość", example: "Ich habe die Nase voll von der Arbeit.", level: "B1" },
+        { german: "auf dem Holzweg sein", polish: "być w błędzie", example: "Da bist du auf dem Holzweg.", level: "B1" },
+        { german: "ins Fettnäpfchen treten", polish: "popełnić gafę", example: "Er tritt oft ins Fettnäpfchen.", level: "B1" },
+        { german: "zwei Fliegen mit einer Klappe schlagen", polish: "upiec dwie pieczenie na jednym ogniu", example: "So schlagen wir zwei Fliegen mit einer Klappe.", level: "B1" },
+        { german: "Schwein haben", polish: "mieć farta", example: "Da hast du echt Schwein gehabt!", level: "B1" },
+        { german: "die Ohren spitzen", polish: "nadstawiać uszu", example: "Spitz mal die Ohren!", level: "B1" },
+        { german: "unter vier Augen", polish: "w cztery oczy", example: "Können wir unter vier Augen sprechen?", level: "B1" },
+        { german: "Hals- und Beinbruch!", polish: "połamania nóg! (powodzenia)", example: "Viel Erfolg – Hals- und Beinbruch!", level: "B1" },
+        { german: "es ist mir Wurst", polish: "wszystko mi jedno", example: "Das ist mir völlig Wurst.", level: "B1" },
+        { german: "Tomaten auf den Augen haben", polish: "nie widzieć oczywistych rzeczy", example: "Hast du Tomaten auf den Augen?", level: "B1" },
+        { german: "jemandem auf die Nerven gehen", polish: "działać komuś na nerwy", example: "Der Lärm geht mir auf die Nerven.", level: "B1" },
+        { german: "die Katze im Sack kaufen", polish: "kupować kota w worku", example: "Ich kaufe doch nicht die Katze im Sack!", level: "B1" },
+        { german: "Öl ins Feuer gießen", polish: "dolewać oliwy do ognia", example: "Gieß nicht noch Öl ins Feuer.", level: "B1" },
+        { german: "alles in Butter", polish: "wszystko w porządku", example: "Keine Sorge, alles in Butter!", level: "B1" },
+        { german: "einen Kater haben", polish: "mieć kaca", example: "Nach der Party hatte er einen Kater.", level: "B1" },
+        { german: "blau machen", polish: "iść na wagary / nie przyjść do pracy", example: "Er macht heute blau.", level: "B1" },
+        { german: "die Daumen sind gedrückt", polish: "kciuki trzymane", example: "Für morgen sind die Daumen gedrückt!", level: "B1" },
+        { german: "ein Auge zudrücken", polish: "przymknąć oko", example: "Der Chef drückt diesmal ein Auge zu.", level: "B1" },
+        { german: "auf Wolke sieben schweben", polish: "być w siódmym niebie", example: "Seit der Hochzeit schwebt sie auf Wolke sieben.", level: "B1" },
+    ],
+
+    // ☕ SMALL TALK (A2)
+    smalltalk: [
+        { german: "Schönes Wetter heute, oder?", polish: "Ładna dziś pogoda, prawda?", example: "Schönes Wetter heute, oder? – Ja, endlich Sonne!", level: "A2" },
+        { german: "Wie war dein Wochenende?", polish: "Jak minął weekend?", example: "Na, wie war dein Wochenende?", level: "A2" },
+        { german: "Was machst du so?", polish: "Czym się zajmujesz?", example: "Und was machst du so beruflich?", level: "A2" },
+        { german: "Woher kommst du?", polish: "Skąd jesteś?", example: "Woher kommst du ursprünglich?", level: "A1" },
+        { german: "Wie lange bist du schon hier?", polish: "Jak długo już tu jesteś?", example: "Wie lange bist du schon in Deutschland?", level: "A2" },
+        { german: "Hast du Pläne fürs Wochenende?", polish: "Masz plany na weekend?", example: "Hast du schon Pläne fürs Wochenende?", level: "A2" },
+        { german: "Lange nicht gesehen!", polish: "Kopę lat! / Dawno się nie widzieliśmy!", example: "Hey, lange nicht gesehen!", level: "A2" },
+        { german: "Wie läuft's?", polish: "Jak leci?", example: "Na, wie läuft's bei dir?", level: "A2" },
+        { german: "Alles klar bei dir?", polish: "Wszystko u ciebie w porządku?", example: "Alles klar bei dir? Du siehst müde aus.", level: "A2" },
+        { german: "Bis dann!", polish: "Na razie!", example: "Ich muss los – bis dann!", level: "A1" },
+        { german: "Mach's gut!", polish: "Trzymaj się!", example: "Tschüss, mach's gut!", level: "A1" },
+        { german: "Schön, dich zu sehen.", polish: "Miło cię widzieć.", example: "Schön, dich mal wieder zu sehen!", level: "A2" },
+        { german: "Grüß deine Familie!", polish: "Pozdrów rodzinę!", example: "Grüß deine Familie von mir!", level: "A2" },
+        { german: "Ich muss langsam los.", polish: "Muszę się powoli zbierać.", example: "Es ist spät, ich muss langsam los.", level: "A2" },
+        { german: "Melde dich mal!", polish: "Odezwij się!", example: "Melde dich mal wieder!", level: "A2" },
+    ],
+
+    // ↔️ PRZECIWIEŃSTWA (A1-A2)
+    opposites: [
+        { german: "groß ↔ klein", polish: "duży ↔ mały", example: "Das Haus ist groß, die Wohnung ist klein.", level: "A1" },
+        { german: "alt ↔ neu", polish: "stary ↔ nowy", example: "Das Auto ist alt, das Fahrrad ist neu.", level: "A1" },
+        { german: "alt ↔ jung", polish: "stary ↔ młody", example: "Mein Opa ist alt, meine Schwester ist jung.", level: "A1" },
+        { german: "gut ↔ schlecht", polish: "dobry ↔ zły", example: "Der Film war gut, das Essen war schlecht.", level: "A1" },
+        { german: "heiß ↔ kalt", polish: "gorący ↔ zimny", example: "Der Kaffee ist heiß, das Wasser ist kalt.", level: "A1" },
+        { german: "hell ↔ dunkel", polish: "jasny ↔ ciemny", example: "Im Sommer ist es hell, im Winter dunkel.", level: "A1" },
+        { german: "schnell ↔ langsam", polish: "szybki ↔ wolny", example: "Der Zug ist schnell, der Bus ist langsam.", level: "A1" },
+        { german: "teuer ↔ billig", polish: "drogi ↔ tani", example: "Das Hotel ist teuer, das Hostel ist billig.", level: "A1" },
+        { german: "leicht ↔ schwer", polish: "lekki/łatwy ↔ ciężki/trudny", example: "Die Tasche ist leicht, der Koffer ist schwer.", level: "A1" },
+        { german: "voll ↔ leer", polish: "pełny ↔ pusty", example: "Das Glas ist voll, die Flasche ist leer.", level: "A1" },
+        { german: "offen ↔ geschlossen", polish: "otwarty ↔ zamknięty", example: "Das Fenster ist offen, die Tür ist geschlossen.", level: "A1" },
+        { german: "laut ↔ leise", polish: "głośny ↔ cichy", example: "Die Musik ist laut, sprich bitte leise.", level: "A1" },
+        { german: "sauber ↔ schmutzig", polish: "czysty ↔ brudny", example: "Die Küche ist sauber, die Schuhe sind schmutzig.", level: "A1" },
+        { german: "früh ↔ spät", polish: "wcześnie ↔ późno", example: "Ich stehe früh auf und gehe spät schlafen.", level: "A1" },
+        { german: "nah ↔ weit", polish: "blisko ↔ daleko", example: "Die Schule ist nah, die Arbeit ist weit.", level: "A1" },
+        { german: "stark ↔ schwach", polish: "silny ↔ słaby", example: "Der Kaffee ist stark, der Tee ist schwach.", level: "A2" },
+        { german: "reich ↔ arm", polish: "bogaty ↔ biedny", example: "Er ist reich, sie ist arm.", level: "A2" },
+        { german: "gesund ↔ krank", polish: "zdrowy ↔ chory", example: "Gestern war ich krank, heute bin ich gesund.", level: "A1" },
+        { german: "richtig ↔ falsch", polish: "poprawny ↔ błędny", example: "Diese Antwort ist richtig, jene ist falsch.", level: "A1" },
+        { german: "einfach ↔ kompliziert", polish: "prosty ↔ skomplikowany", example: "Die Aufgabe ist einfach, die Grammatik ist kompliziert.", level: "A2" },
+        { german: "trocken ↔ nass", polish: "suchy ↔ mokry", example: "Die Wäsche ist noch nass, jetzt ist sie trocken.", level: "A2" },
+        { german: "breit ↔ schmal", polish: "szeroki ↔ wąski", example: "Die Straße ist breit, der Weg ist schmal.", level: "A2" },
+        { german: "hoch ↔ niedrig", polish: "wysoki ↔ niski", example: "Der Turm ist hoch, der Zaun ist niedrig.", level: "A2" },
+        { german: "dick ↔ dünn", polish: "gruby ↔ cienki", example: "Das Buch ist dick, das Heft ist dünn.", level: "A2" },
+        { german: "fleißig ↔ faul", polish: "pracowity ↔ leniwy", example: "Sie ist fleißig, er ist faul.", level: "A2" },
+    ],
+
+    // 🕐 WYRAŻENIA CZASOWE (A1-B1)
+    time_expressions: [
+        { german: "heute", polish: "dzisiaj", example: "Heute ist Montag.", level: "A1" },
+        { german: "morgen", polish: "jutro", example: "Morgen habe ich frei.", level: "A1" },
+        { german: "gestern", polish: "wczoraj", example: "Gestern war ich im Kino.", level: "A1" },
+        { german: "übermorgen", polish: "pojutrze", example: "Übermorgen kommt mein Bruder.", level: "A2" },
+        { german: "vorgestern", polish: "przedwczoraj", example: "Vorgestern hat es geregnet.", level: "A2" },
+        { german: "jetzt", polish: "teraz", example: "Ich habe jetzt Zeit.", level: "A1" },
+        { german: "gleich", polish: "zaraz", example: "Ich komme gleich.", level: "A1" },
+        { german: "sofort", polish: "natychmiast", example: "Komm bitte sofort!", level: "A2" },
+        { german: "später", polish: "później", example: "Wir sprechen später.", level: "A1" },
+        { german: "früher", polish: "wcześniej / dawniej", example: "Früher habe ich in Polen gewohnt.", level: "A2" },
+        { german: "immer", polish: "zawsze", example: "Er kommt immer pünktlich.", level: "A1" },
+        { german: "nie / niemals", polish: "nigdy", example: "Ich rauche nie.", level: "A1" },
+        { german: "oft", polish: "często", example: "Wir gehen oft spazieren.", level: "A1" },
+        { german: "selten", polish: "rzadko", example: "Ich esse selten Fleisch.", level: "A2" },
+        { german: "manchmal", polish: "czasami", example: "Manchmal koche ich abends.", level: "A1" },
+        { german: "meistens", polish: "przeważnie", example: "Meistens stehe ich um 6 auf.", level: "A2" },
+        { german: "jeden Tag", polish: "codziennie", example: "Ich lerne jeden Tag Deutsch.", level: "A1" },
+        { german: "am Wochenende", polish: "w weekend", example: "Am Wochenende schlafe ich lange.", level: "A1" },
+        { german: "nächste Woche", polish: "w przyszłym tygodniu", example: "Nächste Woche fahre ich nach Polen.", level: "A2" },
+        { german: "letzte Woche", polish: "w zeszłym tygodniu", example: "Letzte Woche war ich krank.", level: "A2" },
+        { german: "vor einer Stunde", polish: "godzinę temu", example: "Er ist vor einer Stunde gegangen.", level: "A2" },
+        { german: "in einer Stunde", polish: "za godzinę", example: "Der Film beginnt in einer Stunde.", level: "A2" },
+        { german: "seit gestern", polish: "od wczoraj", example: "Seit gestern habe ich Husten.", level: "A2" },
+        { german: "bis morgen", polish: "do jutra", example: "Das muss bis morgen fertig sein.", level: "A2" },
+        { german: "zurzeit", polish: "obecnie", example: "Zurzeit arbeite ich viel.", level: "B1" },
+        { german: "damals", polish: "wtedy / wówczas", example: "Damals war alles anders.", level: "B1" },
+        { german: "inzwischen", polish: "tymczasem / w międzyczasie", example: "Inzwischen ist er umgezogen.", level: "B1" },
+        { german: "sobald", polish: "jak tylko", example: "Ich rufe an, sobald ich da bin.", level: "B1" },
+    ],
+};
+
+// Osiągnięcia
+const achievements = [
+    { id: 'first_word', name: 'Pierwsze słowo', desc: 'Naucz się pierwszego słowa', icon: '🌱', xp: 10, requirement: 1 },
+    { id: 'ten_words', name: 'Dziesięć słówek', desc: 'Naucz się 10 słówek', icon: '📚', xp: 50, requirement: 10 },
+    { id: 'fifty_words', name: 'Pięćdziesiąt słówek', desc: 'Naucz się 50 słówek', icon: '🎓', xp: 100, requirement: 50 },
+    { id: 'hundred_words', name: 'Sto słówek', desc: 'Naucz się 100 słówek', icon: '🏆', xp: 200, requirement: 100 },
+    { id: 'first_quiz', name: 'Pierwszy quiz', desc: 'Ukończ pierwszy quiz', icon: '📝', xp: 20, requirement: 1 },
+    { id: 'ten_quizzes', name: 'Dziesięć quizów', desc: 'Ukończ 10 quizów', icon: '✅', xp: 100, requirement: 10 },
+    { id: 'perfect_quiz', name: 'Perfekcyjny quiz', desc: 'Uzyskaj 100% w quizie', icon: '⭐', xp: 50, requirement: 1 },
+    { id: 'week_streak', name: 'Tydzień z rzędu', desc: 'Ucz się 7 dni z rzędu', icon: '🔥', xp: 150, requirement: 7 },
+    { id: 'month_streak', name: 'Miesiąc z rzędu', desc: 'Ucz się 30 dni z rzędu', icon: '💪', xp: 500, requirement: 30 },
+    { id: 'first_memory', name: 'Pierwsza gra Memory', desc: 'Zagraj w Memory', icon: '🎮', xp: 30, requirement: 1 },
+    { id: 'memory_master', name: 'Mistrz Memory', desc: 'Zagraj 10 razy w Memory', icon: '🎯', xp: 200, requirement: 10 },
+    { id: 'custom_words', name: 'Własne słówka', desc: 'Dodaj 5 własnych słówek', icon: '⭐', xp: 50, requirement: 5 }
+];
+
+// Dane gramatyczne
+const grammarData = {
+    articles: {
+        title: 'Rodzajniki: der, die, das',
+        content: `
+            <h3>Rodzajniki w języku niemieckim</h3>
+            <p>W niemieckim są trzy rodzaje:</p>
+            <ul>
+                <li><strong>der</strong> - rodzaj męski (Maskulinum)</li>
+                <li><strong>die</strong> - rodzaj żeński (Femininum)</li>
+                <li><strong>das</strong> - rodzaj nijaki (Neutrum)</li>
+            </ul>
+            
+            <h4>Przykłady:</h4>
+            <ul>
+                <li><strong>der</strong> Mann (mężczyzna), <strong>der</strong> Tisch (stół)</li>
+                <li><strong>die</strong> Frau (kobieta), <strong>die</strong> Lampe (lampa)</li>
+                <li><strong>das</strong> Kind (dziecko), <strong>das</strong> Buch (książka)</li>
+            </ul>
+        `,
+        exercises: [
+            { question: '____ Mann', answer: 'der', options: ['der', 'die', 'das'] },
+            { question: '____ Frau', answer: 'die', options: ['der', 'die', 'das'] },
+            { question: '____ Kind', answer: 'das', options: ['der', 'die', 'das'] }
+        ]
+    },
+    
+    verbs: {
+        title: 'Czasowniki - odmiana',
+        content: `
+            <h3>Odmiana czasowników regularnych</h3>
+            <p>Przykład: <strong>lernen</strong> (uczyć się)</p>
+            <ul>
+                <li>ich lern<strong>e</strong></li>
+                <li>du lern<strong>st</strong></li>
+                <li>er/sie/es lern<strong>t</strong></li>
+                <li>wir lern<strong>en</strong></li>
+                <li>ihr lern<strong>t</strong></li>
+                <li>sie/Sie lern<strong>en</strong></li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'ich _____ (machen)', answer: 'mache', options: ['mache', 'machst', 'macht'] },
+            { question: 'du _____ (spielen)', answer: 'spielst', options: ['spiele', 'spielst', 'spielt'] }
+        ]
+    },
+    
+    cases: {
+        title: 'Przypadki',
+        content: `
+            <h3>Cztery przypadki w niemieckim</h3>
+            <ol>
+                <li><strong>Nominativ</strong> (mianownik) - Kto? Co?</li>
+                <li><strong>Akkusativ</strong> (biernik) - Kogo? Co?</li>
+                <li><strong>Dativ</strong> (celownik) - Komu? Czemu?</li>
+                <li><strong>Genitiv</strong> (dopełniacz) - Czyj? Czego?</li>
+            </ol>
+        `,
+        exercises: [
+            { question: 'Ich sehe ___ Mann', answer: 'den', options: ['der', 'den', 'dem'] }
+        ]
+    },
+    
+    perfect: {
+        title: 'Perfekt - czas przeszły',
+        content: `
+            <h3>Perfekt (czas przeszły)</h3>
+            <p>Formuła: <strong>haben/sein + Partizip II</strong></p>
+            <ul>
+                <li>Ich <strong>habe</strong> gelernt</li>
+                <li>Du <strong>bist</strong> gegangen</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich _____ gelernt', answer: 'habe', options: ['habe', 'bin', 'hat'] }
+        ]
+    },
+    
+    modal: {
+        title: 'Czasowniki modalne',
+        content: `
+            <h3>Modalverben</h3>
+            <ul>
+                <li><strong>können</strong> - móc, umieć</li>
+                <li><strong>müssen</strong> - musieć</li>
+                <li><strong>wollen</strong> - chcieć</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich _____ schwimmen', answer: 'kann', options: ['kann', 'kannst', 'können'] }
+        ]
+    },
+    
+    praeteritum: {
+        title: 'Präteritum',
+        content: `
+            <h3>Präteritum - czas przeszły prosty</h3>
+            <ul>
+                <li><strong>sein:</strong> ich war, du warst</li>
+                <li><strong>haben:</strong> ich hatte, du hattest</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich _____ (sein)', answer: 'war', options: ['war', 'waren', 'warst'] }
+        ]
+    },
+
+    konjunktiv2: {
+        title: 'Konjunktiv II',
+        content: `
+            <h3>Konjunktiv II – tryb przypuszczający</h3>
+            <p>Używamy do wyrażania życzeń, hipotez i grzecznych próśb.</p>
+            <ul>
+                <li><strong>würde + Infinitiv:</strong> Ich würde gern reisen. (Chętnie bym podróżował.)</li>
+                <li><strong>wäre:</strong> Wenn ich reich wäre... (Gdybym był bogaty...)</li>
+                <li><strong>hätte:</strong> Wenn ich Zeit hätte... (Gdybym miał czas...)</li>
+                <li><strong>könnte:</strong> Könntest du mir helfen? (Czy mógłbyś mi pomóc?)</li>
+                <li><strong>sollte:</strong> Du solltest mehr schlafen. (Powinieneś więcej spać.)</li>
+                <li><strong>müsste:</strong> Ich müsste lernen. (Powinienem się uczyć.)</li>
+            </ul>
+            <p><strong>Przykłady:</strong></p>
+            <ul>
+                <li>Ich würde gern Deutsch lernen.</li>
+                <li>Wenn ich mehr Geld hätte, würde ich reisen.</li>
+                <li>Das wäre toll!</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Wenn ich Zeit _____, würde ich kommen.', answer: 'hätte', options: ['hätte', 'habe', 'hatte'] },
+            { question: 'Er _____ gern ins Kino gehen.', answer: 'würde', options: ['würde', 'wird', 'wäre'] },
+            { question: 'Das _____ wirklich schön!', answer: 'wäre', options: ['wäre', 'war', 'wird'] },
+            { question: '_____ du mir bitte helfen?', answer: 'Könntest', options: ['Könntest', 'Kannst', 'Konntest'] }
+        ]
+    },
+
+    passiv: {
+        title: 'Passiv (strona bierna)',
+        content: `
+            <h3>Passiv – strona bierna</h3>
+            <p>Strona bierna skupia się na czynności, nie na osobie wykonującej.</p>
+            <h4>Präsens Passiv: werden + Partizip II</h4>
+            <ul>
+                <li>Das Buch <strong>wird gelesen</strong>. (Książka jest czytana.)</li>
+                <li>Die Tür <strong>wird geöffnet</strong>. (Drzwi są otwierane.)</li>
+                <li>Das Essen <strong>wird gekocht</strong>. (Jedzenie jest gotowane.)</li>
+            </ul>
+            <h4>Perfekt Passiv: sein + Partizip II + worden</h4>
+            <ul>
+                <li>Das Buch <strong>ist gelesen worden</strong>. (Książka została przeczytana.)</li>
+                <li>Das Auto <strong>ist repariert worden</strong>. (Samochód został naprawiony.)</li>
+            </ul>
+            <h4>Odmiana "werden" w Präsens:</h4>
+            <ul>
+                <li>ich werde, du wirst, er/sie/es wird</li>
+                <li>wir werden, ihr werdet, sie werden</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Das Auto _____ repariert.', answer: 'wird', options: ['wird', 'ist', 'hat'] },
+            { question: 'Die Briefe _____ geschrieben.', answer: 'werden', options: ['werden', 'sind', 'haben'] },
+            { question: 'Das Haus _____ gebaut worden.', answer: 'ist', options: ['ist', 'wird', 'hat'] },
+            { question: 'Der Kuchen _____ gegessen.', answer: 'wird', options: ['wird', 'ist', 'war'] }
+        ]
+    },
+
+    komparativ: {
+        title: 'Komparativ i Superlativ',
+        content: `
+            <h3>Komparativ i Superlativ – stopniowanie przymiotników</h3>
+            <h4>Stopień wyższy (Komparativ): przymiotnik + -er</h4>
+            <ul>
+                <li>schnell → <strong>schneller</strong> (szybszy)</li>
+                <li>groß → <strong>größer</strong> (większy)</li>
+                <li>alt → <strong>älter</strong> (starszy)</li>
+            </ul>
+            <h4>Stopień najwyższy (Superlativ): am ...sten / der/die/das ...ste</h4>
+            <ul>
+                <li>schnell → <strong>am schnellsten</strong> / <strong>der schnellste</strong></li>
+                <li>groß → <strong>am größten</strong> / <strong>der größte</strong></li>
+                <li>alt → <strong>am ältesten</strong> / <strong>der älteste</strong></li>
+            </ul>
+            <h4>Nieregularne:</h4>
+            <ul>
+                <li>gut → besser → am besten (dobry → lepszy → najlepszy)</li>
+                <li>viel → mehr → am meisten (dużo → więcej → najwięcej)</li>
+                <li>gern → lieber → am liebsten (chętnie → chętniej → najchętniej)</li>
+            </ul>
+            <h4>Porównanie: so ... wie / ...er als</h4>
+            <ul>
+                <li>Er ist <strong>so groß wie</strong> ich. (Jest tak wysoki jak ja.)</li>
+                <li>Sie ist <strong>größer als</strong> ich. (Ona jest wyższa niż ja.)</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'schnell → _____er', answer: 'schneller', options: ['schneller', 'schnellster', 'schnellerer'] },
+            { question: 'gut → _____ (Komparativ)', answer: 'besser', options: ['besser', 'guter', 'am besten'] },
+            { question: 'groß → am _____', answer: 'größten', options: ['größten', 'größten', 'großsten'] },
+            { question: 'viel → _____ (Komparativ)', answer: 'mehr', options: ['mehr', 'vieler', 'am meisten'] }
+        ]
+    },
+
+    nebensaetze: {
+        title: 'Zdania podrzędne',
+        content: `
+            <h3>Nebensätze – zdania podrzędne</h3>
+            <p><strong>Uwaga:</strong> w zdaniu podrzędnym czasownik idzie NA KONIEC!</p>
+            <h4>weil (bo, ponieważ)</h4>
+            <ul>
+                <li>Ich lerne Deutsch, <strong>weil</strong> es interessant <em>ist</em>.</li>
+                <li>Er schläft nicht, <strong>weil</strong> er Kaffee getrunken <em>hat</em>.</li>
+            </ul>
+            <h4>dass (że)</h4>
+            <ul>
+                <li>Ich glaube, <strong>dass</strong> du recht <em>hast</em>.</li>
+                <li>Sie sagt, <strong>dass</strong> sie kommt <em>kommt</em>.</li>
+            </ul>
+            <h4>wenn (gdy, kiedy, jeżeli)</h4>
+            <ul>
+                <li><strong>Wenn</strong> ich Zeit <em>habe</em>, komme ich.</li>
+                <li>Ruf mich an, <strong>wenn</strong> du fertig <em>bist</em>.</li>
+            </ul>
+            <h4>obwohl (chociaż, mimo że)</h4>
+            <ul>
+                <li>Er kommt, <strong>obwohl</strong> er müde <em>ist</em>.</li>
+            </ul>
+            <h4>damit (żeby, po to żeby)</h4>
+            <ul>
+                <li>Ich lerne, <strong>damit</strong> ich die Prüfung <em>bestehe</em>.</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich lerne Deutsch, weil es interessant _____.', answer: 'ist', options: ['ist', 'sein', 'es ist'] },
+            { question: 'Er sagt, dass er morgen _____.', answer: 'kommt', options: ['kommt', 'kommen', 'er kommt'] },
+            { question: '_____ ich Zeit habe, lese ich.', answer: 'Wenn', options: ['Wenn', 'Weil', 'Dass'] },
+            { question: 'Sie lernt, damit sie die Prüfung _____.', answer: 'besteht', options: ['besteht', 'bestehen', 'bestehe'] }
+        ]
+    },
 };
 
 // Alias dla kompatybilności z app.js
