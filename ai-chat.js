@@ -218,96 +218,45 @@ function hideAITyping() {
 // ==================== MIKROFON ====================
 
 function startChatSpeech() {
-    // Sprawdź czy przeglądarka obsługuje
-    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (!SpeechRecognition) {
-        alert('Twoja przeglądarka nie obsługuje rozpoznawania mowy. Użyj Chrome.');
+    var micBtn = document.querySelector('.mic-btn-small');
+
+    function resetBtn() {
+        if (micBtn) {
+            micBtn.style.background = '';
+            micBtn.innerHTML = '🎤';
+        }
+    }
+
+    // Wspólny helper z app.js — na Androidzie natywny plugin, w przeglądarce Web Speech API
+    if (typeof recognizeSpeech !== 'function') {
+        if (typeof showToast === 'function') showToast('❌ Rozpoznawanie mowy niedostępne');
         return;
     }
-    
-    var recognition = new SpeechRecognition();
-    recognition.lang = 'de-DE';
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    
-    var micBtn = document.querySelector('.mic-btn-small');
-    
-    // Zmień wygląd przycisku na aktywny
-    if (micBtn) {
-        micBtn.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
-        micBtn.innerHTML = '🎙️';
-    }
-    
-    if (typeof showToast === 'function') {
-        showToast('🎤 Mów po niemiecku...');
-    }
-    
-    recognition.onresult = function(event) {
-        var transcript = event.results[0][0].transcript;
-        console.log('Rozpoznano:', transcript);
-        
-        var input = document.getElementById('chatInput');
-        if (input) {
-            input.value = transcript;
-            input.focus();
+
+    recognizeSpeech({
+        onStart: function() {
+            if (micBtn) {
+                micBtn.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+                micBtn.innerHTML = '🎙️';
+            }
+            if (typeof showToast === 'function') showToast('🎤 Mów po niemiecku...');
+        },
+        onEnd: resetBtn,
+        onResult: function(transcript) {
+            resetBtn();
+            var input = document.getElementById('chatInput');
+            if (input) {
+                input.value = transcript;
+                input.focus();
+            }
+            if (typeof showToast === 'function') showToast('✅ Rozpoznano: ' + transcript);
+        },
+        onError: function(msg) {
+            resetBtn();
+            if (typeof showToast === 'function') showToast('❌ ' + msg);
+            else alert(msg);
         }
-        
-        // Przywróć wygląd przycisku
-        if (micBtn) {
-            micBtn.style.background = '';
-            micBtn.innerHTML = '🎤';
-        }
-        
-        if (typeof showToast === 'function') {
-            showToast('✅ Rozpoznano: ' + transcript);
-        }
-    };
-    
-    recognition.onerror = function(event) {
-        console.error('Błąd rozpoznawania:', event.error);
-        
-        // Przywróć wygląd przycisku
-        if (micBtn) {
-            micBtn.style.background = '';
-            micBtn.innerHTML = '🎤';
-        }
-        
-        var errorMsg = 'Błąd mikrofonu';
-        if (event.error === 'no-speech') {
-            errorMsg = 'Nie wykryto mowy';
-        } else if (event.error === 'not-allowed') {
-            errorMsg = 'Brak dostępu do mikrofonu. Zezwól w ustawieniach przeglądarki.';
-        } else if (event.error === 'network') {
-            errorMsg = 'Błąd sieci';
-        }
-        
-        if (typeof showToast === 'function') {
-            showToast('❌ ' + errorMsg);
-        } else {
-            alert(errorMsg);
-        }
-    };
-    
-    recognition.onend = function() {
-        // Przywróć wygląd przycisku
-        if (micBtn) {
-            micBtn.style.background = '';
-            micBtn.innerHTML = '🎤';
-        }
-    };
-    
-    // Uruchom rozpoznawanie
-    try {
-        recognition.start();
-        console.log('Rozpoznawanie mowy uruchomione');
-    } catch (e) {
-        console.error('Nie można uruchomić mikrofonu:', e);
-        if (micBtn) {
-            micBtn.style.background = '';
-            micBtn.innerHTML = '🎤';
-        }
-    }
+    });
 }
 
 // ==================== POPUP KLUCZA API ====================

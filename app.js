@@ -1159,37 +1159,108 @@ function playSpeakingWordSlow() {
     }
 }
 
-function startSpeechRecognition() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        showToast('❌ Użyj Chrome dla rozpoznawania mowy');
+// Wspólne rozpoznawanie mowy.
+// Android WebView nie ma Web Speech API (to funkcja przeglądarki Chrome),
+// dlatego na Androidzie idziemy przez natywny plugin Capacitora — tak samo jak przy TTS.
+async function recognizeSpeech(opts) {
+    opts = opts || {};
+    const onResult = opts.onResult || function() {};
+    const onStart = opts.onStart || function() {};
+    const onEnd = opts.onEnd || function() {};
+    const onError = opts.onError || function() {};
+
+    const plugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.SpeechRecognition;
+
+    // --- Android: natywny plugin ---
+    if (plugin) {
+        try {
+            const avail = await plugin.available();
+            if (avail && avail.available === false) {
+                onError('Rozpoznawanie mowy niedostępne na tym urządzeniu');
+                return;
+            }
+
+            const perm = await plugin.requestPermissions();
+            const granted = !perm || perm.speechRecognition === 'granted' || perm.speechRecognition === undefined;
+            if (!granted) {
+                onError('Brak zgody na mikrofon — zezwól w ustawieniach aplikacji');
+                return;
+            }
+
+            onStart();
+            const res = await plugin.start({
+                language: 'de-DE',
+                maxResults: 1,
+                partialResults: false,
+                popup: false
+            });
+            onEnd();
+
+            const text = res && res.matches && res.matches[0] ? res.matches[0] : '';
+            if (text) onResult(text);
+            else onError('Nie wykryto mowy — spróbuj ponownie');
+        } catch (e) {
+            onEnd();
+            onError(e && e.message ? e.message : 'Błąd mikrofonu');
+        }
         return;
     }
-    
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
+
+    // --- Przeglądarka: Web Speech API ---
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        onError('Ta przeglądarka nie wspiera rozpoznawania mowy — użyj Chrome');
+        return;
+    }
+
+    recognition = new SR();
     recognition.lang = 'de-DE';
-    
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = function() { onStart(); };
+    recognition.onresult = function(event) { onResult(event.results[0][0].transcript); };
+    recognition.onend = function() { onEnd(); };
+    recognition.onerror = function(event) {
+        const err = event && event.error;
+        if (err === 'not-allowed') onError('Brak dostępu do mikrofonu');
+        else if (err === 'no-speech') onError('Nie wykryto mowy');
+        else onError('Błąd mikrofonu');
+    };
+
+    try {
+        recognition.start();
+    } catch (e) {
+        onEnd();
+        onError('Nie można uruchomić mikrofonu');
+    }
+}
+
+function startSpeechRecognition() {
     const micBtn = document.getElementById('micButton');
-    micBtn.classList.add('listening');
-    micBtn.textContent = '🎤 Słucham...';
-    
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        checkSpeech(transcript);
-    };
-    
-    recognition.onend = function() {
-        micBtn.classList.remove('listening');
-        micBtn.textContent = '🎤 Naciśnij i mów';
-    };
-    
-    recognition.onerror = function() {
-        micBtn.classList.remove('listening');
-        micBtn.textContent = '🎤 Naciśnij i mów';
-        showToast('❌ Spróbuj ponownie');
-    };
-    
-    recognition.start();
+
+    recognizeSpeech({
+        onStart: function() {
+            if (micBtn) {
+                micBtn.classList.add('listening');
+                micBtn.textContent = '🎤 Słucham...';
+            }
+        },
+        onEnd: function() {
+            if (micBtn) {
+                micBtn.classList.remove('listening');
+                micBtn.textContent = '🎤 Naciśnij i mów';
+            }
+        },
+        onResult: function(transcript) { checkSpeech(transcript); },
+        onError: function(msg) {
+            if (micBtn) {
+                micBtn.classList.remove('listening');
+                micBtn.textContent = '🎤 Naciśnij i mów';
+            }
+            showToast('❌ ' + msg);
+        }
+    });
 }
 
 function checkSpeech(userSpeech) {
