@@ -13,32 +13,76 @@ function hasApiKey() {
     return getGeminiApiKey().length > 10; 
 }
 
-// Wywołanie API Gemini
-async function callGeminiAI(userMessage) {
+// Modele w kolejności preferencji.
+// 'gemini-flash-latest' to alias, który Google sam przestawia na aktualny model —
+// dzięki temu apka przeżyje kolejne wycofania (stare modele zwracają 404
+// "no longer available to new users" dla nowo utworzonych kluczy API).
+const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash'];
+
+// Czy błąd oznacza "ten model nie działa" (warto spróbować następnego)?
+function isModelUnavailable(status, message) {
+    if (status === 404) return true;
+    return /no longer available|not available|not found|not supported|unsupported/i.test(message || '');
+}
+
+// Wspólne wywołanie Gemini z automatycznym fallbackiem modelu.
+// Zapamiętuje działający model, żeby nie próbować za każdym razem od nowa.
+async function geminiGenerate(promptText) {
     const apiKey = getGeminiApiKey();
-    if (!apiKey) return { success: false, error: 'Brak klucza API' };
-    
-    const prompt = "Jesteś nauczycielem niemieckiego. Odpowiadaj po niemiecku, dodaj tłumaczenie (pol: ...). Max 2-3 zdania. Jeśli uczeń zrobi błąd, popraw go.\n\nUczeń: " + userMessage;
-    
-    try {
-       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        const data = await response.json();
-        console.log('API:', data);
-        
-        if (data.error) return { success: false, error: data.error.message };
-        
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            return { success: true, response: data.candidates[0].content.parts[0].text };
+    if (!apiKey) return { success: false, error: 'Brak klucza API. Ustaw go w Opcjach.' };
+
+    const saved = localStorage.getItem('geminiModel') || '';
+    const models = saved
+        ? [saved].concat(GEMINI_MODELS.filter(function(m) { return m !== saved; }))
+        : GEMINI_MODELS.slice();
+
+    let lastError = 'Nieznany błąd';
+
+    for (let i = 0; i < models.length; i++) {
+        const model = models[i];
+        try {
+            const response = await fetch(
+                'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                }
+            );
+            const data = await response.json();
+
+            if (data.error) {
+                lastError = data.error.message || 'Błąd API';
+                console.warn('Gemini (' + model + '):', lastError);
+                if (isModelUnavailable(response.status, lastError)) continue;
+                // Błąd klucza / limitu / sieci — zmiana modelu nic nie da
+                return { success: false, error: lastError };
+            }
+
+            const c = data.candidates && data.candidates[0];
+            const text = c && c.content && c.content.parts && c.content.parts[0]
+                ? c.content.parts[0].text
+                : '';
+
+            if (text) {
+                localStorage.setItem('geminiModel', model);
+                return { success: true, response: text };
+            }
+            lastError = 'Brak odpowiedzi od AI';
+        } catch (e) {
+            lastError = e.message || 'Brak połączenia z internetem';
+            console.error('Gemini (' + model + '):', e);
         }
-        return { success: false, error: 'Brak odpowiedzi od AI' };
-    } catch (e) {
-        console.error('Błąd API:', e);
-        return { success: false, error: e.message };
     }
+
+    localStorage.removeItem('geminiModel');
+    return { success: false, error: lastError };
+}
+
+// Wywołanie API Gemini (czat)
+async function callGeminiAI(userMessage) {
+    const prompt = "Jesteś nauczycielem niemieckiego. Odpowiadaj po niemiecku, dodaj tłumaczenie (pol: ...). Max 2-3 zdania. Jeśli uczeń zrobi błąd, popraw go.\n\nUczeń: " + userMessage;
+    return geminiGenerate(prompt);
 }
 
 // Wyślij wiadomość

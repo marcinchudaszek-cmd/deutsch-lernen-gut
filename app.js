@@ -633,31 +633,16 @@ async function translateExample() {
 
     const apiKey = localStorage.getItem('geminiApiKey') || '';
     if (apiKey.length < 10) {
-        translEl.textContent = '❌ Ustaw klucz Gemini API w Czacie AI (ikona robota).';
+        translEl.textContent = '❌ Ustaw klucz Gemini API w Opcjach (⚙️ Ustawienia).';
         btn.disabled = false;
         btn.textContent = '🌐 Tłumacz';
         return;
     }
 
     try {
-        const response = await fetch(
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: 'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy ani wyjaśnień: ' + card.example }] }]
-                })
-            }
-        );
-        const data = await response.json();
-        if (data.error) {
-            translEl.textContent = '❌ ' + data.error.message;
-        } else if (data.candidates && data.candidates[0]) {
-            translEl.textContent = data.candidates[0].content.parts[0].text.trim();
-        } else {
-            translEl.textContent = '❌ Brak odpowiedzi od API.';
-        }
+        const prompt = 'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy ani wyjaśnień: ' + card.example;
+        const result = await geminiGenerate(prompt);
+        translEl.textContent = result.success ? result.response.trim() : '❌ ' + result.error;
     } catch (e) {
         translEl.textContent = '❌ Brak połączenia z internetem.';
     } finally {
