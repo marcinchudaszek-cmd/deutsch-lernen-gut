@@ -220,9 +220,11 @@ function hideAITyping() {
 function startChatSpeech() {
     var micBtn = document.querySelector('.mic-btn-small');
 
+    // Uwaga: .mic-btn-small ma w CSS background z !important,
+    // więc podświetlenie ustawiamy klasą .listening, nie stylem inline.
     function resetBtn() {
         if (micBtn) {
-            micBtn.style.background = '';
+            micBtn.classList.remove('listening');
             micBtn.innerHTML = '🎤';
         }
     }
@@ -236,7 +238,7 @@ function startChatSpeech() {
     recognizeSpeech({
         onStart: function() {
             if (micBtn) {
-                micBtn.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+                micBtn.classList.add('listening');
                 micBtn.innerHTML = '🎙️';
             }
             if (typeof showToast === 'function') showToast('🎤 Mów po niemiecku...');
