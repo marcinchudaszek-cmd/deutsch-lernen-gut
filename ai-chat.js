@@ -25,6 +25,17 @@ function isModelUnavailable(status, message) {
     return /no longer available|not available|not found|not supported|unsupported/i.test(message || '');
 }
 
+// Czy model jest chwilowo przeciążony / wyczerpał limit?
+// Warto wtedy sięgnąć po inny model (każdy ma własną pulę) i powtórzyć próbę.
+function isOverloaded(status, message) {
+    if (status === 503 || status === 429) return true;
+    return /high demand|overloaded|try again later|temporarily|rate limit|quota|exhausted/i.test(message || '');
+}
+
+function geminiSleep(ms) {
+    return new Promise(function(resolve) { setTimeout(resolve, ms); });
+}
+
 // Wspólne wywołanie Gemini z automatycznym fallbackiem modelu.
 // Zapamiętuje działający model, żeby nie próbować za każdym razem od nowa.
 async function geminiGenerate(promptText) {
@@ -37,45 +48,67 @@ async function geminiGenerate(promptText) {
         : GEMINI_MODELS.slice();
 
     let lastError = 'Nieznany błąd';
+    let sawOverload = false;
 
-    for (let i = 0; i < models.length; i++) {
-        const model = models[i];
-        try {
-            const response = await fetch(
-                'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+    // Dwie tury — przeciążenia serwerów Google są zwykle chwilowe.
+    for (let attempt = 0; attempt < 2; attempt++) {
+        if (attempt > 0) {
+            if (!sawOverload) break;     // powtarzamy wyłącznie przy przeciążeniu
+            await geminiSleep(1500);
+        }
+
+        for (let i = 0; i < models.length; i++) {
+            const model = models[i];
+            try {
+                const response = await fetch(
+                    'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                    }
+                );
+                const data = await response.json();
+
+                if (data.error) {
+                    lastError = data.error.message || 'Błąd API';
+                    console.warn('Gemini (' + model + '):', lastError);
+
+                    // Model wycofany → następny model
+                    if (isModelUnavailable(response.status, lastError)) continue;
+
+                    // Model przeciążony → następny model, a potem jeszcze jedna tura
+                    if (isOverloaded(response.status, lastError)) {
+                        sawOverload = true;
+                        continue;
+                    }
+
+                    // Błąd klucza itp. — zmiana modelu nic nie da
+                    return { success: false, error: lastError };
                 }
-            );
-            const data = await response.json();
 
-            if (data.error) {
-                lastError = data.error.message || 'Błąd API';
-                console.warn('Gemini (' + model + '):', lastError);
-                if (isModelUnavailable(response.status, lastError)) continue;
-                // Błąd klucza / limitu / sieci — zmiana modelu nic nie da
-                return { success: false, error: lastError };
+                const c = data.candidates && data.candidates[0];
+                const text = c && c.content && c.content.parts && c.content.parts[0]
+                    ? c.content.parts[0].text
+                    : '';
+
+                if (text) {
+                    localStorage.setItem('geminiModel', model);
+                    return { success: true, response: text };
+                }
+                lastError = 'Brak odpowiedzi od AI';
+            } catch (e) {
+                lastError = e.message || 'Brak połączenia z internetem';
+                console.error('Gemini (' + model + '):', e);
             }
-
-            const c = data.candidates && data.candidates[0];
-            const text = c && c.content && c.content.parts && c.content.parts[0]
-                ? c.content.parts[0].text
-                : '';
-
-            if (text) {
-                localStorage.setItem('geminiModel', model);
-                return { success: true, response: text };
-            }
-            lastError = 'Brak odpowiedzi od AI';
-        } catch (e) {
-            lastError = e.message || 'Brak połączenia z internetem';
-            console.error('Gemini (' + model + '):', e);
         }
     }
 
     localStorage.removeItem('geminiModel');
+
+    if (sawOverload) {
+        return { success: false, error: 'Serwery AI są chwilowo przeciążone. Spróbuj ponownie za chwilę.' };
+    }
     return { success: false, error: lastError };
 }
 
