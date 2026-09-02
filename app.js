@@ -642,7 +642,12 @@ async function translateExample() {
     try {
         const prompt = 'Przetłumacz to zdanie z niemieckiego na polski. Odpowiedz TYLKO tłumaczeniem, bez żadnych komentarzy ani wyjaśnień: ' + card.example;
         const result = await geminiGenerate(prompt);
-        translEl.textContent = result.success ? result.response.trim() : '❌ ' + result.error;
+        if (result.success) {
+            translEl.textContent = result.response.trim();
+        } else {
+            const short = typeof shortAiError === 'function' ? shortAiError(result.error) : result.error;
+            translEl.textContent = '❌ ' + short;
+        }
     } catch (e) {
         translEl.textContent = '❌ Brak połączenia z internetem.';
     } finally {

@@ -17,7 +17,7 @@ function hasApiKey() {
 // 'gemini-flash-latest' to alias, który Google sam przestawia na aktualny model —
 // dzięki temu apka przeżyje kolejne wycofania (stare modele zwracają 404
 // "no longer available to new users" dla nowo utworzonych kluczy API).
-const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash'];
+const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-2.5-flash'];
 
 // Czy błąd oznacza "ten model nie działa" (warto spróbować następnego)?
 function isModelUnavailable(status, message) {
@@ -34,6 +34,29 @@ function isOverloaded(status, message) {
 
 function geminiSleep(ms) {
     return new Promise(function(resolve) { setTimeout(resolve, ms); });
+}
+
+// Krótki komunikat po polsku — na fiszce jest mało miejsca,
+// a surowe błędy Google potrafią mieć kilka linijek po angielsku.
+// Pełna treść i tak trafia do konsoli w geminiGenerate().
+function shortAiError(message) {
+    const m = message || '';
+    if (/api key not valid|api_key_invalid|invalid api key/i.test(m)) {
+        return 'Nieprawidłowy klucz API — sprawdź go w Opcjach';
+    }
+    if (/no longer available|not found|not supported/i.test(m)) {
+        return 'Model niedostępny — zaktualizuj aplikację';
+    }
+    if (/przeciążone|high demand|overloaded|quota|rate limit|exhausted/i.test(m)) {
+        return 'Serwery AI przeciążone — spróbuj za chwilę';
+    }
+    if (/permission|denied|forbidden/i.test(m)) {
+        return 'Brak dostępu — sprawdź klucz API w Opcjach';
+    }
+    if (/network|failed to fetch|połączenia/i.test(m)) {
+        return 'Brak połączenia z internetem';
+    }
+    return m.length > 70 ? m.slice(0, 70) + '…' : m;
 }
 
 // Wspólne wywołanie Gemini z automatycznym fallbackiem modelu.

@@ -464,6 +464,8 @@ body {
     font-weight: 700;
     padding: 14px;
     border: 1px solid var(--card-border);
+    /* karta ma sztywne 220px - bez tego dlugi tekst wylewa sie na przyciski pod spodem */
+    overflow: hidden;
 }
 
 .flashcard-front {
@@ -2675,4 +2677,9 @@ body.light-mode .bottom-nav {
     font-style: normal;
     margin: 0;
     min-height: 1.2em;
+    /* dlugie tresci (np. komunikat bledu) maja sie zawijac i przewijac, a nie rozpychac karty */
+    max-height: 4.5em;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    line-height: 1.35;
 }
