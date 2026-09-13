@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
     
     <!-- Splash Screen iOS -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -165,6 +165,7 @@
                         <option value="colors">🎨 Kolory</option>
                         <option value="time">⏰ Czas</option>
                         <option value="days">📅 Dni i miesiące</option>
+                        <option value="clock">🕐 Godziny i zegar</option>
                         <option value="dates_ordinals">📆 Daty i liczby porządkowe</option>
                     </optgroup>
                     <optgroup label="👨‍👩‍👧 Ludzie">
@@ -173,9 +174,12 @@
                         <option value="clothes">👔 Ubrania</option>
                         <option value="emotions">😀 Emocje</option>
                         <option value="character">🎭 Charakter</option>
+                        <option value="appearance">💇 Wygląd</option>
                     </optgroup>
                     <optgroup label="🏠 Życie codzienne">
                         <option value="home">🏠 Dom</option>
+                        <option value="daily">☀️ Dzień codzienny</option>
+                        <option value="cooking">🍳 Gotowanie</option>
                         <option value="food">🍕 Jedzenie</option>
                         <option value="drinks">🥤 Napoje</option>
                         <option value="shopping">🛒 Zakupy</option>
@@ -184,10 +188,13 @@
                     </optgroup>
                     <optgroup label="🌍 Świat">
                         <option value="city">🏙️ Miasto</option>
+                        <option value="directions">🧭 Kierunki i droga</option>
+                        <option value="countries">🗺️ Kraje</option>
                         <option value="travel">✈️ Podróże</option>
                         <option value="transport">🚗 Transport</option>
                         <option value="car_driving">🚙 Samochód i jazda</option>
                         <option value="nature">🌳 Natura</option>
+                        <option value="plants">🌷 Rośliny</option>
                         <option value="weather">🌤️ Pogoda</option>
                         <option value="animals">🐕 Zwierzęta</option>
                     </optgroup>
@@ -201,6 +208,7 @@
                         <option value="construction">🏗️ Budownictwo</option>
                         <option value="tools">🔧 Narzędzia</option>
                         <option value="renovation">🎨 Remont</option>
+                        <option value="materials">🧱 Materiały</option>
                     </optgroup>
                     <optgroup label="🧹 Sprzątanie">
                         <option value="cleaning">🧹 Sprzątanie – czynności</option>
@@ -212,6 +220,7 @@
                         <option value="hobby">⚽ Hobby</option>
                         <option value="sports">🏃 Sport</option>
                         <option value="music">🎵 Muzyka</option>
+                        <option value="instruments">🎸 Instrumenty</option>
                         <option value="culture">🎭 Kultura</option>
                     </optgroup>
                     <optgroup label="📖 Gramatyka">
@@ -238,6 +247,7 @@
                         <option value="modal_verbs">🔤 Czasowniki modalne</option>
                         <option value="separable_verbs">🔤 Czasowniki rozdzielne</option>
                         <option value="reflexive_verbs">🔁 Czasowniki zwrotne</option>
+                        <option value="verbs_prepositions">🔗 Czasowniki z przyimkami</option>
                         <option value="verbs_daily">🔤 Czasowniki codzienne</option>
                     </optgroup>
                     <optgroup label="📰 Rodzajniki">
@@ -271,6 +281,7 @@
                     </optgroup>
                     <optgroup label="🆕 Nowe kategorie">
                         <option value="technology">💻 Technologia</option>
+                        <option value="internet">🌐 Internet i media</option>
                         <option value="socialmedia">📱 Social Media</option>
                         <option value="vacation">🏖️ Wakacje</option>
                         <option value="relationships">❤️ Relacje</option>
@@ -407,6 +418,30 @@
                 <button class="topic-btn" onclick="loadGrammarTopic('nebensaetze')">
                     <span>Nebensätze</span>
                     <span class="topic-desc">Zdania podrzędne</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('trennbar')">
+                    <span>Trennbare Verben</span>
+                    <span class="topic-desc">Czasowniki rozdzielne</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('reflexiv')">
+                    <span>Reflexive Verben</span>
+                    <span class="topic-desc">Czasowniki zwrotne (sich)</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('verbenPraep')">
+                    <span>Verben + Präpositionen</span>
+                    <span class="topic-desc">warten auf, denken an…</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('futur')">
+                    <span>Futur I</span>
+                    <span class="topic-desc">Czas przyszły</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('imperativ')">
+                    <span>Imperativ</span>
+                    <span class="topic-desc">Tryb rozkazujący</span>
+                </button>
+                <button class="topic-btn" onclick="loadGrammarTopic('wortstellung')">
+                    <span>Wortstellung</span>
+                    <span class="topic-desc">Szyk zdania</span>
                 </button>
             </div>
             
@@ -832,12 +867,11 @@
                 <input type="text" id="searchWord" placeholder="🔍 Szukaj..." oninput="searchWords()">
             </div>
             
-            <div class="category-tabs" id="categoryTabs">
-                <button class="tab-btn active" onclick="filterByCategory('all', this)">Wszystkie</button>
-                <button class="tab-btn" onclick="filterByCategory('basics', this)">Podstawy</button>
-                <button class="tab-btn" onclick="filterByCategory('verbs', this)">Czasowniki</button>
-                <button class="tab-btn" onclick="filterByCategory('phrases', this)">Zwroty</button>
-                <button class="tab-btn" onclick="filterByCategory('food', this)">Jedzenie</button>
+            <!-- Opcje kopiowane w app.js z listy kategorii fiszek (buildDictCategorySelect) -->
+            <div class="category-select">
+                <select id="dictCategorySelect" onchange="filterByCategory(this.value)">
+                    <option value="all">🌍 Wszystkie kategorie</option>
+                </select>
             </div>
             
             <div class="word-count">
@@ -883,9 +917,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="words.js?v=19"></script>
-    <script src="app.js?v=19"></script>
-    <script src="ai-chat.js?v=19"></script>
+    <script src="words.js?v=20"></script>
+    <script src="app.js?v=20"></script>
+    <script src="ai-chat.js?v=20"></script>
     
     <!-- Rejestracja Service Worker -->
     <script>

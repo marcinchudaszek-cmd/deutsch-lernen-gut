@@ -382,17 +382,6 @@ const germanWords = {
         { german: "der Arm", polish: "ramię", example: "Mein Arm ist stark.", level: "A1" }
     ],
 
-    health: [
-        { german: "krank", polish: "chory", example: "Ich bin krank.", level: "A1" },
-        { german: "gesund", polish: "zdrowy", example: "Ich bin wieder gesund.", level: "A1" },
-        { german: "der Arzt", polish: "lekarz", example: "Ich gehe zum Arzt.", level: "A1" },
-        { german: "das Krankenhaus", polish: "szpital", example: "Er ist im Krankenhaus.", level: "A1" },
-        { german: "die Apotheke", polish: "apteka", example: "Ich brauche eine Apotheke.", level: "A1" },
-        { german: "das Medikament", polish: "lek", example: "Ich nehme Medikamente.", level: "A2" },
-        { german: "der Schmerz", polish: "ból", example: "Ich habe Schmerzen.", level: "A2" },
-        { german: "das Fieber", polish: "gorączka", example: "Ich habe Fieber.", level: "A1" }
-    ],
-
     questions: [
         { german: "Wer?", polish: "Kto?", example: "Wer bist du?", level: "A1" },
         { german: "Was?", polish: "Co?", example: "Was machst du?", level: "A1" },
@@ -487,14 +476,6 @@ const germanWords = {
         { german: "stimmt nicht", polish: "nie zgadza się", example: "Das stimmt nicht.", level: "A2" }
     ],
 
-    business: [
-        { german: "die Firma", polish: "firma", example: "Ich arbeite in einer Firma.", level: "A2" },
-        { german: "das Unternehmen", polish: "przedsiębiorstwo", example: "Das Unternehmen ist groß.", level: "B1" },
-        { german: "der Vertrag", polish: "umowa", example: "Wir haben einen Vertrag.", level: "B1" },
-        { german: "die Rechnung", polish: "faktura", example: "Bitte senden Sie die Rechnung.", level: "B1" },
-        { german: "der Kunde", polish: "klient", example: "Der Kunde hat recht.", level: "A2" }
-    ],
-
     office: [
         { german: "der Computer", polish: "komputer", example: "Ich arbeite am Computer.", level: "A1" },
         { german: "das Telefon", polish: "telefon", example: "Das Telefon klingelt.", level: "A1" },
@@ -575,26 +556,6 @@ const germanWords = {
         { german: "das Rezept", polish: "przepis", example: "Ich brauche ein Rezept.", level: "A2" }
     ],
 
-    // 💻 TECHNOLOGIA (A2/B1)
-    technology: [
-        { german: "der Computer", polish: "komputer", example: "Mein Computer ist neu.", level: "A1" },
-        { german: "das Handy", polish: "telefon komórkowy", example: "Mein Handy klingelt.", level: "A1" },
-        { german: "das Smartphone", polish: "smartfon", example: "Ich habe ein neues Smartphone.", level: "A1" },
-        { german: "das Tablet", polish: "tablet", example: "Ich lese auf dem Tablet.", level: "A1" },
-        { german: "der Laptop", polish: "laptop", example: "Ich arbeite am Laptop.", level: "A1" },
-        { german: "das Internet", polish: "internet", example: "Ich surfe im Internet.", level: "A1" },
-        { german: "die App", polish: "aplikacja", example: "Ich lade eine App herunter.", level: "A2" },
-        { german: "die Software", polish: "oprogramowanie", example: "Die Software ist aktuell.", level: "B1" },
-        { german: "das Passwort", polish: "hasło", example: "Ich habe mein Passwort vergessen.", level: "A2" },
-        { german: "herunterladen", polish: "pobierać", example: "Ich lade die Datei herunter.", level: "A2" },
-        { german: "hochladen", polish: "przesyłać", example: "Ich lade ein Foto hoch.", level: "A2" },
-        { german: "speichern", polish: "zapisywać", example: "Bitte speichern Sie die Datei.", level: "A2" },
-        { german: "löschen", polish: "usuwać", example: "Ich lösche die E-Mail.", level: "A2" },
-        { german: "das WLAN", polish: "WiFi", example: "Gibt es hier WLAN?", level: "A1" },
-        { german: "online", polish: "online", example: "Ich bin online.", level: "A1" },
-        { german: "offline", polish: "offline", example: "Ich bin offline.", level: "A1" }
-    ],
-
     // 🌐 INTERNET I MEDIA (A2/B1)
     internet: [
         { german: "die Website", polish: "strona internetowa", example: "Die Website ist interessant.", level: "A2" },
@@ -648,26 +609,6 @@ const germanWords = {
         { german: "lang", polish: "długi", example: "Sie hat lange Haare.", level: "A1" },
         { german: "der Bart", polish: "broda", example: "Er hat einen Bart.", level: "A2" },
         { german: "die Brille", polish: "okulary", example: "Ich trage eine Brille.", level: "A1" }
-    ],
-
-    // ❤️ UCZUCIA I RELACJE (A2/B1)
-    relationships: [
-        { german: "lieben", polish: "kochać", example: "Ich liebe dich.", level: "A1" },
-        { german: "mögen", polish: "lubić", example: "Ich mag dich sehr.", level: "A1" },
-        { german: "hassen", polish: "nienawidzić", example: "Ich hasse Montage.", level: "A2" },
-        { german: "der Freund", polish: "przyjaciel/chłopak", example: "Das ist mein Freund.", level: "A1" },
-        { german: "die Freundin", polish: "przyjaciółka/dziewczyna", example: "Sie ist meine Freundin.", level: "A1" },
-        { german: "der Partner", polish: "partner", example: "Mein Partner ist nett.", level: "A2" },
-        { german: "verheiratet", polish: "żonaty/zamężna", example: "Ich bin verheiratet.", level: "A2" },
-        { german: "ledig", polish: "wolny/samotny", example: "Er ist noch ledig.", level: "A2" },
-        { german: "geschieden", polish: "rozwiedziony", example: "Sie ist geschieden.", level: "B1" },
-        { german: "verlobt", polish: "zaręczony", example: "Wir sind verlobt!", level: "A2" },
-        { german: "die Hochzeit", polish: "ślub", example: "Die Hochzeit ist im Juni.", level: "A2" },
-        { german: "heiraten", polish: "brać ślub", example: "Wir heiraten nächstes Jahr.", level: "A2" },
-        { german: "küssen", polish: "całować", example: "Er küsst sie.", level: "A2" },
-        { german: "umarmen", polish: "przytulać", example: "Ich umarme dich.", level: "A2" },
-        { german: "streiten", polish: "kłócić się", example: "Wir streiten manchmal.", level: "A2" },
-        { german: "sich trennen", polish: "rozstawać się", example: "Sie haben sich getrennt.", level: "B1" }
     ],
 
     // 🕐 CZAS - GODZINY (A1/A2)
@@ -768,6 +709,9 @@ const germanWords = {
 
     // 💻 TECHNOLOGIA (A2-B1)
     technology: [
+        { german: "die Software", polish: "oprogramowanie", example: "Die Software ist aktuell.", level: "B1" },
+        { german: "online", polish: "online", example: "Ich bin online.", level: "A1" },
+        { german: "offline", polish: "offline", example: "Ich bin offline.", level: "A1" },
         { german: "der Computer", polish: "komputer", example: "Mein Computer ist neu.", level: "A1" },
         { german: "das Handy", polish: "telefon komórkowy", example: "Ich habe mein Handy vergessen.", level: "A1" },
         { german: "das Smartphone", polish: "smartfon", example: "Das Smartphone ist sehr praktisch.", level: "A1" },
@@ -819,6 +763,7 @@ const germanWords = {
 
     // 🏥 ZDROWIE (A2-B1)
     health: [
+        { german: "der Schmerz", polish: "ból", example: "Ich habe Schmerzen.", level: "A2" },
         { german: "der Arzt", polish: "lekarz", example: "Ich gehe zum Arzt.", level: "A1" },
         { german: "die Ärztin", polish: "lekarka", example: "Die Ärztin ist sehr nett.", level: "A1" },
         { german: "das Krankenhaus", polish: "szpital", example: "Er liegt im Krankenhaus.", level: "A1" },
@@ -903,6 +848,11 @@ const germanWords = {
 
     // ❤️ UCZUCIA I RELACJE (A2-B1)
     relationships: [
+        { german: "mögen", polish: "lubić", example: "Ich mag dich sehr.", level: "A1" },
+        { german: "verheiratet", polish: "żonaty/zamężna", example: "Ich bin verheiratet.", level: "A2" },
+        { german: "ledig", polish: "wolny/samotny", example: "Er ist noch ledig.", level: "A2" },
+        { german: "geschieden", polish: "rozwiedziony", example: "Sie ist geschieden.", level: "B1" },
+        { german: "verlobt", polish: "zaręczony", example: "Wir sind verlobt!", level: "A2" },
         { german: "die Liebe", polish: "miłość", example: "Die Liebe ist schön.", level: "A2" },
         { german: "lieben", polish: "kochać", example: "Ich liebe dich.", level: "A1" },
         { german: "hassen", polish: "nienawidzić", example: "Ich hasse Montage.", level: "A2" },
@@ -1230,7 +1180,7 @@ const germanWords = {
         { german: "die Voraussetzung", polish: "warunek / założenie / przesłanka", example: "Die Voraussetzung für Erfolg ist harte Arbeit.", level: "C1" },
         { german: "die Auswirkung", polish: "skutek / wpływ / oddziaływanie", example: "Die Auswirkungen des Klimawandels sind spürbar.", level: "C1" },
         { german: "die Einschränkung", polish: "ograniczenie", example: "Es gibt gewisse Einschränkungen.", level: "C1" },
-        { german: "der Zusammenhang", polski: "związek / kontekst / powiązanie", example: "Das steht in keinem Zusammenhang.", level: "C1" },
+        { german: "der Zusammenhang", polish: "związek / kontekst / powiązanie", example: "Das steht in keinem Zusammenhang.", level: "C1" },
         { german: "der Widerspruch", polish: "sprzeczność / protest / zaprzeczenie", example: "Das ist ein offensichtlicher Widerspruch.", level: "C1" },
         { german: "die Überzeugung", polish: "przekonanie", example: "Das ist meine feste Überzeugung.", level: "C1" },
         { german: "die Abwägung", polish: "rozważenie / wyważenie racji", example: "Nach sorgfältiger Abwägung entschied er sich.", level: "C1" },
@@ -1839,6 +1789,54 @@ const germanWords = {
         { german: "heißen – heißt – hieß – geheißen", polish: "nazywać się", example: "Wie heißt du?", level: "A1" },
         { german: "bleiben – bleibt – blieb – geblieben", polish: "zostawać / pozostawać", example: "Bleib hier!", level: "A1" },
         { german: "bringen – bringt – brachte – gebracht", polish: "przynosić", example: "Kannst du das mitbringen?", level: "A1" },
+        { german: "gehen – geht – ging – ist gegangen", polish: "iść", example: "Ich bin gestern ins Kino gegangen.", level: "A1" },
+        { german: "kommen – kommt – kam – ist gekommen", polish: "przychodzić / przyjeżdżać", example: "Er ist zu spät gekommen.", level: "A1" },
+        { german: "beginnen – beginnt – begann – begonnen", polish: "zaczynać", example: "Der Kurs hat um 9 Uhr begonnen.", level: "A2" },
+        { german: "denken – denkt – dachte – gedacht", polish: "myśleć", example: "Ich habe an dich gedacht.", level: "A2" },
+        { german: "fliegen – fliegt – flog – ist geflogen", polish: "latać / lecieć", example: "Wir sind nach Spanien geflogen.", level: "A2" },
+        { german: "kennen – kennt – kannte – gekannt", polish: "znać (kogoś / coś)", example: "Ich habe ihn gut gekannt.", level: "A2" },
+        { german: "rufen – ruft – rief – gerufen", polish: "wołać / wzywać", example: "Wir haben den Arzt gerufen.", level: "A2" },
+        { german: "schwimmen – schwimmt – schwamm – ist geschwommen", polish: "pływać", example: "Ich bin im See geschwommen.", level: "A2" },
+        { german: "singen – singt – sang – gesungen", polish: "śpiewać", example: "Sie hat ein Lied gesungen.", level: "A2" },
+        { german: "vergessen – vergisst – vergaß – vergessen", polish: "zapominać", example: "Ich habe den Schlüssel vergessen.", level: "A2" },
+        { german: "verlieren – verliert – verlor – verloren", polish: "gubić / przegrywać", example: "Er hat sein Handy verloren.", level: "A2" },
+        { german: "waschen – wäscht – wusch – gewaschen", polish: "prać / myć", example: "Ich habe das Auto gewaschen.", level: "A2" },
+        { german: "werfen – wirft – warf – geworfen", polish: "rzucać", example: "Er hat den Ball geworfen.", level: "B1" },
+        { german: "ziehen – zieht – zog – gezogen", polish: "ciągnąć", example: "Bitte ziehen, nicht drücken!", level: "B1" },
+        { german: "umziehen – zieht um – zog um – ist umgezogen", polish: "przeprowadzać się", example: "Wir sind nach Hamburg umgezogen.", level: "A2" },
+        { german: "schließen – schließt – schloss – geschlossen", polish: "zamykać", example: "Das Geschäft ist geschlossen.", level: "B1" },
+        { german: "gewinnen – gewinnt – gewann – gewonnen", polish: "wygrywać", example: "Unser Team hat gewonnen!", level: "B1" },
+        { german: "halten – hält – hielt – gehalten", polish: "trzymać / zatrzymywać się", example: "Der Bus hat hier nicht gehalten.", level: "B1" },
+        { german: "lassen – lässt – ließ – gelassen", polish: "zostawiać / pozwalać", example: "Ich habe die Tasche im Auto gelassen.", level: "B1" },
+        { german: "sterben – stirbt – starb – ist gestorben", polish: "umierać", example: "Sein Großvater ist letztes Jahr gestorben.", level: "B1" },
+        { german: "verstehen – versteht – verstand – verstanden", polish: "rozumieć", example: "Ich habe die Frage nicht verstanden.", level: "A1" },
+        { german: "aufstehen – steht auf – stand auf – ist aufgestanden", polish: "wstawać", example: "Heute bin ich um 6 Uhr aufgestanden.", level: "A2" },
+    ],
+
+    // 🔗 CZASOWNIKI Z PRZYIMKAMI (A2-B1)
+    verbs_prepositions: [
+        { german: "warten auf + Akk", polish: "czekać na", example: "Ich warte auf den Bus.", level: "A2" },
+        { german: "denken an + Akk", polish: "myśleć o", example: "Ich denke oft an meine Familie.", level: "A2" },
+        { german: "sich freuen auf + Akk", polish: "cieszyć się na (coś, co będzie)", example: "Ich freue mich auf das Wochenende.", level: "A2" },
+        { german: "sich freuen über + Akk", polish: "cieszyć się z (czegoś, co jest)", example: "Sie freut sich über das Geschenk.", level: "B1" },
+        { german: "sich interessieren für + Akk", polish: "interesować się", example: "Er interessiert sich für Autos.", level: "A2" },
+        { german: "sprechen über + Akk", polish: "rozmawiać o", example: "Wir sprechen über die Arbeit.", level: "A2" },
+        { german: "sprechen mit + Dat", polish: "rozmawiać z", example: "Ich muss mit dem Chef sprechen.", level: "A2" },
+        { german: "sich kümmern um + Akk", polish: "troszczyć się o / zajmować się", example: "Ich kümmere mich um die Kinder.", level: "B1" },
+        { german: "Angst haben vor + Dat", polish: "bać się", example: "Sie hat Angst vor Spinnen.", level: "B1" },
+        { german: "träumen von + Dat", polish: "marzyć o / śnić o", example: "Er träumt von einem eigenen Haus.", level: "B1" },
+        { german: "teilnehmen an + Dat", polish: "brać udział w", example: "Ich nehme an einem Deutschkurs teil.", level: "B1" },
+        { german: "fragen nach + Dat", polish: "pytać o", example: "Der Tourist fragt nach dem Weg.", level: "B1" },
+        { german: "helfen bei + Dat", polish: "pomagać w", example: "Kannst du mir beim Umzug helfen?", level: "A2" },
+        { german: "sich erinnern an + Akk", polish: "przypominać sobie / pamiętać", example: "Erinnerst du dich an unseren Urlaub?", level: "B1" },
+        { german: "sich beschweren über + Akk", polish: "skarżyć się na", example: "Er beschwert sich über den Lärm.", level: "B1" },
+        { german: "sich bewerben um + Akk", polish: "ubiegać się o", example: "Ich bewerbe mich um die Stelle.", level: "B1" },
+        { german: "glauben an + Akk", polish: "wierzyć w", example: "Ich glaube an dich.", level: "B1" },
+        { german: "bitten um + Akk", polish: "prosić o", example: "Darf ich um Hilfe bitten?", level: "B1" },
+        { german: "sich entschuldigen für + Akk", polish: "przepraszać za", example: "Ich entschuldige mich für die Verspätung.", level: "B1" },
+        { german: "sich gewöhnen an + Akk", polish: "przyzwyczajać się do", example: "Ich gewöhne mich an die neue Arbeit.", level: "B1" },
+        { german: "gehören zu + Dat", polish: "należeć do (grupy)", example: "Das gehört zu meinen Aufgaben.", level: "B1" },
+        { german: "sich verabreden mit + Dat", polish: "umawiać się z", example: "Ich habe mich mit Anna verabredet.", level: "B1" },
     ],
 
     modal_verbs: [
@@ -2406,31 +2404,89 @@ const grammarData = {
                 <li><strong>die</strong> Frau (kobieta), <strong>die</strong> Lampe (lampa)</li>
                 <li><strong>das</strong> Kind (dziecko), <strong>das</strong> Buch (książka)</li>
             </ul>
+
+            <h4>Podpowiedzi — końcówki zdradzają rodzaj:</h4>
+            <ul>
+                <li><strong>die</strong>: -ung, -heit, -keit, -schaft, -ion, -tät → die Zeitung, die Freiheit, die Information</li>
+                <li><strong>das</strong>: -chen, -lein, -ment, -um → das Mädchen, das Brötchen, das Zentrum</li>
+                <li><strong>der</strong>: dni, miesiące, pory roku, -er (osoby), -ling → der Montag, der Winter, der Lehrer</li>
+            </ul>
+            <p>W liczbie mnogiej zawsze <strong>die</strong>: die Männer, die Kinder, die Bücher.</p>
         `,
         exercises: [
             { question: '____ Mann', answer: 'der', options: ['der', 'die', 'das'] },
             { question: '____ Frau', answer: 'die', options: ['der', 'die', 'das'] },
-            { question: '____ Kind', answer: 'das', options: ['der', 'die', 'das'] }
+            { question: '____ Kind', answer: 'das', options: ['der', 'die', 'das'] },
+            { question: '____ Zeitung', answer: 'die', options: ['der', 'die', 'das'] },
+            { question: '____ Mädchen', answer: 'das', options: ['der', 'die', 'das'] },
+            { question: '____ Montag', answer: 'der', options: ['der', 'die', 'das'] },
+            { question: '____ Information', answer: 'die', options: ['der', 'die', 'das'] },
+            { question: '____ Brötchen', answer: 'das', options: ['der', 'die', 'das'] },
+            { question: '____ Lehrer', answer: 'der', options: ['der', 'die', 'das'] },
+            { question: '____ Bücher (l. mnoga)', answer: 'die', options: ['der', 'die', 'das'] }
         ]
     },
-    
+
     verbs: {
         title: 'Czasowniki - odmiana',
         content: `
             <h3>Odmiana czasowników regularnych</h3>
-            <p>Przykład: <strong>lernen</strong> (uczyć się)</p>
+            <p>Bierzemy temat (bezokolicznik bez <em>-en</em>) i dodajemy końcówkę.</p>
+            <p>Przykład: <strong>lernen</strong> (uczyć się) → temat <strong>lern-</strong></p>
             <ul>
-                <li>ich lern<strong>e</strong></li>
-                <li>du lern<strong>st</strong></li>
-                <li>er/sie/es lern<strong>t</strong></li>
-                <li>wir lern<strong>en</strong></li>
-                <li>ihr lern<strong>t</strong></li>
-                <li>sie/Sie lern<strong>en</strong></li>
+                <li>ich lern<strong>e</strong> — Ich lerne Deutsch.</li>
+                <li>du lern<strong>st</strong> — Du lernst schnell.</li>
+                <li>er/sie/es lern<strong>t</strong> — Sie lernt jeden Tag.</li>
+                <li>wir lern<strong>en</strong> — Wir lernen zusammen.</li>
+                <li>ihr lern<strong>t</strong> — Ihr lernt viel.</li>
+                <li>sie/Sie lern<strong>en</strong> — Sie lernen gern.</li>
+            </ul>
+
+            <h4>Temat na -t / -d: dodajemy -e-</h4>
+            <ul>
+                <li>arbeiten → du arbeit<strong>est</strong>, er arbeit<strong>et</strong>, ihr arbeit<strong>et</strong></li>
+                <li>finden → du find<strong>est</strong>, er find<strong>et</strong></li>
+            </ul>
+
+            <h4>Temat na -s / -ß / -z: przy „du" samo -t</h4>
+            <ul>
+                <li>heißen → du heiß<strong>t</strong> — Wie heißt du?</li>
+                <li>tanzen → du tanz<strong>t</strong></li>
+            </ul>
+
+            <h4>Zmiana samogłoski (tylko du i er/sie/es!)</h4>
+            <ul>
+                <li><strong>e → i</strong>: sprechen → du spr<strong>i</strong>chst, er spr<strong>i</strong>cht · helfen → h<strong>i</strong>lfst · essen → <strong>i</strong>sst · nehmen → du n<strong>imm</strong>st</li>
+                <li><strong>e → ie</strong>: lesen → du l<strong>ie</strong>st · sehen → er s<strong>ie</strong>ht</li>
+                <li><strong>a → ä</strong>: fahren → du f<strong>ä</strong>hrst · schlafen → er schl<strong>ä</strong>ft · tragen → tr<strong>ä</strong>gt</li>
+                <li><strong>au → äu</strong>: laufen → du l<strong>äu</strong>fst, er l<strong>äu</strong>ft</li>
+            </ul>
+
+            <h4>Najważniejsze nieregularne</h4>
+            <ul>
+                <li><strong>sein</strong>: bin, bist, ist, sind, seid, sind</li>
+                <li><strong>haben</strong>: habe, hast, hat, haben, habt, haben</li>
+                <li><strong>werden</strong>: werde, wirst, wird, werden, werdet, werden</li>
+                <li><strong>wissen</strong>: weiß, weißt, weiß, wissen, wisst, wissen</li>
             </ul>
         `,
         exercises: [
             { question: 'ich _____ (machen)', answer: 'mache', options: ['mache', 'machst', 'macht'] },
-            { question: 'du _____ (spielen)', answer: 'spielst', options: ['spiele', 'spielst', 'spielt'] }
+            { question: 'du _____ (spielen)', answer: 'spielst', options: ['spiele', 'spielst', 'spielt'] },
+            { question: 'Er _____ heute lange. (arbeiten)', answer: 'arbeitet', options: ['arbeitet', 'arbeit', 'arbeitest'] },
+            { question: 'Du _____ sehr gut Deutsch. (sprechen)', answer: 'sprichst', options: ['sprechst', 'sprichst', 'spricht'] },
+            { question: 'Sie _____ ein Buch. (lesen, ona)', answer: 'liest', options: ['lest', 'liest', 'lesen'] },
+            { question: 'Er _____ nach Berlin. (fahren)', answer: 'fährt', options: ['fahrt', 'fährt', 'fährst'] },
+            { question: 'Wir _____ in Hamburg. (wohnen)', answer: 'wohnen', options: ['wohnen', 'wohnt', 'wohnst'] },
+            { question: 'Ihr _____ müde. (sein)', answer: 'seid', options: ['sind', 'seid', 'seit'] },
+            { question: 'Du _____ ein Auto. (haben)', answer: 'hast', options: ['hast', 'habst', 'hat'] },
+            { question: 'Was _____ du zum Frühstück? (essen)', answer: 'isst', options: ['esst', 'isst', 'essen'] },
+            { question: 'Ich _____ das nicht. (wissen)', answer: 'weiß', options: ['weiß', 'wisse', 'weißt'] },
+            { question: 'Das Baby _____ schon. (schlafen)', answer: 'schläft', options: ['schlaft', 'schläft', 'schläfst'] },
+            { question: 'Du _____ mir immer. (helfen)', answer: 'hilfst', options: ['helfst', 'hilfst', 'hilft'] },
+            { question: 'Wie _____ du? (heißen)', answer: 'heißt', options: ['heißst', 'heißt', 'heiße'] },
+            { question: 'Er _____ jeden Morgen im Park. (laufen)', answer: 'läuft', options: ['lauft', 'läuft', 'laufen'] },
+            { question: 'Du _____ den Bus. (nehmen)', answer: 'nimmst', options: ['nehmst', 'nimmst', 'nimmt'] }
         ]
     },
     
@@ -2444,53 +2500,169 @@ const grammarData = {
                 <li><strong>Dativ</strong> (celownik) - Komu? Czemu?</li>
                 <li><strong>Genitiv</strong> (dopełniacz) - Czyj? Czego?</li>
             </ol>
+
+            <h4>Rodzajnik określony w przypadkach</h4>
+            <ul>
+                <li><strong>Nominativ</strong>: der · die · das · die (l.mn.)</li>
+                <li><strong>Akkusativ</strong>: <strong>den</strong> · die · das · die</li>
+                <li><strong>Dativ</strong>: <strong>dem</strong> · <strong>der</strong> · <strong>dem</strong> · <strong>den</strong> (+n)</li>
+                <li><strong>Genitiv</strong>: <strong>des</strong> (+s) · <strong>der</strong> · <strong>des</strong> (+s) · <strong>der</strong></li>
+            </ul>
+            <p>W Akkusativ zmienia się tylko rodzaj męski: der → <strong>den</strong>, ein → <strong>einen</strong>.</p>
+
+            <h4>Przykłady z czasownikami</h4>
+            <ul>
+                <li><strong>Der</strong> Mann schläft. (Nom — kto śpi?)</li>
+                <li>Ich sehe <strong>den</strong> Mann. (Akk — sehen + Akk)</li>
+                <li>Ich helfe <strong>dem</strong> Mann. (Dat — helfen + Dat)</li>
+                <li>Ich gebe <strong>dem</strong> Kind <strong>den</strong> Ball. (komu? Dat · co? Akk)</li>
+                <li>Das ist das Auto <strong>des</strong> Vaters. (Gen — czyje?)</li>
+            </ul>
+            <p>Czasowniki z Dativ: helfen, danken, gefallen, gehören, antworten, gratulieren.</p>
         `,
         exercises: [
-            { question: 'Ich sehe ___ Mann', answer: 'den', options: ['der', 'den', 'dem'] }
+            { question: 'Ich sehe ___ Mann.', answer: 'den', options: ['der', 'den', 'dem'] },
+            { question: 'Ich helfe ___ Frau.', answer: 'der', options: ['die', 'der', 'den'] },
+            { question: 'Ich gebe ___ Kind das Buch.', answer: 'dem', options: ['das', 'dem', 'den'] },
+            { question: 'Er kauft ___ Tisch.', answer: 'einen', options: ['ein', 'einen', 'einem'] },
+            { question: 'Wir wohnen in ___ Stadt.', answer: 'der', options: ['die', 'der', 'den'] },
+            { question: 'Das ist das Auto ___ Vaters.', answer: 'des', options: ['der', 'den', 'des'] },
+            { question: '___ Hund bellt.', answer: 'Der', options: ['Der', 'Den', 'Dem'] },
+            { question: 'Ich danke ___ Lehrer.', answer: 'dem', options: ['den', 'dem', 'der'] },
+            { question: 'Das Buch gehört ___ Kindern.', answer: 'den', options: ['die', 'den', 'der'] }
         ]
     },
-    
+
     perfect: {
         title: 'Perfekt - czas przeszły',
         content: `
-            <h3>Perfekt (czas przeszły)</h3>
-            <p>Formuła: <strong>haben/sein + Partizip II</strong></p>
+            <h3>Perfekt — najczęstszy czas przeszły w mowie</h3>
+            <p>Formuła: <strong>haben / sein</strong> (miejsce 2.) + <strong>Partizip II</strong> (na końcu)</p>
             <ul>
-                <li>Ich <strong>habe</strong> gelernt</li>
-                <li>Du <strong>bist</strong> gegangen</li>
+                <li>Ich <strong>habe</strong> gestern Pizza <strong>gegessen</strong>.</li>
+                <li>Wir <strong>sind</strong> nach Berlin <strong>gefahren</strong>.</li>
+            </ul>
+
+            <h4>haben czy sein?</h4>
+            <ul>
+                <li><strong>sein</strong> — ruch z miejsca na miejsce: gehen, fahren, kommen, fliegen, laufen</li>
+                <li><strong>sein</strong> — zmiana stanu: aufstehen, einschlafen, aufwachen, sterben, werden</li>
+                <li><strong>sein</strong> — oraz: sein, bleiben, passieren</li>
+                <li><strong>haben</strong> — cała reszta: machen, essen, lernen, sehen, arbeiten, kaufen…</li>
+            </ul>
+
+            <h4>Jak zbudować Partizip II</h4>
+            <ul>
+                <li>Regularne: <strong>ge- + temat + -t</strong> → machen → gemacht · kaufen → gekauft · arbeiten → gearbeitet</li>
+                <li>Nieregularne: <strong>ge- + temat + -en</strong> (często zmiana samogłoski) → sehen → gesehen · schreiben → geschrieben · trinken → getrunken</li>
+                <li>Rozdzielne: <strong>przedrostek + ge + …</strong> → einkaufen → ein<strong>ge</strong>kauft · aufstehen → auf<strong>ge</strong>standen</li>
+                <li>Bez ge-: czasowniki na <strong>-ieren</strong> (studieren → studiert) i nierozdzielne <strong>be-, ver-, er-, ent-</strong> (bezahlen → bezahlt, verstehen → verstanden)</li>
             </ul>
         `,
         exercises: [
-            { question: 'Ich _____ gelernt', answer: 'habe', options: ['habe', 'bin', 'hat'] }
+            { question: 'Ich _____ gestern Fußball gespielt.', answer: 'habe', options: ['habe', 'bin', 'hat'] },
+            { question: 'Wir _____ nach Italien gefahren.', answer: 'sind', options: ['haben', 'sind', 'seid'] },
+            { question: 'Er ist spät nach Hause _____. (kommen)', answer: 'gekommen', options: ['gekommt', 'gekommen', 'kommen'] },
+            { question: 'Hast du das Buch _____? (lesen)', answer: 'gelesen', options: ['gelest', 'gelesen', 'geliest'] },
+            { question: 'Sie hat viel _____. (arbeiten)', answer: 'gearbeitet', options: ['gearbeitet', 'gearbeit', 'arbeitet'] },
+            { question: 'Ich habe in Krakau _____. (studieren)', answer: 'studiert', options: ['gestudiert', 'studiert', 'studieren'] },
+            { question: 'Wir haben im Supermarkt _____. (einkaufen)', answer: 'eingekauft', options: ['geeinkauft', 'eingekauft', 'einkauft'] },
+            { question: 'Um 6 Uhr bin ich _____. (aufstehen)', answer: 'aufgestanden', options: ['aufgestanden', 'aufgesteht', 'geaufstanden'] },
+            { question: 'Hast du die Rechnung _____? (bezahlen)', answer: 'bezahlt', options: ['gebezahlt', 'bezahlt', 'bezahlen'] },
+            { question: 'Ich _____ zu Hause geblieben.', answer: 'bin', options: ['habe', 'bin', 'ist'] },
+            { question: 'Was ist _____? (passieren)', answer: 'passiert', options: ['gepassiert', 'passiert', 'passieren'] },
+            { question: 'Er hat mich gestern _____. (anrufen)', answer: 'angerufen', options: ['angerufen', 'angeruft', 'geanrufen'] },
+            { question: 'Ich habe das nicht _____. (verstehen)', answer: 'verstanden', options: ['verstanden', 'verstehen', 'geversteht'] },
+            { question: 'Sie _____ einen Kaffee getrunken.', answer: 'hat', options: ['hat', 'ist', 'habt'] }
         ]
     },
-    
+
     modal: {
         title: 'Czasowniki modalne',
         content: `
-            <h3>Modalverben</h3>
+            <h3>Modalverben — czasowniki modalne</h3>
+            <p>Czasownik modalny stoi na <strong>2. miejscu</strong>, a drugi czasownik w bezokoliczniku idzie <strong>na koniec</strong>:</p>
+            <p>Ich <strong>kann</strong> gut <strong>schwimmen</strong>. · Du <strong>musst</strong> heute <strong>arbeiten</strong>.</p>
+
+            <h4>Odmiana (ich = er/sie/es, bez końcówki!)</h4>
             <ul>
-                <li><strong>können</strong> - móc, umieć</li>
-                <li><strong>müssen</strong> - musieć</li>
-                <li><strong>wollen</strong> - chcieć</li>
+                <li><strong>können</strong> (móc, umieć): kann, kannst, kann, können, könnt, können</li>
+                <li><strong>müssen</strong> (musieć): muss, musst, muss, müssen, müsst, müssen</li>
+                <li><strong>wollen</strong> (chcieć): will, willst, will, wollen, wollt, wollen</li>
+                <li><strong>sollen</strong> (mieć coś zrobić): soll, sollst, soll, sollen, sollt, sollen</li>
+                <li><strong>dürfen</strong> (wolno, móc — pozwolenie): darf, darfst, darf, dürfen, dürft, dürfen</li>
+                <li><strong>mögen</strong> (lubić): mag, magst, mag, mögen, mögt, mögen</li>
+                <li><strong>möchten</strong> (chciałbym — grzecznie): möchte, möchtest, möchte, möchten, möchtet, möchten</li>
+            </ul>
+
+            <h4>Uwaga na znaczenie</h4>
+            <ul>
+                <li>Hier <strong>darf</strong> man nicht rauchen. — Tu nie wolno palić.</li>
+                <li>Du <strong>musst nicht</strong> kommen. — Nie musisz przychodzić (nie: „nie wolno").</li>
+                <li>Ich <strong>möchte</strong> einen Kaffee. — Poproszę kawę (grzeczniej niż „ich will").</li>
             </ul>
         `,
         exercises: [
-            { question: 'Ich _____ schwimmen', answer: 'kann', options: ['kann', 'kannst', 'können'] }
+            { question: 'Ich _____ gut schwimmen. (können)', answer: 'kann', options: ['kann', 'kannst', 'können'] },
+            { question: 'Du _____ heute arbeiten. (müssen)', answer: 'musst', options: ['muss', 'musst', 'müsst'] },
+            { question: 'Er _____ Arzt werden. (wollen)', answer: 'will', options: ['will', 'willst', 'wollt'] },
+            { question: '_____ ich hier rauchen? (dürfen)', answer: 'Darf', options: ['Darf', 'Darfst', 'Dürfen'] },
+            { question: 'Wir _____ zwei Kaffee, bitte. (möchten)', answer: 'möchten', options: ['möchten', 'möchtet', 'möchte'] },
+            { question: 'Ihr _____ leise sein. (sollen)', answer: 'sollt', options: ['sollen', 'sollt', 'sollst'] },
+            { question: 'Sie _____ keine Tomaten. (mögen, ona)', answer: 'mag', options: ['mag', 'magt', 'mögt'] },
+            { question: 'Ich muss morgen früh _____.', answer: 'aufstehen', options: ['aufstehen', 'stehe auf', 'aufstehe'] },
+            { question: '_____ du mir helfen? (können)', answer: 'Kannst', options: ['Kannst', 'Kann', 'Könnt'] },
+            { question: 'Hier _____ man nicht parken. (dürfen)', answer: 'darf', options: ['darf', 'dürft', 'darfst'] },
+            { question: 'Ich _____ jetzt nach Hause gehen. (wollen)', answer: 'will', options: ['will', 'wille', 'wollen'] },
+            { question: 'Der Chef sagt, ich _____ um 8 Uhr da sein. (sollen)', answer: 'soll', options: ['soll', 'sollt', 'solle'] }
         ]
     },
-    
+
     praeteritum: {
         title: 'Präteritum',
         content: `
-            <h3>Präteritum - czas przeszły prosty</h3>
+            <h3>Präteritum — czas przeszły prosty</h3>
+            <p>W mowie używamy go głównie z <strong>sein</strong>, <strong>haben</strong> i czasownikami modalnymi. W książkach i gazetach — z każdym czasownikiem.</p>
+
+            <h4>sein, haben, werden</h4>
             <ul>
-                <li><strong>sein:</strong> ich war, du warst</li>
-                <li><strong>haben:</strong> ich hatte, du hattest</li>
+                <li><strong>sein</strong>: war, warst, war, waren, wart, waren</li>
+                <li><strong>haben</strong>: hatte, hattest, hatte, hatten, hattet, hatten</li>
+                <li><strong>werden</strong>: wurde, wurdest, wurde, wurden, wurdet, wurden</li>
+            </ul>
+
+            <h4>Czasowniki modalne (bez przegłosu!)</h4>
+            <ul>
+                <li>können → konnte · müssen → musste · dürfen → durfte</li>
+                <li>wollen → wollte · sollen → sollte · mögen → mochte</li>
+            </ul>
+
+            <h4>Regularne: temat + -te</h4>
+            <ul>
+                <li>machen → ich mach<strong>te</strong>, du mach<strong>test</strong>, wir mach<strong>ten</strong></li>
+                <li>arbeiten → er arbeit<strong>ete</strong></li>
+            </ul>
+
+            <h4>Nieregularne: zmiana tematu, ich/er bez końcówki</h4>
+            <ul>
+                <li>gehen → ging · kommen → kam · sehen → sah · fahren → fuhr</li>
+                <li>geben → gab · finden → fand · sprechen → sprach · essen → aß</li>
+                <li>Ich <strong>ging</strong> nach Hause. · Wir <strong>gingen</strong> nach Hause.</li>
             </ul>
         `,
         exercises: [
-            { question: 'Ich _____ (sein)', answer: 'war', options: ['war', 'waren', 'warst'] }
+            { question: 'Ich _____ gestern krank. (sein)', answer: 'war', options: ['war', 'waren', 'warst'] },
+            { question: 'Wir _____ keine Zeit. (haben)', answer: 'hatten', options: ['hatten', 'hattet', 'hatte'] },
+            { question: 'Du _____ nicht da. (sein)', answer: 'warst', options: ['war', 'warst', 'wart'] },
+            { question: 'Er _____ nicht kommen. (können)', answer: 'konnte', options: ['konnte', 'könnte', 'konntet'] },
+            { question: 'Ich _____ lange arbeiten. (müssen)', answer: 'musste', options: ['musste', 'müsste', 'muss'] },
+            { question: 'Sie _____ Tennis. (spielen, ona)', answer: 'spielte', options: ['spielte', 'spielt', 'spielten'] },
+            { question: 'Wir _____ nach Hause. (gehen)', answer: 'gingen', options: ['gingen', 'gehten', 'ging'] },
+            { question: 'Er _____ zu spät. (kommen)', answer: 'kam', options: ['kam', 'kommte', 'kamt'] },
+            { question: 'Ich _____ einen Film. (sehen)', answer: 'sah', options: ['sah', 'sehte', 'sahst'] },
+            { question: 'Das Kind _____ ein Eis. (essen)', answer: 'aß', options: ['aß', 'esste', 'aßen'] },
+            { question: 'Es _____ kalt. (werden)', answer: 'wurde', options: ['wurde', 'wird', 'würde'] },
+            { question: 'Ihr _____ im Urlaub. (sein)', answer: 'wart', options: ['wart', 'waren', 'wartet'] }
         ]
     },
 
@@ -2583,7 +2755,7 @@ const grammarData = {
         exercises: [
             { question: 'schnell → _____er', answer: 'schneller', options: ['schneller', 'schnellster', 'schnellerer'] },
             { question: 'gut → _____ (Komparativ)', answer: 'besser', options: ['besser', 'guter', 'am besten'] },
-            { question: 'groß → am _____', answer: 'größten', options: ['größten', 'größten', 'großsten'] },
+            { question: 'groß → am _____', answer: 'größten', options: ['größten', 'großesten', 'großsten'] },
             { question: 'viel → _____ (Komparativ)', answer: 'mehr', options: ['mehr', 'vieler', 'am meisten'] }
         ]
     },
@@ -2601,7 +2773,7 @@ const grammarData = {
             <h4>dass (że)</h4>
             <ul>
                 <li>Ich glaube, <strong>dass</strong> du recht <em>hast</em>.</li>
-                <li>Sie sagt, <strong>dass</strong> sie kommt <em>kommt</em>.</li>
+                <li>Sie sagt, <strong>dass</strong> sie morgen <em>kommt</em>.</li>
             </ul>
             <h4>wenn (gdy, kiedy, jeżeli)</h4>
             <ul>
@@ -2622,6 +2794,248 @@ const grammarData = {
             { question: 'Er sagt, dass er morgen _____.', answer: 'kommt', options: ['kommt', 'kommen', 'er kommt'] },
             { question: '_____ ich Zeit habe, lese ich.', answer: 'Wenn', options: ['Wenn', 'Weil', 'Dass'] },
             { question: 'Sie lernt, damit sie die Prüfung _____.', answer: 'besteht', options: ['besteht', 'bestehen', 'bestehe'] }
+        ]
+    },
+
+    trennbar: {
+        title: 'Czasowniki rozdzielne',
+        content: `
+            <h3>Trennbare Verben — czasowniki rozdzielne</h3>
+            <p>Przedrostek odrywa się i idzie <strong>na koniec zdania</strong>.</p>
+            <p>Przedrostki rozdzielne: <strong>an-, auf-, aus-, ein-, mit-, ab-, zu-, vor-, zurück-, fern-, weg-</strong></p>
+
+            <h4>Czas teraźniejszy</h4>
+            <ul>
+                <li>aufstehen → Ich <strong>stehe</strong> um 7 Uhr <strong>auf</strong>.</li>
+                <li>anrufen → Er <strong>ruft</strong> seine Mutter <strong>an</strong>.</li>
+                <li>einkaufen → Wir <strong>kaufen</strong> am Samstag <strong>ein</strong>.</li>
+                <li>fernsehen → Sie <strong>sieht</strong> jeden Abend <strong>fern</strong>.</li>
+            </ul>
+
+            <h4>Kiedy się NIE rozdzielają</h4>
+            <ul>
+                <li>Z czasownikiem modalnym: Ich muss um 7 Uhr <strong>aufstehen</strong>.</li>
+                <li>W zdaniu podrzędnym: …, weil ich früh <strong>aufstehe</strong>.</li>
+                <li>W Perfekt „ge" wchodzi do środka: auf<strong>ge</strong>standen, an<strong>ge</strong>rufen, ein<strong>ge</strong>kauft</li>
+            </ul>
+
+            <h4>Nierozdzielne — nigdy się nie rozdzielają</h4>
+            <p>Przedrostki <strong>be-, ver-, er-, ent-, emp-, ge-, zer-</strong>: Ich <strong>verstehe</strong> das. · Er <strong>bezahlt</strong> die Rechnung.</p>
+        `,
+        exercises: [
+            { question: 'Ich _____ um 7 Uhr auf. (aufstehen)', answer: 'stehe', options: ['stehe', 'aufstehe', 'steht'] },
+            { question: 'Wann _____ der Zug an? (ankommen)', answer: 'kommt', options: ['kommt', 'ankommt', 'kommen'] },
+            { question: 'Er ruft seine Mutter _____. (anrufen)', answer: 'an', options: ['an', 'auf', 'ein'] },
+            { question: 'Wir kaufen im Supermarkt _____. (einkaufen)', answer: 'ein', options: ['ein', 'an', 'aus'] },
+            { question: 'Ich muss morgen früh _____.', answer: 'aufstehen', options: ['aufstehen', 'stehen auf', 'aufstehe'] },
+            { question: 'Mach bitte das Fenster _____! (zumachen)', answer: 'zu', options: ['zu', 'ab', 'an'] },
+            { question: 'Ich habe dich gestern _____. (anrufen)', answer: 'angerufen', options: ['angerufen', 'geanrufen', 'anrufen'] },
+            { question: 'Ich _____ das nicht. (verstehen)', answer: 'verstehe', options: ['verstehe', 'stehe ver', 'verstehen'] },
+            { question: 'Er sieht jeden Abend _____. (fernsehen)', answer: 'fern', options: ['fern', 'an', 'zu'] },
+            { question: 'Der Film _____ um 20 Uhr an. (anfangen)', answer: 'fängt', options: ['fängt', 'anfängt', 'fangt'] },
+            { question: 'Ich weiß nicht, wann er _____. (zurückkommen)', answer: 'zurückkommt', options: ['zurückkommt', 'kommt zurück', 'zurückkommen'] }
+        ]
+    },
+
+    reflexiv: {
+        title: 'Czasowniki zwrotne',
+        content: `
+            <h3>Reflexive Verben — czasowniki zwrotne (sich)</h3>
+            <p>Polskie „się" zmienia się po niemiecku zależnie od osoby:</p>
+            <ul>
+                <li>ich → <strong>mich</strong> · du → <strong>dich</strong> · er/sie/es → <strong>sich</strong></li>
+                <li>wir → <strong>uns</strong> · ihr → <strong>euch</strong> · sie/Sie → <strong>sich</strong></li>
+            </ul>
+
+            <h4>Przykłady</h4>
+            <ul>
+                <li>sich freuen: Ich freue <strong>mich</strong> auf den Urlaub.</li>
+                <li>sich beeilen: Du musst <strong>dich</strong> beeilen!</li>
+                <li>sich interessieren für: Er interessiert <strong>sich</strong> für Autos.</li>
+                <li>sich treffen: Wir treffen <strong>uns</strong> um acht.</li>
+                <li>sich setzen: Setzt <strong>euch</strong>, bitte!</li>
+            </ul>
+
+            <h4>mir / dir — gdy w zdaniu jest jeszcze inny obiekt</h4>
+            <ul>
+                <li>Ich wasche <strong>mich</strong>. — Myję się.</li>
+                <li>Ich wasche <strong>mir</strong> die Hände. — Myję (sobie) ręce.</li>
+                <li>Putz <strong>dir</strong> die Zähne! — Umyj zęby!</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich freue _____ auf das Wochenende.', answer: 'mich', options: ['mich', 'mir', 'sich'] },
+            { question: 'Du musst _____ beeilen.', answer: 'dich', options: ['dich', 'dir', 'sich'] },
+            { question: 'Er interessiert _____ für Fußball.', answer: 'sich', options: ['sich', 'ihn', 'ihm'] },
+            { question: 'Wir treffen _____ um 8 Uhr.', answer: 'uns', options: ['uns', 'euch', 'sich'] },
+            { question: 'Setzt _____ bitte! (ihr)', answer: 'euch', options: ['euch', 'uns', 'sich'] },
+            { question: 'Ich wasche _____ die Hände.', answer: 'mir', options: ['mir', 'mich', 'sich'] },
+            { question: 'Wie fühlst du _____?', answer: 'dich', options: ['dich', 'dir', 'sich'] },
+            { question: 'Sie erinnern _____ an den Urlaub. (oni)', answer: 'sich', options: ['sich', 'ihnen', 'uns'] },
+            { question: 'Putz _____ die Zähne!', answer: 'dir', options: ['dir', 'dich', 'sich'] },
+            { question: 'Ich muss _____ entschuldigen.', answer: 'mich', options: ['mich', 'mir', 'uns'] }
+        ]
+    },
+
+    futur: {
+        title: 'Futur I — czas przyszły',
+        content: `
+            <h3>Futur I — czas przyszły</h3>
+            <p>Formuła: <strong>werden</strong> (miejsce 2.) + <strong>bezokolicznik</strong> (na końcu)</p>
+            <ul>
+                <li>ich werde, du wirst, er/sie/es wird</li>
+                <li>wir werden, ihr werdet, sie/Sie werden</li>
+            </ul>
+
+            <h4>Przykłady</h4>
+            <ul>
+                <li>Ich <strong>werde</strong> morgen <strong>arbeiten</strong>. — Jutro będę pracować.</li>
+                <li>Es <strong>wird</strong> bald <strong>regnen</strong>. — Zaraz będzie padać.</li>
+                <li>Du <strong>wirst</strong> das <strong>schaffen</strong>! — Dasz radę!</li>
+            </ul>
+
+            <h4>Ważne w praktyce</h4>
+            <ul>
+                <li>W mowie Niemcy częściej używają <strong>Präsens + określenie czasu</strong>: Morgen fahre ich nach Berlin.</li>
+                <li>Futur wyraża też <strong>przypuszczenie</strong>: Er ist nicht da — er <strong>wird</strong> krank <strong>sein</strong>. (Pewnie jest chory.)</li>
+            </ul>
+        `,
+        exercises: [
+            { question: 'Ich _____ morgen arbeiten.', answer: 'werde', options: ['werde', 'wird', 'wirst'] },
+            { question: 'Du _____ das schaffen!', answer: 'wirst', options: ['wirst', 'wird', 'werdet'] },
+            { question: 'Es _____ morgen regnen.', answer: 'wird', options: ['wird', 'werdet', 'werden'] },
+            { question: 'Wir werden nächstes Jahr nach Spanien _____.', answer: 'fahren', options: ['fahren', 'fahrt', 'gefahren'] },
+            { question: 'Ihr _____ es sehen.', answer: 'werdet', options: ['werdet', 'werden', 'wird'] },
+            { question: 'Er ist nicht da – er _____ krank sein.', answer: 'wird', options: ['wird', 'hat', 'ist'] },
+            { question: 'Sie _____ uns bald besuchen. (oni)', answer: 'werden', options: ['werden', 'wird', 'werdet'] }
+        ]
+    },
+
+    imperativ: {
+        title: 'Imperativ — tryb rozkazujący',
+        content: `
+            <h3>Imperativ — polecenia i prośby</h3>
+
+            <h4>du — temat bez „du" i bez końcówki -st</h4>
+            <ul>
+                <li>kommen → <strong>Komm!</strong> · machen → <strong>Mach!</strong> · warten → <strong>Warte!</strong></li>
+                <li>Zmiana e→i zostaje: nehmen → <strong>Nimm!</strong> · helfen → <strong>Hilf!</strong> · lesen → <strong>Lies!</strong></li>
+                <li>Przegłos a→ä znika: fahren → <strong>Fahr!</strong> · schlafen → <strong>Schlaf!</strong></li>
+            </ul>
+
+            <h4>ihr — forma „ihr" bez zaimka</h4>
+            <ul>
+                <li><strong>Kommt!</strong> · <strong>Macht</strong> die Tür zu! · <strong>Lest</strong> den Text!</li>
+            </ul>
+
+            <h4>Sie — czasownik + Sie (grzecznie)</h4>
+            <ul>
+                <li><strong>Kommen Sie</strong> bitte herein! · <strong>Warten Sie</strong> bitte hier!</li>
+            </ul>
+
+            <h4>sein</h4>
+            <ul>
+                <li><strong>Sei</strong> ruhig! · <strong>Seid</strong> ruhig! · <strong>Seien Sie</strong> ruhig!</li>
+            </ul>
+            <p>Słówko <strong>bitte</strong> łagodzi polecenie: Hilf mir bitte!</p>
+        `,
+        exercises: [
+            { question: '_____ bitte! (kommen, du)', answer: 'Komm', options: ['Komm', 'Kommst', 'Kommen'] },
+            { question: '_____ das Buch! (lesen, du)', answer: 'Lies', options: ['Lies', 'Les', 'Liest'] },
+            { question: '_____ Sie bitte hier! (warten)', answer: 'Warten', options: ['Warten', 'Wartet', 'Warte'] },
+            { question: '_____ ruhig, Kinder! (sein, ihr)', answer: 'Seid', options: ['Seid', 'Sind', 'Sei'] },
+            { question: '_____ langsam! (fahren, du)', answer: 'Fahr', options: ['Fahr', 'Fähr', 'Fährst'] },
+            { question: '_____ mir bitte! (helfen, du)', answer: 'Hilf', options: ['Hilf', 'Helf', 'Hilfst'] },
+            { question: '_____ Sie bitte langsamer! (sprechen)', answer: 'Sprechen', options: ['Sprechen', 'Sprich', 'Sprecht'] },
+            { question: '_____ den Schirm mit! (nehmen, du)', answer: 'Nimm', options: ['Nimm', 'Nehm', 'Nimmst'] }
+        ]
+    },
+
+    verbenPraep: {
+        title: 'Czasowniki z przyimkami',
+        content: `
+            <h3>Verben mit Präpositionen</h3>
+            <p>Wiele czasowników wymaga stałego przyimka — trzeba uczyć się ich w parach, bo często różnią się od polskich.</p>
+
+            <h4>+ Akkusativ</h4>
+            <ul>
+                <li><strong>warten auf</strong> — czekać na: Ich warte auf den Bus.</li>
+                <li><strong>denken an</strong> — myśleć o: Ich denke an dich.</li>
+                <li><strong>sich freuen auf</strong> — cieszyć się na (przyszłość): Ich freue mich auf den Urlaub.</li>
+                <li><strong>sich freuen über</strong> — cieszyć się z (teraz/przeszłość): Ich freue mich über das Geschenk.</li>
+                <li><strong>sich interessieren für</strong> — interesować się: Er interessiert sich für Politik.</li>
+                <li><strong>sprechen über</strong> — rozmawiać o: Wir sprechen über die Arbeit.</li>
+                <li><strong>sich kümmern um</strong> — troszczyć się o: Sie kümmert sich um die Kinder.</li>
+            </ul>
+
+            <h4>+ Dativ</h4>
+            <ul>
+                <li><strong>Angst haben vor</strong> — bać się: Ich habe Angst vor Hunden.</li>
+                <li><strong>träumen von</strong> — marzyć o: Er träumt von einem Haus.</li>
+                <li><strong>teilnehmen an</strong> — brać udział w: Ich nehme an dem Kurs teil.</li>
+                <li><strong>fragen nach</strong> — pytać o: Er fragt nach dem Weg.</li>
+                <li><strong>helfen bei</strong> — pomagać w: Kannst du mir bei der Arbeit helfen?</li>
+            </ul>
+
+            <h4>Pytania: wo(r) + przyimek</h4>
+            <p><strong>Worauf</strong> wartest du? · <strong>Woran</strong> denkst du? · <strong>Wovon</strong> träumst du?<br>
+            Dla osób: <strong>Auf wen</strong> wartest du? · <strong>An wen</strong> denkst du?</p>
+        `,
+        exercises: [
+            { question: 'Ich warte _____ den Bus.', answer: 'auf', options: ['auf', 'an', 'für'] },
+            { question: 'Denkst du _____ mich?', answer: 'an', options: ['an', 'auf', 'über'] },
+            { question: 'Sie interessiert sich _____ Musik.', answer: 'für', options: ['für', 'an', 'auf'] },
+            { question: 'Wir sprechen _____ das Problem.', answer: 'über', options: ['über', 'von', 'an'] },
+            { question: 'Hast du Angst _____ dem Hund?', answer: 'vor', options: ['vor', 'von', 'für'] },
+            { question: 'Er träumt _____ einem Urlaub.', answer: 'von', options: ['von', 'über', 'auf'] },
+            { question: 'Ich kümmere mich _____ die Kinder.', answer: 'um', options: ['um', 'für', 'an'] },
+            { question: 'Ich freue mich _____ die Party morgen.', answer: 'auf', options: ['auf', 'über', 'an'] },
+            { question: 'Ich freue mich _____ dein Geschenk.', answer: 'über', options: ['über', 'auf', 'für'] },
+            { question: '_____ wartest du? – Auf den Zug.', answer: 'Worauf', options: ['Worauf', 'Woran', 'Wofür'] }
+        ]
+    },
+
+    wortstellung: {
+        title: 'Szyk zdania',
+        content: `
+            <h3>Wortstellung — gdzie stoi czasownik?</h3>
+
+            <h4>1. Zdanie oznajmujące: czasownik na 2. miejscu</h4>
+            <ul>
+                <li>Ich <strong>lerne</strong> heute Deutsch.</li>
+                <li>Heute <strong>lerne</strong> ich Deutsch. — gdy coś innego stoi na początku, podmiot przeskakuje ZA czasownik (inwersja)</li>
+            </ul>
+
+            <h4>2. Pytanie tak/nie: czasownik na 1. miejscu</h4>
+            <ul>
+                <li><strong>Lernst</strong> du Deutsch? · <strong>Hast</strong> du Zeit?</li>
+            </ul>
+
+            <h4>3. Pytanie z W-słowem: W-słowo + czasownik</h4>
+            <ul>
+                <li>Was <strong>lernst</strong> du? · Wann <strong>kommst</strong> du?</li>
+            </ul>
+
+            <h4>4. Ramka zdania — druga część czasownika na koniec</h4>
+            <ul>
+                <li>Modalny: Ich <strong>kann</strong> heute nicht <strong>kommen</strong>.</li>
+                <li>Perfekt: Ich <strong>habe</strong> gestern einen Film <strong>gesehen</strong>.</li>
+                <li>Rozdzielny: Ich <strong>rufe</strong> dich morgen <strong>an</strong>.</li>
+                <li>Futur: Ich <strong>werde</strong> nächste Woche <strong>umziehen</strong>.</li>
+            </ul>
+
+            <h4>5. Kolejność informacji: kiedy – dlaczego – jak – gdzie</h4>
+            <p>Ich fahre <em>morgen</em> <em>wegen der Arbeit</em> <em>mit dem Zug</em> <em>nach Berlin</em>.</p>
+        `,
+        exercises: [
+            { question: 'Heute _____ ich ins Kino.', answer: 'gehe', options: ['gehe', 'geht', 'gehen'] },
+            { question: 'Morgen _____ wir nach Berlin.', answer: 'fahren', options: ['fahren', 'fahrt', 'fährt'] },
+            { question: '_____ du Kaffee?', answer: 'Trinkst', options: ['Trinkst', 'Trinkt', 'Trinken'] },
+            { question: 'Ich habe gestern einen Film _____.', answer: 'gesehen', options: ['gesehen', 'sehen', 'sah'] },
+            { question: 'Wann _____ der Film?', answer: 'beginnt', options: ['beginnt', 'beginnen', 'beginnst'] },
+            { question: 'Ich kann heute nicht _____.', answer: 'kommen', options: ['kommen', 'komme', 'kommt'] },
+            { question: 'Am Wochenende _____ ich meine Eltern.', answer: 'besuche', options: ['besuche', 'besuchen', 'besucht'] },
+            { question: 'Ich rufe dich morgen _____.', answer: 'an', options: ['an', 'auf', 'zu'] }
         ]
     },
 };

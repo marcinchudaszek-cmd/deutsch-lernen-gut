@@ -254,12 +254,37 @@ function saveState() {
     localStorage.setItem('deutschAppState', JSON.stringify(state));
 }
 
-function countTotalWords() {
-    let total = 0;
-    Object.keys(wordDatabase).forEach(function(key) {
-        total += wordDatabase[key].length;
+// Zbiera słowa z kategorii ('all' = cała baza + własne, 'custom' = tylko własne).
+// To samo słowo bywa w kilku kategoriach (np. "die Apotheke") — liczymy i pokazujemy je raz.
+function collectDictionaryWords(category) {
+    let source = [];
+    if (category === 'all') {
+        Object.keys(wordDatabase).forEach(function(key) {
+            if (Array.isArray(wordDatabase[key])) source = source.concat(wordDatabase[key]);
+        });
+        source = source.concat(state.customWords || []);
+    } else if (category === 'custom') {
+        source = (state.customWords || []).slice();
+    } else if (Array.isArray(wordDatabase[category])) {
+        source = wordDatabase[category];
+    }
+
+    const seen = {};
+    const words = [];
+    source.forEach(function(w) {
+        const de = w.german || w.de;
+        const pl = w.polish || w.pl;
+        if (!de || !pl) return;
+        const key = de.toLowerCase() + '|' + pl.toLowerCase();
+        if (seen[key]) return;
+        seen[key] = true;
+        words.push({ de: de, pl: pl, example: w.example || '', level: w.level || '' });
     });
-    total += state.customWords.length;
+    return words;
+}
+
+function countTotalWords() {
+    const total = collectDictionaryWords('all').length;
     const el = document.getElementById('totalWordsCount');
     if (el) el.textContent = total;
 }
@@ -459,6 +484,7 @@ function getWordsForCurrentLevel() {
 
 function filterDictByLevel(level, btn) {
     currentDictLevel = level;
+    dictVisibleCount = DICT_PAGE_SIZE;
     document.querySelectorAll('.dict-level-btn').forEach(function(b) { 
         b.classList.remove('active'); 
     });
@@ -1033,24 +1059,36 @@ function loadGrammarTopic(topic) {
     saveState();
 }
 
+// Ostatnio pokazane ćwiczenie w każdej lekcji — żeby nie wylosować tego samego dwa razy z rzędu
+const grammarLastExercise = {};
+
 function startGrammarExercise(topic) {
     const data = grammarData[topic];
     const exercise = document.getElementById('grammarExercise');
-    
-    const ex = data.exercises[Math.floor(Math.random() * data.exercises.length)];
-    
+    const list = data.exercises;
+
+    let idx = Math.floor(Math.random() * list.length);
+    if (list.length > 1 && idx === grammarLastExercise[topic]) {
+        idx = (idx + 1 + Math.floor(Math.random() * (list.length - 1))) % list.length;
+    }
+    grammarLastExercise[topic] = idx;
+    const ex = list[idx];
+
+    // W danych poprawna odpowiedź zwykle stoi pierwsza — tasujemy, żeby nie dało się zgadywać
     let optionsHtml = '';
-    ex.options.forEach(function(opt) {
+    shuffleArray(ex.options.slice()).forEach(function(opt) {
         optionsHtml += '<button class="quiz-option" onclick="checkGrammarAnswer(\'' + opt.replace(/'/g, "\\'") + '\', \'' + ex.answer.replace(/'/g, "\\'") + '\', this)">' + opt + '</button>';
     });
-    
-    exercise.innerHTML = 
-        '<h4>Uzupełnij:</h4>' +
+
+    exercise.innerHTML =
+        '<h4>Uzupełnij: <span class="grammar-counter">(' + list.length + ' ćwiczeń w lekcji)</span></h4>' +
         '<p class="grammar-sentence">' + ex.question + '</p>' +
         '<div class="grammar-options">' + optionsHtml + '</div>' +
-        '<div id="grammarFeedback" class="feedback hidden"></div>';
-    
+        '<div id="grammarFeedback" class="feedback hidden"></div>' +
+        '<button id="grammarNextBtn" class="check-btn hidden" onclick="startGrammarExercise(\'' + topic + '\')">➡️ Następne ćwiczenie</button>';
+
     exercise.classList.remove('hidden');
+    exercise.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function checkGrammarAnswer(selected, correct, btn) {
@@ -1073,8 +1111,10 @@ function checkGrammarAnswer(selected, correct, btn) {
         feedback.className = 'feedback error';
         playWrongSound();
     }
-    
+
     feedback.classList.remove('hidden');
+    const nextBtn = document.getElementById('grammarNextBtn');
+    if (nextBtn) nextBtn.classList.remove('hidden');
     saveState();
 }
 
@@ -2094,85 +2134,123 @@ function showLevels() {
 let currentDictCategory = 'all';
 let currentDictLevel = 'all';
 
+// Słownik renderuje porcjami — ~1800 kart naraz byłoby ciężkie dla WebView
+const DICT_PAGE_SIZE = 100;
+let dictVisibleCount = DICT_PAGE_SIZE;
+
 function showAllWords() {
     showScreen('dictionary');
     currentDictCategory = 'all';
     currentDictLevel = 'all';
+    dictVisibleCount = DICT_PAGE_SIZE;
+
+    buildDictCategorySelect();
+    const select = document.getElementById('dictCategorySelect');
+    if (select) select.value = 'all';
+    document.querySelectorAll('.dict-level-btn').forEach(function(b, i) {
+        b.classList.toggle('active', i === 0);
+    });
+
     displayWords();
     countTotalWords();
 }
 
-function filterByCategory(category, btn) {
+// Lista kategorii słownika = ta sama co w fiszkach (jedno źródło prawdy w index.html)
+function buildDictCategorySelect() {
+    const target = document.getElementById('dictCategorySelect');
+    const source = document.getElementById('categorySelect');
+    if (!target || !source || target.options.length > 1) return;
+
+    target.innerHTML = source.innerHTML;
+    const allOpt = target.querySelector('option[value="all"]');
+    if (allOpt) allOpt.textContent = '🌍 Wszystkie kategorie';
+}
+
+function filterByCategory(category) {
     currentDictCategory = category;
-    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
+    dictVisibleCount = DICT_PAGE_SIZE;
+    const list = document.getElementById('dictionaryList');
+    if (list) list.scrollTop = 0;
     displayWords();
 }
 
 function searchWords() {
+    dictVisibleCount = DICT_PAGE_SIZE;
     displayWords();
 }
 
+// Sortujemy po samym rzeczowniku — inaczej wszystkie "der ..." lądują w jednym bloku
+function dictSortKey(de) {
+    return de.replace(/^(der|die|das)\s+/i, '').toLowerCase();
+}
+
 function displayWords() {
-    const searchTerm = document.getElementById('searchWord').value.toLowerCase();
+    const searchTerm = document.getElementById('searchWord').value.toLowerCase().trim();
     const container = document.getElementById('dictionaryList');
     container.innerHTML = '';
-    
-    let allWords = [];
-    
-    if (currentDictCategory === 'all') {
-        Object.keys(wordDatabase).forEach(function(key) {
-            wordDatabase[key].forEach(function(w) {
-                allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
-            });
-        });
-        state.customWords.forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
-        });
-    } else if (wordDatabase[currentDictCategory]) {
-        wordDatabase[currentDictCategory].forEach(function(w) {
-            allWords.push({ de: w.german || w.de, pl: w.polish || w.pl, example: w.example, level: w.level });
-        });
-    }
-    
-    // Filtruj po poziomie językowym
+
+    let allWords = collectDictionaryWords(currentDictCategory);
+
     if (currentDictLevel !== 'all') {
-        allWords = allWords.filter(function(w) {
-            return w.level === currentDictLevel;
-        });
+        allWords = allWords.filter(function(w) { return w.level === currentDictLevel; });
     }
-    
+
     if (searchTerm) {
         allWords = allWords.filter(function(w) {
-            return w.de && w.pl && (w.de.toLowerCase().includes(searchTerm) || w.pl.toLowerCase().includes(searchTerm));
+            return w.de.toLowerCase().includes(searchTerm) || w.pl.toLowerCase().includes(searchTerm);
         });
     }
-    
-    allWords.sort(function(a, b) { 
-        if (!a.de || !b.de) return 0;
-        return a.de.localeCompare(b.de); 
+
+    allWords.sort(function(a, b) {
+        return dictSortKey(a.de).localeCompare(dictSortKey(b.de), 'de');
     });
-    
+
     document.getElementById('wordCount').textContent = allWords.length;
-    
-    allWords.slice(0, 100).forEach(function(w) {
-        const div = document.createElement('div');
-        div.className = 'dict-word';
-        // ULEPSZONE: Dodano dodatkowe przyciski wymowy
-        div.innerHTML = 
-            '<div class="dict-word-main">' +
-                '<div class="dict-word-de">' + w.de + '</div>' +
-                '<div class="dict-word-pl">' + w.pl + '</div>' +
-            '</div>' +
-            '<div class="dict-word-buttons">' +
-                '<button class="dict-word-btn" onclick="speak(\'' + w.de.replace(/'/g, "\\'") + '\')" title="Wymowa normalna">🔊</button>' +
-                '<button class="dict-word-btn slow" onclick="speakSlow(\'' + w.de.replace(/'/g, "\\'") + '\')" title="Wymowa wolna">🐢</button>' +
-            '</div>';
-        container.appendChild(div);
-    });
-    
+
     if (allWords.length === 0) {
         container.innerHTML = '<p style="text-align:center;color:var(--text-muted)">Brak wyników</p>';
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    allWords.slice(0, dictVisibleCount).forEach(function(w) {
+        const div = document.createElement('div');
+        div.className = 'dict-word';
+        div.innerHTML =
+            '<div class="dict-word-main">' +
+                '<div class="dict-word-de">' + escapeHtml(w.de) +
+                    (w.level ? ' <span class="level-tag ' + escapeHtml(w.level) + '">' + escapeHtml(w.level) + '</span>' : '') +
+                '</div>' +
+                '<div class="dict-word-pl">' + escapeHtml(w.pl) + '</div>' +
+                (w.example ? '<div class="example" title="Dotknij, żeby odsłuchać">🔈 ' + escapeHtml(w.example) + '</div>' : '') +
+            '</div>' +
+            '<div class="dict-word-buttons">' +
+                '<button class="dict-word-btn dict-speak" title="Wymowa normalna">🔊</button>' +
+                '<button class="dict-word-btn slow dict-speak-slow" title="Wymowa wolna">🐢</button>' +
+            '</div>';
+
+        // Listenery zamiast onclick="speak('...')" — słowa z cudzysłowem nie psują HTML-a
+        div.querySelector('.dict-speak').addEventListener('click', function(e) { e.stopPropagation(); speak(w.de); });
+        div.querySelector('.dict-speak-slow').addEventListener('click', function(e) { e.stopPropagation(); speakSlow(w.de); });
+        const exampleEl = div.querySelector('.example');
+        if (exampleEl) exampleEl.addEventListener('click', function(e) { e.stopPropagation(); speak(w.example); });
+
+        fragment.appendChild(div);
+    });
+    container.appendChild(fragment);
+
+    const remaining = allWords.length - dictVisibleCount;
+    if (remaining > 0) {
+        const more = document.createElement('button');
+        more.className = 'dict-more-btn';
+        more.textContent = '⬇️ Pokaż więcej (' + Math.min(remaining, DICT_PAGE_SIZE) + ' z ' + remaining + ' pozostałych)';
+        more.addEventListener('click', function() {
+            dictVisibleCount += DICT_PAGE_SIZE;
+            const scroll = container.scrollTop;
+            displayWords();
+            container.scrollTop = scroll;
+        });
+        container.appendChild(more);
     }
 }
 
