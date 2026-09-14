@@ -283,8 +283,13 @@ function collectDictionaryWords(category) {
     return words;
 }
 
+// Licznik w menu liczy wszystkie wpisy we wszystkich kategoriach (jak od początku aplikacji).
+// Słownik pokazuje każde słowo raz, więc tam liczba jest mniejsza — stąd etykieta "różnych słów".
 function countTotalWords() {
-    const total = collectDictionaryWords('all').length;
+    let total = (state.customWords || []).length;
+    Object.keys(wordDatabase).forEach(function(key) {
+        if (Array.isArray(wordDatabase[key])) total += wordDatabase[key].length;
+    });
     const el = document.getElementById('totalWordsCount');
     if (el) el.textContent = total;
 }
