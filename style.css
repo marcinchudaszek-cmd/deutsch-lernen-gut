@@ -1812,6 +1812,11 @@ body {
     margin-top: 10px;
 }
 
+/* W tym CSS nie ma ogólnej reguły .hidden (tylko zawężone), więc trzeba ją podać wprost */
+#grammarNextBtn.hidden {
+    display: none;
+}
+
 /* ==================== USTAWIENIA ==================== */
 .settings-section {
     background: var(--card-bg);
