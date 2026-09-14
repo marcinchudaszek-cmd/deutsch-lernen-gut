@@ -1055,8 +1055,17 @@ function loadGrammarTopic(topic) {
     
     content.classList.remove('hidden');
     document.getElementById('grammarExercise').classList.add('hidden');
+    // Treść lekcji ląduje pod listą 16 tematów, poza ekranem — bez przewinięcia wygląda, jakby przycisk nie działał
+    scrollGrammarIntoView(content);
     addXP(5);
     saveState();
+}
+
+function scrollGrammarIntoView(el) {
+    // setTimeout: WebView musi najpierw policzyć wysokość nowo pokazanego elementu
+    setTimeout(function() {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 }
 
 // Ostatnio pokazane ćwiczenie w każdej lekcji — żeby nie wylosować tego samego dwa razy z rzędu
@@ -1088,7 +1097,7 @@ function startGrammarExercise(topic) {
         '<button id="grammarNextBtn" class="check-btn hidden" onclick="startGrammarExercise(\'' + topic + '\')">➡️ Następne ćwiczenie</button>';
 
     exercise.classList.remove('hidden');
-    exercise.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    scrollGrammarIntoView(exercise);
 }
 
 function checkGrammarAnswer(selected, correct, btn) {

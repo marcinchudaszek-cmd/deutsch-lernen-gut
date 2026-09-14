@@ -779,6 +779,12 @@ body {
 .grammar-content.hidden,
 .grammar-exercise.hidden { display: none; }
 
+/* Przy automatycznym przewijaniu nie chowaj początku pod górnym paskiem */
+.grammar-content,
+.grammar-exercise {
+    scroll-margin-top: 90px;
+}
+
 .grammar-content h3 {
     margin-bottom: 12px;
     color: var(--primary-light);
