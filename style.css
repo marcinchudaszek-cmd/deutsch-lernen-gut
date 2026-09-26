@@ -1,3 +1,25 @@
+/* Wcięcia ekranu. WebView < 140 podaje błędne env(safe-area-inset-*), więc
+   najpierw zmienne wstrzykiwane przez Capacitor 8 (SystemBars), env() jako zapas. */
+:root {
+  --sa-top:    var(--safe-area-inset-top,    env(safe-area-inset-top, 0px));
+  --sa-right:  var(--safe-area-inset-right,  env(safe-area-inset-right, 0px));
+  --sa-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --sa-left:   var(--safe-area-inset-left,   env(safe-area-inset-left, 0px));
+}
+
+/* Cel dotykowy min. 44x44 px bez zmiany wyglądu: niewidoczny pseudo-element.
+   Selektor elementu ma najniższą specyficzność, więc klasy z position wygrywają. */
+button { position: relative; }
+button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -98,7 +120,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--sa-bottom);
 }
 
 .app {
@@ -113,7 +135,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+    padding: max(12px, var(--sa-top)) 16px 12px;
     background: var(--darker);
     border: none;
     border-radius: 0;
@@ -166,9 +188,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.theme-toggle:hover {
+@media (hover: hover) {
+  .theme-toggle:hover {
     background: var(--primary);
     transform: rotate(180deg);
+}
 }
 
 /* ==================== EKRANY ==================== */
@@ -292,9 +316,11 @@ body {
     color: var(--text);
 }
 
-.lang-level-btn:hover {
+@media (hover: hover) {
+  .lang-level-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 }
 
 .lang-level-btn.active,
@@ -420,8 +446,10 @@ body {
     transition: all 0.3s ease;
 }
 
-.category-select select:hover {
+@media (hover: hover) {
+  .category-select select:hover {
     border-color: var(--primary);
+}
 }
 
 .category-select optgroup {
@@ -492,9 +520,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.sound-btn:hover {
+@media (hover: hover) {
+  .sound-btn:hover {
     background: rgba(255,255,255,0.3);
     transform: scale(1.1);
+}
 }
 
 .example {
@@ -528,10 +558,12 @@ body {
     border: 2px solid var(--danger);
 }
 
-.control-btn.wrong:hover {
+@media (hover: hover) {
+  .control-btn.wrong:hover {
     background: var(--danger);
     color: white;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
 }
 
 .control-btn.correct {
@@ -540,10 +572,12 @@ body {
     border: 2px solid var(--success);
 }
 
-.control-btn.correct:hover {
+@media (hover: hover) {
+  .control-btn.correct:hover {
     background: var(--success);
     color: white;
     box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
 }
 
 .card-counter {
@@ -593,11 +627,13 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.diff-btn.active,
+@media (hover: hover) {
+  .diff-btn.active,
 .diff-btn:hover {
     background: var(--primary);
     color: white;
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
 }
 
 .memory-board {
@@ -635,9 +671,11 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.memory-card:hover {
+@media (hover: hover) {
+  .memory-card:hover {
     border-color: var(--primary);
     transform: scale(1.05);
+}
 }
 
 .memory-card.flipped {
@@ -700,10 +738,12 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.quiz-option:hover {
+@media (hover: hover) {
+  .quiz-option:hover {
     border-color: var(--primary);
     transform: translateX(6px);
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
 }
 
 .quiz-option.correct {
@@ -750,10 +790,12 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.topic-btn:hover {
+@media (hover: hover) {
+  .topic-btn:hover {
     transform: translateX(8px);
     border-left: 4px solid var(--primary);
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
 }
 
 .topic-btn span:first-child {
@@ -876,10 +918,12 @@ body {
     box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
 }
 
-.big-sound-btn:hover,
+@media (hover: hover) {
+  .big-sound-btn:hover,
 .listen-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+}
 }
 
 .listen-btn {
@@ -923,9 +967,11 @@ body {
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
-.check-btn:hover {
+@media (hover: hover) {
+  .check-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
 }
 
 .feedback {
@@ -972,9 +1018,11 @@ body {
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
 }
 
-.big-mic-btn:hover {
+@media (hover: hover) {
+  .big-mic-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+}
 }
 
 .big-mic-btn.listening {
@@ -1162,9 +1210,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.achievement:hover {
+@media (hover: hover) {
+  .achievement:hover {
     transform: scale(1.05);
     border-color: var(--primary);
+}
 }
 
 .achievement.locked {
@@ -1262,8 +1312,10 @@ body {
     transition: all 0.3s ease;
 }
 
-.level-item:hover {
+@media (hover: hover) {
+  .level-item:hover {
     transform: translateX(5px);
+}
 }
 
 .level-item.current {
@@ -1346,11 +1398,13 @@ body {
     transition: all 0.3s ease;
 }
 
-.scenario-btn:hover,
+@media (hover: hover) {
+  .scenario-btn:hover,
 .scenario-btn.active {
     background: var(--primary);
     color: white;
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
 }
 
 .chat-container {
@@ -1446,8 +1500,10 @@ body {
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
-.chat-input-container button:hover {
+@media (hover: hover) {
+  .chat-input-container button:hover {
     transform: scale(1.1);
+}
 }
 
 .mic-btn-small {
@@ -1480,9 +1536,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.chat-suggestions button:hover {
+@media (hover: hover) {
+  .chat-suggestions button:hover {
     background: var(--primary);
     color: white;
+}
 }
 
 /* ==================== MOJE SŁÓWKA ==================== */
@@ -1546,9 +1604,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.custom-word-item:hover {
+@media (hover: hover) {
+  .custom-word-item:hover {
     border-left: 3px solid var(--primary);
     transform: translateX(4px);
+}
 }
 
 .custom-word-item .word-info {
@@ -1575,9 +1635,11 @@ body {
     transition: all 0.3s ease;
 }
 
-.custom-word-item .delete-btn:hover {
+@media (hover: hover) {
+  .custom-word-item .delete-btn:hover {
     background: var(--danger);
     color: white;
+}
 }
 
 /* ==================== SŁOWNIK ==================== */
@@ -1619,12 +1681,14 @@ body {
     transition: all 0.3s ease;
 }
 
-.tab-btn:hover,
+@media (hover: hover) {
+  .tab-btn:hover,
 .tab-btn.active {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
 }
 
 .word-count {
@@ -1664,10 +1728,12 @@ body {
     transition: all 0.3s ease;
 }
 
-.dict-word:hover {
+@media (hover: hover) {
+  .dict-word:hover {
     border-color: var(--primary);
     transform: translateX(4px);
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
+}
 }
 
 .dict-word .german {
@@ -1933,9 +1999,11 @@ input:checked + .toggle-slider:before {
     transition: all 0.3s ease;
 }
 
-.danger-btn:hover {
+@media (hover: hover) {
+  .danger-btn:hover {
     background: var(--danger);
     color: white;
+}
 }
 
 /* ==================== DAILY PROGRESS ==================== */
@@ -2043,8 +2111,10 @@ input:checked + .toggle-slider:before {
     color: var(--primary);
 }
 
-.install-content button:first-of-type:hover {
+@media (hover: hover) {
+  .install-content button:first-of-type:hover {
     transform: scale(1.05);
+}
 }
 
 .install-content .close-btn {
@@ -2175,8 +2245,10 @@ input:checked + .toggle-slider:before {
     transition: all 0.3s ease;
 }
 
-.typing-buttons button:hover {
+@media (hover: hover) {
+  .typing-buttons button:hover {
     transform: translateY(-2px);
+}
 }
 
 .skip-btn {
@@ -2185,8 +2257,10 @@ input:checked + .toggle-slider:before {
     color: var(--text);
 }
 
-.skip-btn:hover {
+@media (hover: hover) {
+  .skip-btn:hover {
     border-color: var(--primary);
+}
 }
 
 .hint-btn {
@@ -2327,10 +2401,12 @@ input:checked + .toggle-slider:before {
     transition: all 0.2s ease;
 }
 
-.message-actions button:hover {
+@media (hover: hover) {
+  .message-actions button:hover {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
+}
 }
 
 /* Ocena gramatyczna */
@@ -2386,8 +2462,10 @@ input:checked + .toggle-slider:before {
     transition: all 0.3s ease;
 }
 
-.help-toggle:hover {
+@media (hover: hover) {
+  .help-toggle:hover {
     border-color: var(--primary);
+}
 }
 
 .help-content {
@@ -2421,10 +2499,12 @@ input:checked + .toggle-slider:before {
     transition: all 0.2s ease;
 }
 
-#helpPhrases button:hover {
+@media (hover: hover) {
+  #helpPhrases button:hover {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
+}
 }
 
 /* Tłumaczenie popup */
@@ -2556,8 +2636,8 @@ html {
     bottom: 0;
     left: 0;
     right: 0;
-    height: calc(56px + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(56px + var(--sa-bottom));
+    padding-bottom: var(--sa-bottom);
     background: var(--darker);
     border-top: 1px solid var(--card-border);
     display: flex;
@@ -2610,7 +2690,7 @@ body.light-mode .bottom-nav {
 
 /* Push app content above the bottom nav */
 .app {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom) + 8px) !important;
+    padding-bottom: calc(56px + var(--sa-bottom) + 8px) !important;
 }
 
 /* ==================== KALENDARZ NAUKI ==================== */
@@ -2797,10 +2877,12 @@ body.light-mode .bottom-nav {
     transition: all 0.2s;
 }
 
-.example-btn:hover {
+@media (hover: hover) {
+  .example-btn:hover {
     background: var(--primary);
     color: #fff;
     border-color: var(--primary);
+}
 }
 
 .example-btn:disabled {
