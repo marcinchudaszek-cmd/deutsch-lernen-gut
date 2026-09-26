@@ -19,6 +19,10 @@ button::after {
   height: max(100%, 44px);
   transform: translate(-50%, -50%);
 }
+/* W rzędach i siatkach powiększone pole późniejszego przycisku przykrywało
+   brzeg sąsiada i przejmowało jego dotknięcia. */
+button:has(+ button)::after,
+button + button::after { content: none; }
 
 * {
     margin: 0;
