@@ -1248,7 +1248,7 @@ async function recognizeSpeech(opts) {
 
             onStart();
             const res = await plugin.start({
-                language: 'de-DE',
+                language: opts.lang || 'de-DE',
                 maxResults: 1,
                 partialResults: false,
                 popup: false
@@ -1273,7 +1273,7 @@ async function recognizeSpeech(opts) {
     }
 
     recognition = new SR();
-    recognition.lang = 'de-DE';
+    recognition.lang = opts.lang || 'de-DE';
     recognition.continuous = false;
     recognition.interimResults = false;
 
@@ -1622,6 +1622,7 @@ function startScenario(scenario, btn) {
     
     const container = document.getElementById('chatContainer');
     container.innerHTML = '';
+    if (typeof resetAIChatHistory === 'function') resetAIChatHistory();
     addChatMessage(chatScenarios[scenario].greeting, 'bot');
     
     currentMission = chatScenarios[scenario].mission;

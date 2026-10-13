@@ -135,10 +135,116 @@ async function geminiGenerate(promptText) {
     return { success: false, error: lastError };
 }
 
+// ==================== JĘZYK UCZNIA (PL/DE) ====================
+// W trybie 🇵🇱 mikrofon słucha po polsku, a AI podaje gotowe zdanie po niemiecku.
+// Pisać po polsku można w obu trybach — AI samo rozpozna język wiadomości.
+
+function getChatLang() {
+    try { return localStorage.getItem('chatLang') === 'pl' ? 'pl' : 'de'; } catch (e) { return 'de'; }
+}
+
+function updateChatLangUI() {
+    var lang = getChatLang();
+    var btn = document.getElementById('chatLangBtn');
+    if (btn) {
+        btn.textContent = lang === 'pl' ? '🇵🇱' : '🇩🇪';
+        btn.classList.toggle('pl', lang === 'pl');
+    }
+    var input = document.getElementById('chatInput');
+    if (input) {
+        input.placeholder = lang === 'pl'
+            ? 'Napisz po polsku — AI powie, jak to po niemiecku'
+            : 'Napisz po niemiecku...';
+    }
+}
+
+function toggleChatLang() {
+    var lang = getChatLang() === 'pl' ? 'de' : 'pl';
+    try { localStorage.setItem('chatLang', lang); } catch (e) {}
+    updateChatLangUI();
+    if (typeof showToast === 'function') {
+        showToast(lang === 'pl'
+            ? '🇵🇱 Mów po polsku — AI podpowie po niemiecku'
+            : '🇩🇪 Mów po niemiecku');
+    }
+    if (lang === 'pl' && !hasApiKey()) showApiKeyPopup();
+}
+
+// ==================== HISTORIA ROZMOWY ====================
+// AI dostaje kilka ostatnich wymian, żeby rozmowa trzymała się kupy.
+
+var aiChatHistory = [];
+var AI_HISTORY_MAX = 10;
+
+function resetAIChatHistory() {
+    aiChatHistory = [];
+}
+
+function pushAIChatHistory(who, text) {
+    aiChatHistory.push({ who: who, text: text });
+    if (aiChatHistory.length > AI_HISTORY_MAX) aiChatHistory.shift();
+}
+
+function stripHtmlAI(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html.replace(/<br\s*\/?>/gi, ' ');
+    return (div.textContent || '').trim();
+}
+
 // Wywołanie API Gemini (czat)
 async function callGeminiAI(userMessage) {
-    const prompt = "Jesteś nauczycielem niemieckiego. Odpowiadaj po niemiecku, dodaj tłumaczenie (pol: ...). Max 2-3 zdania. Jeśli uczeń zrobi błąd, popraw go.\n\nUczeń: " + userMessage;
+    var scenarioKey = (typeof state !== 'undefined' && state.chatScenario) || 'free';
+    var scenario = (typeof chatScenarios !== 'undefined' && chatScenarios[scenarioKey]) || null;
+    var level = (typeof state !== 'undefined' && state.currentLanguageLevel) || 'A1';
+
+    var context = '';
+    if (scenario && scenario.mission) {
+        context = 'Scenka: ' + scenarioKey + ' (zadanie ucznia: ' + scenario.mission.title + '). Grasz drugą osobę w tej scence. ';
+    }
+
+    var history = aiChatHistory.map(function(h) {
+        return (h.who === 'user' ? 'Uczeń: ' : 'Ty: ') + h.text;
+    }).join('\n');
+    if (!history && scenario && scenario.greeting) {
+        history = 'Ty: ' + stripHtmlAI(scenario.greeting);
+    }
+
+    const prompt =
+        'Jesteś nauczycielem niemieckiego i rozmawiasz z uczniem z Polski (poziom ' + level + '). ' + context + '\n' +
+        'Zasady dotyczące OSTATNIEJ wiadomości ucznia:\n' +
+        '1. Jeśli jest po polsku (w całości lub częściowo), uczeń nie wie, jak to powiedzieć po niemiecku. ' +
+        'Pierwsza linia odpowiedzi to: [DE] <naturalne, poprawne zdanie po niemiecku wyrażające dokładnie to, co uczeń chciał powiedzieć, ' +
+        'dopasowane do rozmowy (forma Sie/du jak w rozmowie) i do poziomu ' + level + '>. ' +
+        'Potem odpowiadasz tak, jakby uczeń powiedział to zdanie po niemiecku.\n' +
+        '2. Jeśli jest po niemiecku, ale z błędami, pierwsza linia to: [FIX] <poprawiona wersja zdania ucznia>, ' +
+        'a druga: 💡 <krótkie wyjaśnienie błędu po polsku>.\n' +
+        '3. Jeśli jest poprawna po niemiecku, nie dodawaj linii [DE] ani [FIX].\n' +
+        'Twoja własna odpowiedź: po niemiecku, 1-3 krótkie zdania, a pod nią linia (pol: tłumaczenie). ' +
+        'Nie używaj markdown ani gwiazdek. Linia [DE] lub [FIX] zawiera tylko niemieckie zdanie, bez tłumaczenia.\n\n' +
+        (history ? 'Dotychczasowa rozmowa:\n' + history + '\n\n' : '') +
+        'Ostatnia wiadomość ucznia: ' + userMessage;
     return geminiGenerate(prompt);
+}
+
+// Rozbija odpowiedź AI na wersję niemiecką zdania ucznia ([DE]/[FIX]) i resztę.
+function parseAIReply(text) {
+    var lines = (text || '').split('\n');
+    var tag = '';
+    var sentence = '';
+    var rest = [];
+    for (var i = 0; i < lines.length; i++) {
+        var clean = lines[i].replace(/\*\*/g, '').trim();
+        var m = !tag && clean.match(/^\[(DE|FIX)\]\s*:?\s*(.+)$/i);
+        if (m) {
+            tag = m[1].toUpperCase();
+            sentence = m[2].trim();
+            // Gdyby AI mimo wszystko dodało tłumaczenie zaraz pod spodem — pomiń je
+            if (i + 1 < lines.length && /^\((pol|pl):/i.test(lines[i + 1].trim())) i++;
+            continue;
+        }
+        rest.push(lines[i]);
+    }
+    return { tag: tag, sentence: sentence, reply: rest.join('\n').trim() };
 }
 
 // Wyślij wiadomość
@@ -158,15 +264,21 @@ async function sendAIMessage() {
     
     const result = await callGeminiAI(message);
     hideAITyping();
-    
+
     if (result.success) {
+        const parsed = parseAIReply(result.response);
         addAIChatBubble(result.response, 'bot');
         if (typeof addXP === 'function') addXP(5);
-        
-        // Auto-wymowa odpowiedzi
-        const german = extractGerman(result.response);
-        if (german && typeof state !== 'undefined' && state.autoSpeak && typeof speak === 'function') {
-            setTimeout(function() { speak(german); }, 500);
+
+        // Do historii trafia niemiecka wersja zdania ucznia, jeśli AI ją podało
+        pushAIChatHistory('user', parsed.tag ? parsed.sentence : message);
+        pushAIChatHistory('bot', extractGerman(parsed.reply));
+
+        // Auto-wymowa: najpierw jak powiedzieć zdanie ucznia, potem odpowiedź
+        const german = extractGerman(parsed.reply);
+        const toSpeak = (parsed.sentence ? parsed.sentence + ' ' : '') + german;
+        if (toSpeak.trim() && typeof state !== 'undefined' && state.autoSpeak && typeof speak === 'function') {
+            setTimeout(function() { speak(toSpeak.trim()); }, 500);
         }
     } else {
         addAIChatBubble('❌ ' + result.error, 'bot');
@@ -199,7 +311,19 @@ function addAIChatBubble(text, type) {
     if (type === 'user') {
         div.innerHTML = '<span>' + escapeHtmlAI(text) + '</span>';
     } else {
-        var formatted = text
+        var parsed = parseAIReply(text);
+        text = parsed.reply;
+
+        var deBox = '';
+        if (parsed.sentence) {
+            deBox = '<span class="ai-de-version">' +
+                '<span class="ai-de-label">' + (parsed.tag === 'FIX' ? '✏️ Poprawnie:' : '🇩🇪 Po niemiecku powiesz:') + '</span>' +
+                '<strong>' + escapeHtmlAI(parsed.sentence) + '</strong>' +
+                '<button class="ai-de-speak-btn" title="Posłuchaj">🔊</button>' +
+                '</span>';
+        }
+
+        var formatted = escapeHtmlAI(text)
             .replace(/\n/g, '<br>')
             .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
             .replace(/\(pol:([^)]+)\)/gi, '<br><small style="color:#888;font-style:italic">(🇵🇱$1)</small>')
@@ -208,7 +332,7 @@ function addAIChatBubble(text, type) {
 
         var german = extractGerman(text);
 
-        div.innerHTML = '<span>' + formatted + '</span>' +
+        div.innerHTML = deBox + '<span>' + formatted + '</span>' +
             '<div class="message-actions" style="margin-top:8px">' +
             '<button class="ai-speak-btn" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;margin-right:5px">🔊</button>' +
             '<button class="ai-speak-slow-btn" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer">🐢</button>' +
@@ -218,6 +342,9 @@ function addAIChatBubble(text, type) {
         var slowBtn = div.querySelector('.ai-speak-slow-btn');
         speakBtn.addEventListener('click', function() { speakText(german); });
         slowBtn.addEventListener('click', function() { speakTextSlow(german); });
+
+        var deBtn = div.querySelector('.ai-de-speak-btn');
+        if (deBtn) deBtn.addEventListener('click', function() { speakText(parsed.sentence); });
     }
     
     container.appendChild(div);
@@ -291,13 +418,16 @@ function startChatSpeech() {
         return;
     }
 
+    var lang = getChatLang();
+
     recognizeSpeech({
+        lang: lang === 'pl' ? 'pl-PL' : 'de-DE',
         onStart: function() {
             if (micBtn) {
                 micBtn.classList.add('listening');
                 micBtn.innerHTML = '🎙️';
             }
-            if (typeof showToast === 'function') showToast('🎤 Mów po niemiecku...');
+            if (typeof showToast === 'function') showToast(lang === 'pl' ? '🎤 Mów po polsku...' : '🎤 Mów po niemiecku...');
         },
         onEnd: resetBtn,
         onResult: function(transcript) {
@@ -490,6 +620,8 @@ function updateAISuggestions(scenario) {
 
 // Inicjalizacja przy załadowaniu
 document.addEventListener('DOMContentLoaded', function() {
+    updateChatLangUI();
+
     // Jeśli jest klucz API i jesteśmy na stronie czatu
     if (hasApiKey()) {
         console.log('Klucz API znaleziony');

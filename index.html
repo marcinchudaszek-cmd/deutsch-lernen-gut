@@ -669,6 +669,7 @@
             </div>
             
             <div class="chat-input-container">
+                <button class="chat-lang-btn" id="chatLangBtn" onclick="toggleChatLang()" title="Język, w którym mówisz do AI">🇩🇪</button>
                 <button class="mic-btn-small" onclick="startChatSpeech()">🎤</button>
                 <input type="text" id="chatInput" placeholder="Napisz po niemiecku..." 
                        onkeypress="if(event.key==='Enter') sendMessage()">
@@ -918,8 +919,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="words.js?v=23"></script>
-    <script src="app.js?v=23"></script>
-    <script src="ai-chat.js?v=23"></script>
+    <script src="app.js?v=24"></script>
+    <script src="ai-chat.js?v=24"></script>
     
     <!-- Rejestracja Service Worker -->
     <script>
