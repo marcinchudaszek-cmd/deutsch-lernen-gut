@@ -17,7 +17,14 @@ function hasApiKey() {
 // 'gemini-flash-latest' to alias, który Google sam przestawia na aktualny model —
 // dzięki temu apka przeżyje kolejne wycofania (stare modele zwracają 404
 // "no longer available to new users" dla nowo utworzonych kluczy API).
-const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-2.5-flash'];
+const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-2.5-flash'];
+
+// Modele 3.x domyślnie "myślą" na poziomie medium — w czacie to kilka sekund
+// czekania na 2 zdania. Low wystarcza; 2.5 wyłącza myślenie budżetem 0.
+function thinkingConfigFor(model) {
+    if (/^gemini-2\.5/.test(model)) return { thinkingBudget: 0 };
+    return { thinkingLevel: 'low' };
+}
 
 // Czy błąd oznacza "ten model nie działa" (warto spróbować następnego)?
 function isModelUnavailable(status, message) {
@@ -61,7 +68,10 @@ function shortAiError(message) {
 
 // Wspólne wywołanie Gemini z automatycznym fallbackiem modelu.
 // Zapamiętuje działający model, żeby nie próbować za każdym razem od nowa.
-async function geminiGenerate(promptText) {
+// promptText — pojedyncze polecenie; albo opts.system + opts.contents (rozmowa wieloturowa).
+async function geminiGenerate(promptText, opts) {
+    opts = opts || {};
+    const contents = opts.contents || [{ role: 'user', parts: [{ text: promptText }] }];
     const apiKey = getGeminiApiKey();
     if (!apiKey) return { success: false, error: 'Brak klucza API. Ustaw go w Opcjach.' };
 
@@ -83,15 +93,30 @@ async function geminiGenerate(promptText) {
         for (let i = 0; i < models.length; i++) {
             const model = models[i];
             try {
-                const response = await fetch(
-                    'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey,
-                    {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                    }
-                );
-                const data = await response.json();
+                const body = { contents: contents };
+                if (opts.system) body.systemInstruction = { parts: [{ text: opts.system }] };
+                const withThinking = Object.assign({}, body, { generationConfig: { thinkingConfig: thinkingConfigFor(model) } });
+
+                const send = function(b) {
+                    return fetch(
+                        'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(b)
+                        }
+                    );
+                };
+
+                let response = await send(withThinking);
+                let data = await response.json();
+
+                // Model nie zna tego ustawienia myślenia → ta sama prośba bez niego
+                if (data.error && response.status === 400 && /thinking/i.test(data.error.message || '')) {
+                    console.warn('Gemini (' + model + '): bez thinkingConfig —', data.error.message);
+                    response = await send(body);
+                    data = await response.json();
+                }
 
                 if (data.error) {
                     lastError = data.error.message || 'Błąd API';
@@ -111,8 +136,9 @@ async function geminiGenerate(promptText) {
                 }
 
                 const c = data.candidates && data.candidates[0];
-                const text = c && c.content && c.content.parts && c.content.parts[0]
-                    ? c.content.parts[0].text
+                const text = c && c.content && c.content.parts
+                    ? c.content.parts.filter(function(p) { return p.text && !p.thought; })
+                        .map(function(p) { return p.text; }).join('')
                     : '';
 
                 if (text) {
@@ -202,15 +228,12 @@ async function callGeminiAI(userMessage) {
         context = 'Scenka: ' + scenarioKey + ' (zadanie ucznia: ' + scenario.mission.title + '). Grasz drugą osobę w tej scence. ';
     }
 
-    var history = aiChatHistory.map(function(h) {
-        return (h.who === 'user' ? 'Uczeń: ' : 'Ty: ') + h.text;
-    }).join('\n');
-    if (!history && scenario && scenario.greeting) {
-        history = 'Ty: ' + stripHtmlAI(scenario.greeting);
-    }
+    var greeting = scenario && scenario.greeting
+        ? 'Rozmowę zacząłeś od powitania: "' + stripHtmlAI(scenario.greeting) + '".\n'
+        : '';
 
-    const prompt =
-        'Jesteś nauczycielem niemieckiego i rozmawiasz z uczniem z Polski (poziom ' + level + '). ' + context + '\n' +
+    const system =
+        'Jesteś nauczycielem niemieckiego i rozmawiasz z uczniem z Polski (poziom ' + level + '). ' + context + '\n' + greeting +
         'Zasady dotyczące OSTATNIEJ wiadomości ucznia:\n' +
         '1. Jeśli jest po polsku (w całości lub częściowo), uczeń nie wie, jak to powiedzieć po niemiecku. ' +
         'Pierwsza linia odpowiedzi to: [DE] <naturalne, poprawne zdanie po niemiecku wyrażające dokładnie to, co uczeń chciał powiedzieć, ' +
@@ -220,10 +243,16 @@ async function callGeminiAI(userMessage) {
         'a druga: 💡 <krótkie wyjaśnienie błędu po polsku>.\n' +
         '3. Jeśli jest poprawna po niemiecku, nie dodawaj linii [DE] ani [FIX].\n' +
         'Twoja własna odpowiedź: po niemiecku, 1-3 krótkie zdania, a pod nią linia (pol: tłumaczenie). ' +
-        'Nie używaj markdown ani gwiazdek. Linia [DE] lub [FIX] zawiera tylko niemieckie zdanie, bez tłumaczenia.\n\n' +
-        (history ? 'Dotychczasowa rozmowa:\n' + history + '\n\n' : '') +
-        'Ostatnia wiadomość ucznia: ' + userMessage;
-    return geminiGenerate(prompt);
+        'Nie używaj markdown ani gwiazdek. Linia [DE] lub [FIX] zawiera tylko niemieckie zdanie, bez tłumaczenia.\n' +
+        'Przykład dla wiadomości "Poproszę kawę":\n[DE] Einen Kaffee, bitte.\nGerne! Mit Milch?\n(pol: Chętnie! Z mlekiem?)';
+
+    // Historia jako prawdziwa rozmowa (user/model) — model lepiej trzyma wątek i format
+    var contents = aiChatHistory.map(function(h) {
+        return { role: h.who === 'user' ? 'user' : 'model', parts: [{ text: h.text }] };
+    });
+    contents.push({ role: 'user', parts: [{ text: userMessage }] });
+
+    return geminiGenerate(null, { system: system, contents: contents });
 }
 
 // Rozbija odpowiedź AI na wersję niemiecką zdania ucznia ([DE]/[FIX]) i resztę.
@@ -271,8 +300,12 @@ async function sendAIMessage() {
         if (typeof addXP === 'function') addXP(5);
 
         // Do historii trafia niemiecka wersja zdania ucznia, jeśli AI ją podało
-        pushAIChatHistory('user', parsed.tag ? parsed.sentence : message);
-        pushAIChatHistory('bot', extractGerman(parsed.reply));
+        const germanSentence = parsed.tag ? parsed.sentence : message;
+        pushAIChatHistory('user', germanSentence);
+        pushAIChatHistory('bot', parsed.reply);
+
+        // Postęp misji liczony z niemieckiej wersji (działa też, gdy uczeń pisał po polsku)
+        if (typeof checkMissionProgress === 'function') checkMissionProgress(germanSentence);
 
         // Auto-wymowa: najpierw jak powiedzieć zdanie ucznia, potem odpowiedź
         const german = extractGerman(parsed.reply);
