@@ -2549,6 +2549,8 @@ const germanWords = {
         { german: "die Schleimhaut", polish: "śluz (warstwa śluzowa)", example: "Die Schleimhaut schützt den Fisch vor Krankheiten.", level: "B2" },
         { german: "unnötige Schmerzen", polish: "niepotrzebny ból", example: "Dem Fisch dürfen keine unnötigen Schmerzen zugefügt werden.", level: "B2" },
         { german: "waidgerecht", polish: "zgodnie z etyką wędkarską", example: "Ein guter Angler fischt waidgerecht.", level: "B2" },
+        { german: "Petri Heil!", polish: "Połamania kija! (pozdrowienie wędkarzy)", example: "Petri Heil! — Petri Dank!", level: "B1" },
+        { german: "Petri Dank!", polish: "Dzięki! (odpowiedź na Petri Heil)", example: "Petri Heil! — Petri Dank!", level: "B1" },
         { german: "die Kühlbox", polish: "lodówka turystyczna", example: "Den Fang lege ich in die Kühlbox.", level: "B1" },
     ],
 

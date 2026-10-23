@@ -225,7 +225,8 @@ async function callGeminiAI(userMessage) {
 
     var context = '';
     if (scenario && scenario.mission) {
-        context = 'Scenka: ' + scenarioKey + ' (zadanie ucznia: ' + scenario.mission.title + '). Grasz drugą osobę w tej scence. ';
+        context = 'Scenka: ' + scenarioKey + ' (zadanie ucznia: ' + scenario.mission.title + '). ' +
+            (scenario.aiRole || 'Grasz drugą osobę w tej scence.') + ' ';
     }
 
     var greeting = scenario && scenario.greeting

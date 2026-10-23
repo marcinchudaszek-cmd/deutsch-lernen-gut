@@ -96,6 +96,10 @@
                     <span class="icon">📝</span>
                     <span>Quiz</span>
                 </button>
+                <button class="menu-btn" onclick="startFishingQuiz()">
+                    <span class="icon">🎣</span>
+                    <span>Quiz wędkarski</span>
+                </button>
                 <button class="menu-btn" onclick="startMemory()">
                     <span class="icon">🎮</span>
                     <span>Memory</span>
@@ -375,7 +379,7 @@
             
             <div class="quiz-question">
                 <h2 id="quizWord">Hallo</h2>
-                <p>Wybierz poprawne tłumaczenie:</p>
+                <p id="quizHint">Wybierz poprawne tłumaczenie:</p>
             </div>
             
             <div class="quiz-options" id="quizOptions"></div>
@@ -668,6 +672,9 @@
                     <button class="scenario-btn" onclick="startScenario('bank')">🏦 Bank</button>
                     <button class="scenario-btn" onclick="startScenario('amt')">🏛️ Urząd</button>
                 </div>
+                <div class="scenario-row">
+                    <button class="scenario-btn" onclick="startScenario('fishing')">🎣 Kontrola nad wodą</button>
+                </div>
             </div>
             
             <div class="chat-container" id="chatContainer">
@@ -927,9 +934,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="words.js?v=26"></script>
-    <script src="app.js?v=26"></script>
-    <script src="ai-chat.js?v=26"></script>
+    <script src="words.js?v=27"></script>
+    <script src="app.js?v=27"></script>
+    <script src="ai-chat.js?v=27"></script>
+    <script src="fishing-quiz.js?v=27"></script>
     
     <!-- Rejestracja Service Worker -->
     <script>

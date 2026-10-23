@@ -2943,3 +2943,28 @@ body.light-mode .bottom-nav {
     overflow-wrap: break-word;
     line-height: 1.35;
 }
+
+/* Quiz wędkarski */
+.fishing-question {
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.fishing-question-pl {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: var(--text-muted);
+}
+
+.fishing-why {
+    margin-top: 6px;
+    font-size: 0.9rem;
+}
+
+.fishing-next {
+    margin-top: 10px;
+    width: 100%;
+}

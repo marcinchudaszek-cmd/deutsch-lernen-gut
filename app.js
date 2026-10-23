@@ -917,6 +917,8 @@ function restartMemory() {
 // ==================== QUIZ Z WYMOWĄ ====================
 function startQuiz() {
     showScreen('quiz');
+    const hint = document.getElementById('quizHint');
+    if (hint) hint.textContent = 'Wybierz poprawne tłumaczenie:';
 
     let allWords = getWordsForCurrentLevel();
 
@@ -1471,6 +1473,13 @@ const chatScenarios = {
         mission: { title: "W urzędzie", steps: ["Wyjaśnij sprawę", "Podaj dokumenty", "Zapytaj o czas oczekiwania"], keywords: [["anmelden", "bescheinigung", "antrag", "formular"], ["ausweis", "pass", "dokument", "unterlagen"], ["wann", "wie lange", "warten", "fertig"]] },
         helpPhrases: ["Ich möchte mich anmelden.", "Welche Unterlagen brauche ich?", "Hier ist mein Ausweis.", "Wie lange dauert es?", "Wann ist es fertig?"]
     },
+    fishing: {
+        greeting: "Grüß Gott! Fischereiaufsicht. Darf ich bitte Ihren Fischereischein und Ihren Erlaubnisschein sehen?<br><small>(Dzień dobry! Straż rybacka. Czy mogę zobaczyć Pana/Pani kartę wędkarską i zezwolenie na łowisko?)</small>",
+        suggestions: ["Grüß Gott! Hier sind meine Papiere.", "Ich habe eine Tageskarte.", "Ich habe einen Hecht gefangen."],
+        mission: { title: "Kontrola nad wodą", steps: ["Przywitaj się", "Pokaż dokumenty", "Opowiedz o połowie"], keywords: [["grüß", "guten", "hallo", "servus"], ["fischereischein", "erlaubnisschein", "tageskarte", "papiere", "schein", "ausweis"], ["gefangen", "fisch", "hecht", "zander", "karpfen", "forelle", "barsch", "nichts", "biss", "zurück"]] },
+        helpPhrases: ["Hier ist mein Fischereischein.", "Ich habe eine Tageskarte.", "Ich habe noch nichts gefangen.", "Der Fisch ist maßig.", "Ich setze ihn zurück.", "Petri Heil!"],
+        aiRole: "Grasz bawarskiego strażnika rybackiego (Fischereiaufseher), który nad jeziorem kontroluje wędkarza: sprawdza Fischereischein i Erlaubnisschein, pyta o połów, przynęty, wymiar i zapisy w Fangliste. Bądź uprzejmy, ale rzeczowy. Nie podawaj konkretnych wymiarów ochronnych, okresów ochronnych ani limitów — mów, że obowiązują przepisy i regulamin łowiska (Gewässerordnung)."
+    },
     free: { 
         greeting: "Hallo! Worüber möchtest du sprechen?<br><small>(Cześć! O czym chcesz porozmawiać?)</small>", 
         suggestions: ["Wie geht es dir?", "Was hast du heute gemacht?", "Erzähl mir etwas!"],
@@ -1827,7 +1836,14 @@ function generateSmartResponse(message) {
         restaurant: ["Die Spezialität des Hauses ist Schnitzel!<br><small>(Specjalnością jest sznycel!)</small>", "Möchten Sie die Weinkarte sehen?<br><small>(Chce Pan/Pani zobaczyć kartę win?)</small>"],
         doctor: ["Nehmen Sie diese Tabletten dreimal täglich.<br><small>(Proszę brać te tabletki trzy razy dziennie.)</small>", "Kommen Sie in einer Woche wieder.<br><small>(Proszę przyjść za tydzień.)</small>"],
         date: ["Das ist ja interessant! Erzähl mehr!<br><small>(To ciekawe! Opowiedz więcej!)</small>", "Du bist wirklich nett! 😊<br><small>(Jesteś naprawdę miły/miła!)</small>"],
-        interview: ["Das klingt sehr gut! Haben Sie noch Fragen?<br><small>(To brzmi bardzo dobrze! Ma Pan/Pani jeszcze pytania?)</small>", "Wann könnten Sie anfangen?<br><small>(Kiedy mógłby Pan/mogłaby Pani zacząć?)</small>"]
+        interview: ["Das klingt sehr gut! Haben Sie noch Fragen?<br><small>(To brzmi bardzo dobrze! Ma Pan/Pani jeszcze pytania?)</small>", "Wann könnten Sie anfangen?<br><small>(Kiedy mógłby Pan/mogłaby Pani zacząć?)</small>"],
+        fishing: [
+            "Danke, Ihre Papiere sind in Ordnung. Petri Heil!<br><small>(Dziękuję, dokumenty w porządku. Połamania kija!)</small>",
+            "Haben Sie heute schon etwas gefangen?<br><small>(Złowił Pan/Złowiła Pani dziś już coś?)</small>",
+            "Darf ich mal Ihre Fangliste sehen?<br><small>(Mogę zobaczyć Pana/Pani rejestr połowów?)</small>",
+            "Haben Sie den Fisch gemessen? Ist er maßig?<br><small>(Zmierzył Pan/Zmierzyła Pani rybę? Czy jest wymiarowa?)</small>",
+            "Bitte beachten Sie die Gewässerordnung.<br><small>(Proszę przestrzegać regulaminu łowiska.)</small>"
+        ]
     };
     
     if (contextResponses[scenario]) {
